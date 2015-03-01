@@ -3,8 +3,7 @@
 Original code by stephen.yearl@yale.edu, 2003-04-25
 Modifications and Revisions by Mark Carlson, 2004
 -->
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	<xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">	
 	<!-- ********************* <CONTROLACCESS> *********************** -->
 	<xsl:template match="controlaccess" name="controlaccess">
 		<!-- P.S. Can't just select index [1] controlaccess because it may not be the group with

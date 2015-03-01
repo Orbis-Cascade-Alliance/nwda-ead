@@ -32,8 +32,7 @@ Changes:
 	<xsl:variable name="lcChars">abcdefghijklmnopqrstuvwxyz</xsl:variable>
 	<xsl:variable name="lcCharsHyphen">abcdefghijklmnopqrstuvwxyz-</xsl:variable>
 	<xsl:variable name="lcCharsSlash">abcdefghijklmnopqrstuvwxyz/</xsl:variable>
-	<xsl:variable name="ucChars">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:variable>
-	<xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+	<xsl:variable name="ucChars">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:variable>	
 	<xsl:variable name="repCode" select="translate(//eadid/@mainagencycode,$ucChars,$lcChars)"/>
 
 
