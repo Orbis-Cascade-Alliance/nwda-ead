@@ -1,0 +1,283 @@
+#cptop {margin-top: 100px;
+
+}
+
+.cpunitid {color: #008000; 
+font-size: 12pt;
+font-weight: bold;
+}
+
+#cpmiddle {
+}
+
+#cpfooter {
+position: fixed;
+
+}
+
+.repos {color: #008000;
+font-size: 12pt;
+font-weight: bold;
+}
+
+.cptitle {
+font-size: 16pt;
+font-weight: bold;
+color: #0000FF;
+}
+
+.findaidtitles {
+	font-weight: 800; 
+	FONT-SIZE: 140%; 
+	/*text-transform: uppercase; */
+	color: #676d38; 
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+
+body{
+	background-color: #ffffff;
+  	font-weight: normal;
+  	font-size: 90%;
+  	color: #6b6b6b;
+	text-decoration: none;
+	font-family: georgia, "times new roman", times, serif; 
+}
+
+a:link {
+  	font-size: 90%;
+	color: #47371f;
+	font-family: georgia, "times new roman", times, serif; 
+	text-decoration: none;
+}
+a:visited {
+  	font-size: 90%;
+	color: #a57d42; 
+	font-family: georgia, "times new roman", times, serif; 
+	text-decoration: none;
+}
+a:hover {
+  	font-size: 90%;
+	color: #ffac27; 
+	font-family: georgia, "times new roman", times, serif; 
+	text-decoration: none;
+}
+
+a:link.extptr {
+  	font-size: 90%;
+	color: #47371f;
+	font-family: georgia, "times new roman", times, serif; 
+	text-decoration: underline;
+}
+a:visited.extptr {
+  	font-size: 90%;
+	color: #a57d42; 
+	font-family: georgia, "times new roman", times, serif; 
+	text-decoration: underline;
+}
+a:hover.extptr {
+  	font-size: 90%;
+	color: #ffac27; 
+	font-family: georgia, "times new roman", times, serif; 
+	text-decoration: underline;
+}
+
+
+
+
+
+/******* EAD LOGICAL BLOCKS *******/
+.overview{
+
+}
+.admininfo{
+
+}
+.relatedinfo{
+
+}
+useinfo{
+
+}
+/******* END EAD LOGICAL BLOCKS *******/
+/******* EAD STRUCTURAL BLOCKS *******/
+
+
+.filedesc{
+
+}
+
+.archdesc{
+
+}
+
+.arrangement{
+
+}
+
+.bioghist{
+
+}
+.controlaccess{
+
+}
+.subject{
+	margin-left: 2em;
+}
+li{
+	margin-left: 2em;
+}
+
+.dsc{
+
+}
+
+.scopecontent{
+
+}
+.c02{
+	margin-left: 0em;
+}
+.c03{
+	margin-left: 2em;
+}
+.c04{
+	padding-left: 4em;
+}
+.c05{
+	margin-left: 6em;
+}
+.c06{
+	margin-left: 8em;
+}
+.c07{
+	margin-left: 10em;
+}
+.c08{
+	margin-left: 12em;
+}
+.c09{
+	margin-left: 14em;
+}
+.c10{
+	margin-left: 16em;
+}
+.c11{
+	margin-left: 18em;
+}
+.c12{
+	margin-left: 20em;
+}
+
+.containerLabel{
+	color: #676d38; 
+	font-family: georgia, "times new roman", times, serif;
+	font-size: 85%; 
+	text-decoration: none;
+	text-transform: capitalize;
+}
+
+
+
+/******* END EAD STRUCTURAL BLOCKS *******/
+
+
+/******* HTML HEADINGS AND LABELS *******/
+
+.structhead{
+	font-weight: 800; 
+	font-size: 110%; 
+
+	color: #676d38; 
+	font-family: georgia, "times new roman", times, serif
+}
+
+.thead{
+	text-align: left;
+}
+
+.label{ 
+	font-weight: 600; 
+	font-size: 96%; 
+	text-align: right;
+	color: #676d38; 
+	font-family: georgia, "times new roman", times, serif;
+	text-transform: capitalize;
+}
+
+.dao_desc{
+	font-weight: 600; 
+	font-size: 96%; 
+	color: #676d38; 
+	font-family: georgia, "times new roman", times, serif
+    background-color:#edede8;
+}
+
+.collection_image{
+    border-style:dashed;
+	border-color:#ccc;
+	border-width:1px 1px 1px 1px; 
+    background-color:#edede8;
+}
+.top{	
+	margin:10px 0px 0px 0px;
+	padding:2px;
+    border-style:dashed;
+	border-color:#ccc;
+	border-width:1px 1px 1px 1px; 
+    text-align: left;
+    background-color:#edede8;
+	}
+
+/******* END HTML HEADINGS *******/
+
+
+/******* HTML TOC *******/
+.navHead 
+{
+  padding: 8px;
+  	color #6b6b6b
+	font-size: 110%; 
+	border-bottom:dashed;
+	border-color:#ccc;
+	border-width:1px;
+	text-align:center;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-weight:800;
+
+}
+
+.navBody 
+{ 
+    margin-top: 10px;
+    margin-left: 25px;
+    text-indent: -10px;
+    text-align:left;
+    font-size: 10pt;
+    font-family: Verdana, sans-serif;
+    font-weight: bold;
+}
+	
+.toc1
+{
+    padding-right: 5px;
+    padding-left: 5px
+	font-weight: 700; 
+	font-size 105%; 
+	text-transform: uppercase; 
+	color: #676d38; 
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+.toc2
+{
+    padding-right: 5px;
+    padding-left: 12px;
+    padding-bottom: 6px;
+	font-family: Georgia, "Times New Roman", Times, serif
+}
+.toc3
+{
+    padding-right: 5px;
+    padding-left: 20px;
+    padding-bottom: 6px;
+}
