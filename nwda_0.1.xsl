@@ -42,7 +42,14 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<rdf:RDF/>
+				<xsl:choose>
+					<xsl:when test="$mode='linux'">
+						<xsl:copy-of select="exsl:node-set(rdf:RDF)"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:copy-of select="msxsl:node-set(rdf:RDF)"/>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:otherwise>
 		</xsl:choose>
 
