@@ -23,10 +23,11 @@ Mark Carlson
 			<br/>
 			<xsl:value-of select="./date"/>
 		</h4>
-		<xsl:if test="string($rdf//foaf:thumbnail/@rdf:resource)">
-			<img alt="institutional logo" style="max-height:100px" src="{$rdf//foaf:thumbnail/@rdf:resource}"/>
+		<xsl:if test="$editor-active = 'true'">
+			<xsl:if test="string($rdf//foaf:thumbnail/@rdf:resource)">
+				<img alt="institutional logo" style="max-height:100px" src="{$rdf//foaf:thumbnail/@rdf:resource}"/>
+			</xsl:if>
 		</xsl:if>
-
 	</xsl:template>
 
 	<!-- ********************* <END FOOTER> *********************** -->
@@ -648,7 +649,8 @@ Mark Carlson
 					<a href="#" class="toggle-button" id="toggle-usediv">
 						<span class="glyphicon glyphicon-minus"/>
 					</a>
-				</small>			</h3>
+				</small>
+			</h3>
 			<div class="use" id="usediv-content">
 				<xsl:for-each select="altformavail | accessrestrict | userestrict | prefercite">
 					<xsl:call-template name="archdesc_minor_children">
@@ -672,7 +674,8 @@ Mark Carlson
 				<a href="#" class="toggle-button" id="toggle-ai">
 					<span class="glyphicon glyphicon-minus"/>
 				</a>
-			</small>		</h3>
+			</small>
+		</h3>
 		<div class="ai" id="ai-content">
 			<xsl:apply-templates select="arrangement"/>
 			<xsl:call-template name="admininfo"/>
