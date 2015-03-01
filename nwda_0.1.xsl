@@ -22,7 +22,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 
 	<!-- ********************* <XML_VARIABLES> *********************** -->
 	<xsl:variable name="identifier" select="string(normalize-space(/ead/eadheader/eadid/@identifier))"/>
-	<xsl:variable name="titleproper" select="string(normalize-space(/ead/eadheader//titlestmt/titleproper[1]))"/>
+	<xsl:variable name="titleproper" select="string(normalize-space(/ead/archdesc/did/unittitle))"/>
 	<!--check later for not()altrender-->
 	<xsl:variable name="filingTitleproper" select="string(normalize-space(/ead/eadheader//titlestmt/titleproper[@altrender]))"/>
 	<xsl:variable name="dateLastRev">
@@ -57,10 +57,6 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 	<xsl:include href="nwda.mod.structures.xsl"/>
 	
 	<!--get RDF -->
-	<xsl:variable name="empty-rdf">
-		<rdf:RDF/>
-	</xsl:variable>
-	
 	<xsl:variable name="rdf">
 		<xsl:if test="$editor-active = 'true'">
 			<xsl:choose>
@@ -110,14 +106,14 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 				<!--<xsl:call-template name="md.dc"/>-->
 				<!-- bootstrap -->
 				<meta name="viewport" content="width=device-width, initial-scale=1"/>
-				<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"/>
+				<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">//</script>
 				<!-- bootstrap -->
 				<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
 
 				<link href="{$pathToFiles}{$styleFileName}" rel="stylesheet"/>
 				<link href="/css/header.css" rel="stylesheet" type="text/css"/>
 				<link href="{$serverURL}/ark:/{$identifier}" rel="canonical"/>
-				<script language="javascript" type="text/javascript" src="{$pathToFiles}jqs.js">{}</script>
+				<script language="javascript" type="text/javascript" src="{$pathToFiles}jqs.js">//</script>
 				<title>
 					<xsl:value-of select="$titleproper"/>
 				</title>
