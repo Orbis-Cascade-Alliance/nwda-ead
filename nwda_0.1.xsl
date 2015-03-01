@@ -62,29 +62,16 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 	</xsl:variable>
 	
 	<xsl:variable name="rdf">
-		<xsl:choose>
-			<xsl:when test="$editor-active = 'true'">
-				<xsl:choose>
-					<xsl:when test="$mode='linux'">
-						<xsl:copy-of select="exsl:node-set(document(concat($pathToRdf, //eadid/@mainagencycode, '.xml'))/rdf:RDF)"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:copy-of select="msxsl:node-set(document(concat($pathToRdf, //eadid/@mainagencycode, '.xml'))/rdf:RDF)"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:choose>
-					<xsl:when test="$mode='linux'">
-						<xsl:copy-of select="exsl:node-set($empty-rdf)"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:copy-of select="msxsl:node-set($empty-rdf)"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:otherwise>
-		</xsl:choose>
-		
+		<xsl:if test="$editor-active = 'true'">
+			<xsl:choose>
+				<xsl:when test="$mode='linux'">
+					<xsl:copy-of select="exsl:node-set(document(concat($pathToRdf, //eadid/@mainagencycode, '.xml'))/rdf:RDF)"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:copy-of select="msxsl:node-set(document(concat($pathToRdf, //eadid/@mainagencycode, '.xml'))/rdf:RDF)"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:if>		
 	</xsl:variable>
 	<xsl:variable name="hasCHOs">
 		<xsl:if test="$harvester-active = 'true'">

@@ -23,11 +23,11 @@ Mark Carlson
 			<br/>
 			<xsl:value-of select="./date"/>
 		</h4>
-		<xsl:if test="$editor-active = 'true'">
+		<!--<xsl:if test="$editor-active = 'true'">
 			<xsl:if test="string($rdf//foaf:thumbnail/@rdf:resource)">
 				<img alt="institutional logo" style="max-height:100px" src="{$rdf//foaf:thumbnail/@rdf:resource}"/>
 			</xsl:if>
-		</xsl:if>
+		</xsl:if>-->
 	</xsl:template>
 
 	<!-- ********************* <END FOOTER> *********************** -->
