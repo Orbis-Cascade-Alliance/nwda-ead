@@ -11,7 +11,7 @@ Mark Carlson
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
 	xmlns:nwda="https://github.com/ewg118/nwda-editor#" xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/"
-	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" exclude-result-prefixes="nwda xsd vcard xsl">
 
 	<xsl:template match="profiledesc | revisiondesc | filedesc | eadheader | frontmatter"/>
 
@@ -62,14 +62,11 @@ Mark Carlson
 			select="$did_children + $sponsor + $creation + $revision"/>-->
 
 		<h3>
-			<xsl:if test="@id">
-				<a id="{@id}"/>
-			</xsl:if>
 			<a id="overview"/>
 			<xsl:value-of select="$overview_head"/>
 			<small>
 				<a href="#" class="toggle-button" id="toggle-overview">
-					<span class="glyphicon glyphicon-minus"/>
+					<span class="glyphicon glyphicon-minus"></span>
 				</a>
 			</small>
 		</h3>
@@ -497,7 +494,7 @@ Mark Carlson
 					<xsl:value-of select="$bioghist_head"/>
 					<small>
 						<a href="#" class="toggle-button" id="toggle-{$class}">
-							<span class="glyphicon glyphicon-minus"/>
+							<span class="glyphicon glyphicon-minus"></span>
 						</a>
 					</small>
 				</h3>
@@ -510,7 +507,7 @@ Mark Carlson
 					<xsl:value-of select="$bioghist_head"/>
 					<small>
 						<a href="#" class="toggle-button" id="toggle-{$class}">
-							<span class="glyphicon glyphicon-minus"/>
+							<span class="glyphicon glyphicon-minus"></span>
 						</a>
 					</small>
 				</h3>
@@ -522,7 +519,7 @@ Mark Carlson
 						<xsl:value-of select="$historical_head"/>
 						<small>
 							<a href="#" class="toggle-button" id="toggle-{$class}">
-								<span class="glyphicon glyphicon-minus"/>
+								<span class="glyphicon glyphicon-minus"></span>
 							</a>
 						</small>
 					</h3>
@@ -562,7 +559,7 @@ Mark Carlson
 				<xsl:value-of select="$scopecontent_head"/>
 				<small>
 					<a href="#" class="toggle-button" id="toggle-{$class}">
-						<span class="glyphicon glyphicon-minus"/>
+						<span class="glyphicon glyphicon-minus"></span>
 					</a>
 				</small>
 			</h3>
@@ -604,7 +601,7 @@ Mark Carlson
 					<xsl:value-of select="$odd_head_histbck"/>
 					<small>
 						<a href="#" class="toggle-button" id="toggle-{$class}">
-							<span class="glyphicon glyphicon-minus"/>
+							<span class="glyphicon glyphicon-minus"></span>
 						</a>
 					</small>
 				</h3>
@@ -615,7 +612,7 @@ Mark Carlson
 					<xsl:value-of select="$odd_head"/>
 					<small>
 						<a href="#" class="toggle-button" id="toggle-{$class}">
-							<span class="glyphicon glyphicon-minus"/>
+							<span class="glyphicon glyphicon-minus"></span>
 						</a>
 					</small>
 				</h3>
@@ -647,7 +644,7 @@ Mark Carlson
 				<xsl:value-of select="$useinfo_head"/>
 				<small>
 					<a href="#" class="toggle-button" id="toggle-usediv">
-						<span class="glyphicon glyphicon-minus"/>
+						<span class="glyphicon glyphicon-minus"></span>
 					</a>
 				</small>
 			</h3>
@@ -672,7 +669,7 @@ Mark Carlson
 			<xsl:text>Administrative Information</xsl:text>
 			<small>
 				<a href="#" class="toggle-button" id="toggle-ai">
-					<span class="glyphicon glyphicon-minus"/>
+					<span class="glyphicon glyphicon-minus"></span>
 				</a>
 			</small>
 		</h3>
