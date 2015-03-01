@@ -28,44 +28,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 	<xsl:variable name="dateLastRev">
 		<xsl:value-of select="string(//revisiondesc/change[position()=last()]/date/@normal)"/>
 	</xsl:variable>
-
-	<xsl:variable name="empty-rdf">
-		<rdf:RDF/>
-	</xsl:variable>
-
-	<xsl:variable name="rdf">
-		<xsl:choose>
-			<xsl:when test="$editor-active = 'true'">
-				<xsl:choose>
-					<xsl:when test="$mode='linux'">
-						<xsl:copy-of select="exsl:node-set(document(concat($pathToRdf, //eadid/@mainagencycode, '.xml'))/rdf:RDF)"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:copy-of select="msxsl:node-set(document(concat($pathToRdf, //eadid/@mainagencycode, '.xml'))/rdf:RDF)"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:choose>
-					<xsl:when test="$mode='linux'">
-						<xsl:copy-of select="exsl:node-set($empty-rdf)"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:copy-of select="msxsl:node-set($empty-rdf)"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:otherwise>
-		</xsl:choose>
-
-	</xsl:variable>
-	<xsl:variable name="hasCHOs">
-		<xsl:if test="$harvester-active = 'true'">
-			<xsl:if test="string(//eadid/@identifier) and descendant::dao[@role='harvest-all' and string(@href)]">
-				<!-- if there is an ARK in eadid/@identifier and at least one dao with a 'harvest-all' @role, then assume CHOs is true: ASP.NET seems not use allow URIs in xsl document() function -->
-				<xsl:text>true</xsl:text>
-			</xsl:if>
-		</xsl:if>
-	</xsl:variable>
+	
 	<!-- ********************* </XML_VARIABLES> *********************** -->
 	<!-- ********************* <MODULES> *********************** -->
 	<!--set stylesheet preferences -->
@@ -90,9 +53,47 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 	<!--tables-->
 	<xsl:include href="nwda.mod.tables.xsl"/>
 
-
 	<!--loose archdesc-->
 	<xsl:include href="nwda.mod.structures.xsl"/>
+	
+	<!--get RDF -->
+	<xsl:variable name="empty-rdf">
+		<rdf:RDF/>
+	</xsl:variable>
+	
+	<xsl:variable name="rdf">
+		<xsl:choose>
+			<xsl:when test="$editor-active = 'true'">
+				<xsl:choose>
+					<xsl:when test="$mode='linux'">
+						<xsl:copy-of select="exsl:node-set(document(concat($pathToRdf, //eadid/@mainagencycode, '.xml'))/rdf:RDF)"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:copy-of select="msxsl:node-set(document(concat($pathToRdf, //eadid/@mainagencycode, '.xml'))/rdf:RDF)"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:choose>
+					<xsl:when test="$mode='linux'">
+						<xsl:copy-of select="exsl:node-set($empty-rdf)"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:copy-of select="msxsl:node-set($empty-rdf)"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:otherwise>
+		</xsl:choose>
+		
+	</xsl:variable>
+	<xsl:variable name="hasCHOs">
+		<xsl:if test="$harvester-active = 'true'">
+			<xsl:if test="string(//eadid/@identifier) and descendant::dao[@role='harvest-all' and string(@href)]">
+				<!-- if there is an ARK in eadid/@identifier and at least one dao with a 'harvest-all' @role, then assume CHOs is true: ASP.NET seems not use allow URIs in xsl document() function -->
+				<xsl:text>true</xsl:text>
+			</xsl:if>
+		</xsl:if>
+	</xsl:variable>
 
 	<!-- ********************* </MODULES> *********************** -->
 	<!-- Hide elements with altrender nodisplay and internal audience attributes-->
