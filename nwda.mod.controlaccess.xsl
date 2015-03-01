@@ -15,7 +15,7 @@ Modifications and Revisions by Mark Carlson, 2004
 				<xsl:value-of select="$controlaccess_head"/>
 				<small>
 					<a href="#" class="toggle-button" id="toggle-controlaccess">
-						<span class="glyphicon glyphicon-minus"/>
+						<span class="glyphicon glyphicon-minus"> </span>
 					</a>
 				</small>
 			</h3>

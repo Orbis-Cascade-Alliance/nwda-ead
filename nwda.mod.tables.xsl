@@ -1,35 +1,30 @@
 <?xml version="1.0"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:template match="table">
-		<table bodrder="0" cellpadding="1" cellspacing="2" width="90%" align="center">
+		<table class="table table-striped">
 			<xsl:apply-templates/>
 		</table>
 	</xsl:template>
 	<xsl:template match="thead">
-		<thead align="top">
+		<thead>
 			<tr>
 				<xsl:for-each select=".//entry">
-					<td>
+					<th>
 						<p class="table_head">
 							<b>
 								<xsl:apply-templates/>
 							</b>
 						</p>
-					</td>
-					<td>
+					</th>
+					<th>
 						<p>&#160;</p>
-					</td>
+					</th>
 				</xsl:for-each>
 			</tr>
-		</thead>
-		<tr>
-			<td>
-				<p>&#160;</p>
-			</td>
-		</tr>
+		</thead>		
 	</xsl:template>
 	<xsl:template match="row">
-		<tr align="top">
+		<tr>
 			<xsl:for-each select="./entry">
 				<td>
 					<p class="table_entry">

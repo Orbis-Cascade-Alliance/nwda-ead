@@ -5,7 +5,6 @@ stephen.yearl@yale.edu
 version 0.0.1
 -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<xsl:output method="xml" encoding="UTF-8" indent="yes"/>
 	<!-- ********************* <PREFERENCES.USAGE> *********************** -->
 	<!-- usage prefeerences to go here -->
 	<!--USER definided-->

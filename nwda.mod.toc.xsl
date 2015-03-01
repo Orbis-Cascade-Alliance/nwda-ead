@@ -69,7 +69,7 @@
 			<xsl:if test="(string(archdesc/accessrestrict)) or (string(archdesc/userestrict)) or (string(archdesc/altformavail))">
 				<li>		
 					<a href="#" class="toggle-button" id="toggle-use">
-						<span class="glyphicon glyphicon-plus"/>
+						<span class="glyphicon glyphicon-plus"> </span>
 					</a>
 					<a href="#{$useinfo_id}" class="showuseinfo">
 						<xsl:value-of select="$useinfo_head"/>
@@ -113,7 +113,7 @@
 				string(archdesc/index)">
 				<li>			
 					<a href="#" class="toggle-button" id="toggle-admin">
-						<span class="glyphicon glyphicon-plus"/>
+						<span class="glyphicon glyphicon-plus"> </span>
 					</a>
 					<a href="#administrative_info">
 						<xsl:text>Administrative Information</xsl:text>
@@ -203,7 +203,7 @@
 				<li>			
 					<xsl:if test="//c02">
 						<a href="#" class="toggle-button" id="toggle-dsc">
-							<span class="glyphicon glyphicon-minus"/>
+							<span class="glyphicon glyphicon-minus"> </span>
 						</a>
 					</xsl:if>
 					<a href="#{$dsc_id}" class="showdsc">

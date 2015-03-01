@@ -47,7 +47,7 @@ Changes:
 			<xsl:value-of select="$dsc_head"/>
 			<small>
 				<a href="#" class="toggle-button" id="toggle-dscdiv">
-					<span class="glyphicon glyphicon-minus"/>
+					<span class="glyphicon glyphicon-minus"> </span>
 				</a>
 			</small>
 		</h3>
