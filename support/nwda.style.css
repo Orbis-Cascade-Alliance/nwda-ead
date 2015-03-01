@@ -1,11 +1,10 @@
+/* ******GLOBAL ****** */
 body {
-	background-color: #ffffff;
-	font-weight: normal;
-	font-size: 90%;
 	color: #6b6b6b;
-	text-decoration: none;
 	font-family: georgia, "times new roman", times, serif;
-	margin: 0px;
+}
+h1, h2, h3, h4, h5, h6{
+	color:#676d38;
 }
 
 #results
@@ -52,57 +51,42 @@ p {
 	text-align:center;
 }
 a:link {
-	font-size: 90%;
 	color: #47371f;
-	font-family: georgia, "times new roman", times, serif;
-	text-decoration: underline;
 }
 a:visited {
-	font-size: 90%;
-	color: #a57d42;
-	font-family: georgia, "times new roman", times, serif;
-	text-decoration: underline;
+	color: #47371f;
 }
 a:hover {
-	font-size: 90%;
 	color: #ffac27;
-	font-family: georgia, "times new roman", times, serif;
-	text-decoration: underline;
 }
-a:link.extptr {
-	color: #47371f;
-	font-family: georgia, "times new roman", times, serif;
-	text-decoration: underline;
+/* ******BOOTSTRAP NAVBAR HEADER ****** */
+.navbar-default {
+	/*background-color: white;*/
+	margin-bottom:0;
+	border-bottom:10px solid #999999;
+	font-family: arial,helvetica,sans-serif;
+	font-size:120%;
+	font-weight:bold;
 }
-a:visited.extptr {
-	color: #a57d42;
-	font-family: georgia, "times new roman", times, serif;
-	text-decoration: underline;
+/*.navbar-default {
+	color:white;
 }
-a:hover.extptr {
-	color: #ffac27;
-	font-family: georgia, "times new roman", times, serif;
-	text-decoration: underline;
+.nav-home {
+	background-color: #a47c41;
 }
-/*
-  .togglelink {
-  color:black;
-  font-size:12px;
-  margin-left:20px;
-  font-weight:normal;
-  }
- */
-.togglebutton {
-	height:16px;
-	border:solid 1px gray;
-	margin-left:20px;
-	width:28px;
+.nav-search {
+	background-color: #e26e24;
 }
-.toc_togglebutton {
-	height:16px;
-	border:solid 1px gray;
-	width:28px;
+.nav-about {
+	background-color: #fbac28;
 }
+.nav-contact {
+	background-color: #b2b35b;
+}
+.nav-tools {
+	background-color: #ead44f;
+}*/
+/* ****** END BOOTSTRAP NAVBAR HEADER ****** */
 /* ****** EAD LOGICAL BLOCKS ****** */
 .overview {
 }
@@ -165,7 +149,6 @@ a:hover.extptr {
 /* ****** END CONTROLS INDENTATION WITHIN C0X ******* */
 .containerLabel {
 	color: #676d38;
-	font-family: georgia, "times new roman", times, serif;
 	font-size: 85%;
 	text-decoration: none;
 	text-transform: capitalize;
@@ -174,10 +157,8 @@ a:hover.extptr {
 .overview_label {
 	vertical-align:top;
 	font-weight: 600;
-	font-size: 96%;
 	text-align: right;
 	color: #676d38;
-	font-family: georgia, "times new roman", times, serif;
 	padding-bottom:8px;
 }
 .overview_entry {
@@ -188,7 +169,6 @@ a:hover.extptr {
 /* styling related to c0x */
 .c01_did_head {
 	font-weight: 800;
-	font-size: 110%;
 	color: #676d38;
 	font-family: georgia, "times new roman", times, serif;
 	padding-left:16px;
@@ -229,29 +209,24 @@ a:hover.extptr {
 }
 /* ****** HTML HEADINGS AND LABELS ****** */
 .frontmatter {
-	width:952px;
 	text-align:center;
 }
 .structhead {
 	font-weight: 800;
-	font-size: 110%;
 	color: #676d38;
-	font-family: georgia, "times new roman", times, serif
 }
 .thead {
 	text-align: left;
 }
 .dao_desc {
 	font-weight: 600;
-	font-size: 96%;
 	color: #676d38;
-	font-family: georgia, "times new roman", times, serif;
 	background-color:#edede8;
 }
 .collection_image {
 	border-style:dashed;
 	border-color:#ccc;
-	border-width:1px 1px 1px 1px;
+	border-width:1px;
 	background-color:#edede8;
 }
 .top {
@@ -260,35 +235,18 @@ a:hover.extptr {
 	padding:2px;
 	border-style:dashed;
 	border-color:#ccc;
-	border-width:1px 1px 1px 1px;
+	border-width:1px;
 	text-align: left;
 	background-color:#edede8;
 }
 /* ****** END HTML HEADINGS ****** */
 /* ****** HTML TOC ****** */
-.navHead {
-	padding: 8px;
-/* color #6b6b6b; */
-	font-size: 110%;
-	border-bottom:dashed;
-	border-color:#ccc;
-	border-width:1px;
-	text-align:center;
-	font-family: Georgia, "Times New Roman", Times, serif;
-	font-weight:800;
-}
-.navBody {
-	margin-top: 10px;
-	margin-left: 10px;
-	text-indent: -10px;
-	text-align:left;
-	font-size: 10pt;
-	font-family: Verdana, sans-serif;
+.navBody ul {
+	margin-left: 2em;
 	font-weight: bold;
 }
-p.address {
-	padding-bottom:0px;
-	margin-bottom:0px;
+.navBody li {
+	margin-bottom:10px;
 }
 /* ************* CONTROL ACCESS LIST FORMATTING **************** */
 .ca_list {

@@ -25,7 +25,7 @@ Changes:
 
 	<!-- Set this variable to the server/folder path that points to the icon image file on your server.  
 		This should end with a forward /, e.g. http://myserver.com/images/ -->
-    <xsl:variable name="pathToIcon">http://nwda-db.orbiscascade.org/xsl/support/</xsl:variable>
+	<xsl:variable name="pathToIcon">http://nwda-db.orbiscascade.org/xsl/support/</xsl:variable>
 	<!-- Set this variable to the filename of the icon image, e.g. icon.jpg -->
 	<xsl:variable name="iconFilename">camicon.gif</xsl:variable>
 
@@ -39,13 +39,17 @@ Changes:
 
 	<!-- ********************* <DSC> *********************** -->
 	<xsl:template name="dsc" match="dsc">
-		<xsl:if test ="@id">
-			<a id="{@id}"></a>
+		<xsl:if test="@id">
+			<a id="{@id}"/>
 		</xsl:if>
-		<a id="{$dsc_id}"></a>
+		<a id="{$dsc_id}"/>
 		<h3 class="structhead">
 			<xsl:value-of select="$dsc_head"/>
-			<input type="button" id="toggle_dsc" class="togglebutton" onclick="fadeFast('h_dsc')" value="+/-"/>
+			<small>
+				<a href="#" class="toggle-button" id="toggle-dscdiv">
+					<span class="glyphicon glyphicon-minus"/>
+				</a>
+			</small>
 		</h3>
 		<!-- this section was commented out for now due to some inconsistencies in the encoding of the dsc type throughout varies collections. 
 	since analyticover and combined dsc's would have a very different type of display, different templates were called to deal with the issue. -EG 2007-08-27
@@ -66,7 +70,7 @@ Changes:
 			</xsl:otherwise>
 		</xsl:choose>
 		-->
-		<div class="dsc" id="h_dsc">
+		<div class="dsc" id="dscdiv-content">
 			<xsl:choose>
 				<!-- if there are c02's apply normal templates -->
 				<xsl:when test="descendant::c02">
@@ -74,8 +78,7 @@ Changes:
 				</xsl:when>
 				<xsl:otherwise>
 					<!-- if there are no c02's then all of the c01s are displayed as rows in a table, like an in-depth finding aid -->
-					<table border="0" summary="A listing of materials in {./did/unittitle}."
-						width="100%">
+					<table border="0" summary="A listing of materials in {./did/unittitle}." width="100%">
 						<xsl:call-template name="indepth"/>
 					</table>
 				</xsl:otherwise>
@@ -85,11 +88,11 @@ Changes:
 	<!-- ********************* </DSC> *********************** -->
 	<!-- ********************* <SERIES> *************************** -->
 	<xsl:template match="c01">
-		<xsl:if test ="@id">
-			<a id="{@id}"></a>
+		<xsl:if test="@id">
+			<a id="{@id}"/>
 		</xsl:if>
 		<xsl:for-each select=" *[@id] | did/*[@id]">
-			<a id="{@id}"></a>
+			<a id="{@id}"/>
 		</xsl:for-each>
 		<div class="c01">
 			<xsl:call-template name="dsc_table"/>
@@ -145,9 +148,8 @@ Changes:
 					</xsl:if>
 					<xsl:apply-templates select="did/unittitle"/>
 
-					<xsl:if
-						test="($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')
-					and string(descendant::unitdate)">
+					<xsl:if test="($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')      and
+						string(descendant::unitdate)">
 						<xsl:text>, </xsl:text>
 						<xsl:for-each select="did/unitdate">
 							<xsl:value-of select="."/>
@@ -159,8 +161,7 @@ Changes:
 					<xsl:call-template name="c0x_children"/>
 				</td>
 
-				<xsl:if
-					test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
+				<xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
 
 					<td class="c0x_date">
 						<xsl:for-each select="did/unitdate">
@@ -188,10 +189,10 @@ Changes:
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		
+
 		<xsl:variable select="count(../../preceding-sibling::*)+1" name="pppos"/>
 		<xsl:variable select="count(../preceding-sibling::*)+1" name="ppos"/>
-		<xsl:variable select="count(preceding-sibling::*)+1" name="cpos"/>			
+		<xsl:variable select="count(preceding-sibling::*)+1" name="cpos"/>
 		<div id="id{$pppos}_{name(..)}_{$ppos}_{name()}_{$cpos}">
 			<xsl:apply-templates select="did"/>
 		</div>
@@ -236,8 +237,7 @@ Changes:
 			<xsl:choose>
 				<xsl:when test="descendant::container">
 					<xsl:choose>
-						<xsl:when
-							test="not(descendant::container[2]) and not(descendant::container[3])">
+						<xsl:when test="not(descendant::container[2]) and not(descendant::container[3])">
 							<td>
 								<div class="c0x_header">Container(s)</div>
 							</td>
@@ -260,8 +260,7 @@ Changes:
 				</td>
 			</xsl:if>
 
-			<xsl:if
-				test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
+			<xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
 				<xsl:if test="string(descendant::c02) and string(descendant::unitdate)">
 					<td class="c0x_date">
 						<div class="c0x_header">Dates</div>
@@ -278,10 +277,10 @@ Changes:
 		<!-- this determines the number of containers (max of 2) so that when the template is called to display the text in the container
 			field, a paramer is passed to display the data of did/container[$container_number].  this has replaced slews of conditionals that 
 			nested tables -->
-		<xsl:if test ="@id">
-			<a id="{@id}"></a>
+		<xsl:if test="@id">
+			<a id="{@id}"/>
 		</xsl:if>
-		
+
 		<xsl:variable name="c0x_container">
 			<xsl:choose>
 				<xsl:when test="did/container[2]">
@@ -376,26 +375,25 @@ Changes:
 
 			<xsl:variable select="count(../../preceding-sibling::*)+1" name="pppos"/>
 			<xsl:variable select="count(../preceding-sibling::*)+1" name="ppos"/>
-			<xsl:variable select="count(preceding-sibling::*)+1" name="cpos"/>			
+			<xsl:variable select="count(preceding-sibling::*)+1" name="cpos"/>
 			<td class="c0x_content {name()}" id="id{$pppos}_{name(..)}_{$ppos}_{name()}_{$cpos}">
 				<xsl:for-each select=" *[@id] | did/*[@id]">
-					<a id="{@id}"></a>
+					<a id="{@id}"/>
 				</xsl:for-each>
 				<xsl:if test="did/unittitle">
 					<xsl:choose>
 						<!-- series, subseries, etc are bold -->
-						<xsl:when
-							test="(@level='series' or @level='subseries' or @otherlevel='sub-subseries' or @level='otherlevel') and child::node()/did">
+						<xsl:when test="(@level='series' or @level='subseries' or @otherlevel='sub-subseries' or @level='otherlevel') and child::node()/did">
 							<b>
 								<xsl:if test="string(did/unitid)">
-                                    <!--
+									<!--
                                          When this was a "value-of", <extref/> elements were
                                          not being turned into URL's.  "apply-templates" makes this
                                          happen, as well as just outputting the value of the <unitid/>
                                          element if it's just text.
                                     -->
-                                    <!-- <xsl:value-of select="did/unitid"/> -->
-								    <xsl:apply-templates select="did/unitid"/>
+									<!-- <xsl:value-of select="did/unitid"/> -->
+									<xsl:apply-templates select="did/unitid"/>
 									<xsl:text>: </xsl:text>
 								</xsl:if>
 								<xsl:apply-templates select="did/unittitle"/>
@@ -411,8 +409,7 @@ Changes:
 					</xsl:choose>
 				</xsl:if>
 				<!-- if the layout for the date is inline instead of columnar, address that issue -->
-				<xsl:if
-					test="$repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps'">
+				<xsl:if test="$repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps'">
 
 					<xsl:for-each select="did/unitdate">
 						<!-- only insert comma if it comes after a unittitle - on occasion there is a unitdate but no unittitle -->
@@ -432,14 +429,12 @@ Changes:
 
 			</td>
 			<!-- if the date layout is columnar, then the column is displayed -->
-			<xsl:if
-				test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
+			<xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
 				<td class="c0x_date">
 					<xsl:for-each select="did/unitdate">
 						<xsl:choose>
-							<xsl:when
-								test="(parent::node()/parent::node()[@level='series'] or parent::node()/parent::node()[@level='subseries']
-								or parent::node()/parent::node()[@otherlevel='sub-subseries'] or parent::node()/parent::node()[@level='otherlevel'])">
+							<xsl:when test="(parent::node()/parent::node()[@level='series'] or parent::node()/parent::node()[@level='subseries']         or
+								parent::node()/parent::node()[@otherlevel='sub-subseries'] or parent::node()/parent::node()[@level='otherlevel'])">
 								<b>
 									<xsl:value-of select="."/>
 								</b>
@@ -500,7 +495,7 @@ Changes:
 				<xsl:with-param name="container_number" select="2"/>
 			</xsl:call-template>
 		</xsl:variable>
-		
+
 		<!-- if none of the container variables contains any data, the row will not be created -->
 
 		<xsl:if test="string($first_container) or string($second_container)">
@@ -519,24 +514,20 @@ Changes:
 							</div>
 						</td>
 					</xsl:when>
-					
+
 					<!-- for one container -->
 					<xsl:otherwise>
 						<xsl:variable name="container_colspan">
 							<xsl:choose>
 								<xsl:when test="/ead/dsc[@type='in-depth'] | /ead/archdesc/dsc[@type='in-depth']">
 									<xsl:choose>
-										<xsl:when
-											test="ancestor-or-self::dsc/descendant-or-self::container[2]"
-											>2</xsl:when>
+										<xsl:when test="ancestor-or-self::dsc/descendant-or-self::container[2]">2</xsl:when>
 										<xsl:otherwise>1</xsl:otherwise>
 									</xsl:choose>
 								</xsl:when>
 								<xsl:otherwise>
 									<xsl:choose>
-										<xsl:when
-											test="ancestor-or-self::c01/descendant-or-self::container[2]"
-											>2</xsl:when>
+										<xsl:when test="ancestor-or-self::c01/descendant-or-self::container[2]">2</xsl:when>
 										<xsl:otherwise>1</xsl:otherwise>
 									</xsl:choose>
 								</xsl:otherwise>
@@ -560,17 +551,15 @@ Changes:
 		<xsl:variable name="current_val">
 			<xsl:value-of select="did/container/@type"/>
 		</xsl:variable>
-		
+
 		<xsl:variable name="last_val">
-			<xsl:if test="$current_val"> 
-				<xsl:value-of
-					select="preceding-sibling::node()/did/container/@type"
-				/>
+			<xsl:if test="$current_val">
+				<xsl:value-of select="preceding-sibling::node()/did/container/@type"/>
 			</xsl:if>
 		</xsl:variable>
-		
+
 		<!-- if the last value is not equal to the first value, then the regularize_container template is called.  -->
-		
+
 		<xsl:if test="$last_val != $current_val">
 			<xsl:call-template name="regularize_container">
 				<xsl:with-param name="current_val">
@@ -582,21 +571,19 @@ Changes:
 
 	<xsl:template name="container_type">
 		<xsl:param name="container_number"/>
-	
+
 		<xsl:variable name="current_val">
 			<xsl:value-of select="did/container[$container_number]/@type"/>
 		</xsl:variable>
-		
+
 		<xsl:variable name="last_val">
-			<xsl:if test="$current_val"> 
-					<xsl:value-of
-						select="preceding-sibling::node()/did/container[$container_number]/@type"
-					/>
+			<xsl:if test="$current_val">
+				<xsl:value-of select="preceding-sibling::node()/did/container[$container_number]/@type"/>
 			</xsl:if>
 		</xsl:variable>
-		
+
 		<!-- if the last value is not equal to the first value, then the regularize_container template is called.  -->
-		
+
 		<xsl:if test="$last_val != $current_val">
 			<xsl:call-template name="regularize_container">
 				<xsl:with-param name="current_val">
@@ -697,8 +684,8 @@ Changes:
 		<!-- for displaying extent, physloc, etc.  this is brought over from the original mod.dsc -->
 
 		<!-- added note in addition to did/note for item 2F on revision specifications-->
-		<xsl:if
-			test="string(did/origination | did/physdesc | did/physloc | did/note | arrangement | odd| scopecontent | acqinfo | custodhist | processinfo | note | bioghist | accessrestrict | userestrict | index | altformavail)">
+		<xsl:if test="string(did/origination | did/physdesc | did/physloc | did/note | arrangement | odd| scopecontent | acqinfo | custodhist | processinfo | note | bioghist | accessrestrict |
+			userestrict | index | altformavail)">
 
 
 			<xsl:for-each select="did">
@@ -753,15 +740,14 @@ Changes:
 						<xsl:otherwise>
 							<div class="{name()}">
 								<xsl:apply-templates/>
-								<xsl:if test="self::origination and child::*/@role"> (<xsl:value-of
-										select="child::*/@role"/>) </xsl:if>
+								<xsl:if test="self::origination and child::*/@role"> (<xsl:value-of select="child::*/@role"/>) </xsl:if>
 							</div>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:for-each>
 			</xsl:for-each>
-			<xsl:for-each
-				select="arrangement | odd | acqinfo | accruals | custodhist | processinfo | separatedmaterial | scopecontent | note | origination | physdesc | physloc | bioghist | accessrestrict | userestrict | altformavail">
+			<xsl:for-each select="arrangement | odd | acqinfo | accruals | custodhist | processinfo | separatedmaterial | scopecontent | note | origination | physdesc | physloc | bioghist |
+				accessrestrict | userestrict | altformavail">
 				<div class="{name()}">
 					<xsl:apply-templates/>
 				</div>
@@ -782,18 +768,18 @@ Changes:
 			-->
 			<xsl:when test="parent::c01 and //c02">
 				<xsl:if test="count(parent::c01/preceding-sibling::c01)!='0'"/>
-                <!-- 
+				<!-- 
                      KEF:  Line below was introducing "off-by-one" problems.  Replaced it
                      with explicit check for c01 siblings. 
                 -->
-                <!-- <xsl:variable select="count(../preceding-sibling::*)+1" name="ppos"/> -->
-                <xsl:variable select="count(../preceding-sibling::c01)+1" name="ppos"/>
-					<div class="c01_did_head" id="c01_{$ppos}">
+				<!-- <xsl:variable select="count(../preceding-sibling::*)+1" name="ppos"/> -->
+				<xsl:variable select="count(../preceding-sibling::c01)+1" name="ppos"/>
+				<div class="c01_did_head" id="c01_{$ppos}">
 					<!--<a id="c01_{count(parent::c01/preceding-sibling::c01)+1}"></a>-->
 					<xsl:if test="@id">
-						<a id="{@id}"></a>
+						<a id="{@id}"/>
 					</xsl:if>
-					<a id="{generate-id()}"></a>
+					<a id="{generate-id()}"/>
 					<!-- what if no unitititle-->
 					<xsl:choose>
 						<xsl:when test="./unittitle">
@@ -802,13 +788,10 @@ Changes:
 									<span class="containerLabel">
 										<xsl:value-of select="unitid/@label"/>
 										<xsl:text>&#160;</xsl:text>
-										<xsl:if
-											test="unitid/@type='counter' or unitid/@type='counternumber'"
-											> Cassette Counter&#160; </xsl:if>
+										<xsl:if test="unitid/@type='counter' or unitid/@type='counternumber'"> Cassette Counter&#160; </xsl:if>
 									</span>
 								</xsl:if>
-								<xsl:if test="$repCode='wau-ar' and unitid[@type='accession']">
-									Accession No.&#160; </xsl:if>
+								<xsl:if test="$repCode='wau-ar' and unitid[@type='accession']"> Accession No.&#160; </xsl:if>
 								<xsl:value-of select="unitid"/>: <xsl:text>&#160;</xsl:text>
 							</xsl:if>
 							<xsl:apply-templates select="unittitle"/>
@@ -816,12 +799,10 @@ Changes:
 							<xsl:if test="string(unitdate)">
 								<xsl:for-each select="unitdate">
 									<xsl:choose>
-										<xsl:when test="@type='bulk'"> &#160;(bulk
-											<xsl:apply-templates/>) </xsl:when>
+										<xsl:when test="@type='bulk'"> &#160;(bulk <xsl:apply-templates/>) </xsl:when>
 										<xsl:otherwise>
 											<xsl:apply-templates/>
-											<xsl:if test="not(position()=last())"
-											>,&#160;</xsl:if>
+											<xsl:if test="not(position()=last())">,&#160;</xsl:if>
 										</xsl:otherwise>
 									</xsl:choose>
 								</xsl:for-each>
@@ -835,28 +816,23 @@ Changes:
 								<span class="containerLabel">
 									<xsl:value-of select="unitid/@label"/>
 									<xsl:text>&#160;</xsl:text>
-									<xsl:if
-										test="unitid/@type='counter' or unitid/@type='counternumber'"
-										> Cassette Counter&#160; </xsl:if>
+									<xsl:if test="unitid/@type='counter' or unitid/@type='counternumber'"> Cassette Counter&#160; </xsl:if>
 								</span>
 							</xsl:if>
 							<xsl:if test="$repCode='wau-ar' and unitid[@type='accession']">
-								<!--  and ../c01[@otherlevel='accession'] --> Accession
-								No.&#160; </xsl:if>
+								<!--  and ../c01[@otherlevel='accession'] --> Accession No.&#160; </xsl:if>
 							<xsl:value-of select="unitid"/>
 						</xsl:when>
 						<xsl:when test="./unitdate/text() and not(./unittitle)">
 							<xsl:value-of select="./unitdate"/>
 						</xsl:when>
-						<xsl:otherwise>Subordinate Component # <xsl:value-of
-								select="count(parent::c01/preceding-sibling::c01)+1"/>
+						<xsl:otherwise>Subordinate Component # <xsl:value-of select="count(parent::c01/preceding-sibling::c01)+1"/>
 						</xsl:otherwise>
 					</xsl:choose>
 					<!-- END what if no unitititle-->
 				</div>
 			</xsl:when>
-			<xsl:when
-				test="$repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps'">
+			<xsl:when test="$repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps'">
 				<!-- 2004-09-26 carlsonm mod to add display for <unitid> -->
 				<!-- Tracking # 4.10 Collins Land Company display -->
 				<xsl:if test="string(unitid)">
@@ -866,10 +842,8 @@ Changes:
 							<xsl:text>&#160;</xsl:text>
 						</span>
 					</xsl:if>
-					<xsl:if test="unitid/@type='counter' or unitid/@type='counternumber'"> Cassette
-						Counter&#160; </xsl:if>
-					<xsl:apply-templates select="unitid"/>:
-					<xsl:text>&#160;&#160;</xsl:text>
+					<xsl:if test="unitid/@type='counter' or unitid/@type='counternumber'"> Cassette Counter&#160; </xsl:if>
+					<xsl:apply-templates select="unitid"/>: <xsl:text>&#160;&#160;</xsl:text>
 				</xsl:if>
 				<xsl:apply-templates select="unittitle"/>
 				<!-- carlsonm 2004-09-26 not sure what the original intent was for this.  The <unitdate> element is not displaying in UMt Great Falls Breweries, Tracking #4.80 -->
@@ -890,9 +864,7 @@ Changes:
 				<xsl:if test="string(unitdate)">
 					<xsl:for-each select="unitdate">
 						<xsl:choose>
-							<xsl:when test="@type='bulk'">
-								&#160;(bulk <xsl:apply-templates/>)
-							</xsl:when>
+							<xsl:when test="@type='bulk'"> &#160;(bulk <xsl:apply-templates/>) </xsl:when>
 							<xsl:otherwise>
 								<xsl:apply-templates/>
 								<xsl:if test="not(position()=last())">,&#160;</xsl:if>
@@ -915,8 +887,7 @@ Changes:
 									<xsl:text>&#160;</xsl:text>
 								</span>
 							</xsl:if>
-							<xsl:if test="unitid/@type='counter' or unitid/@type='counternumber'">
-								Cassette Counter&#160; </xsl:if>
+							<xsl:if test="unitid/@type='counter' or unitid/@type='counternumber'"> Cassette Counter&#160; </xsl:if>
 							<xsl:value-of select="unitid"/>: <xsl:text> &#160;</xsl:text>
 						</xsl:if>
 						<xsl:apply-templates select="./unittitle"/>
@@ -935,8 +906,7 @@ Changes:
 								<xsl:text>&#160;</xsl:text>
 							</span>
 						</xsl:if>
-						<xsl:if test="unitid/@type='counter' or unitid/@type='counternumber'">
-							Cassette Counter&#160; </xsl:if>
+						<xsl:if test="unitid/@type='counter' or unitid/@type='counternumber'"> Cassette Counter&#160; </xsl:if>
 						<xsl:value-of select="unitid"/>
 					</xsl:when>
 					<xsl:when test="./unitdate/text() and not(./unittitle)">
@@ -957,11 +927,11 @@ Changes:
 		<!--non-unittitle,unitdate,unitid descriptive information-->
 		<!-- This now only processes the following elements within <c01>.  The context at this
 			point is <c01><did>.  Lower components are processed in a separate section -->
-		<xsl:if
-			test="string(acqinfo | accruals | custodhist | processinfo | separatedmaterial | physdesc | physloc | origination | note | following-sibling::odd | following-sibling::scopecontent | following-sibling::arrangement | following-sibling::bioghist  | following-sibling::accessrestrict  | following-sibling::userestrict  | following-sibling::note) and parent::c01">
+		<xsl:if test="string(acqinfo | accruals | custodhist | processinfo | separatedmaterial | physdesc | physloc | origination | note | following-sibling::odd | following-sibling::scopecontent |
+			following-sibling::arrangement | following-sibling::bioghist  | following-sibling::accessrestrict  | following-sibling::userestrict  | following-sibling::note) and parent::c01">
 
-			<xsl:for-each
-				select="acqinfo | accruals | custodhist | processinfo | separatedmaterial | physdesc | physloc | origination | note | following-sibling::odd | following-sibling::scopecontent | following-sibling::arrangement | following-sibling::bioghist  | following-sibling::accessrestrict  | following-sibling::userestrict  | following-sibling::note">
+			<xsl:for-each select="acqinfo | accruals | custodhist | processinfo | separatedmaterial | physdesc | physloc | origination | note | following-sibling::odd | following-sibling::scopecontent
+				| following-sibling::arrangement | following-sibling::bioghist  | following-sibling::accessrestrict  | following-sibling::userestrict  | following-sibling::note">
 				<xsl:call-template name="archdesc_minor_children">
 					<xsl:with-param name="withLabel">false</xsl:with-param>
 				</xsl:call-template>
@@ -1047,8 +1017,7 @@ Changes:
 							</xsl:if>
 						</xsl:for-each>
 					</xsl:when>
-					<xsl:when
-						test="(arc[1][@show='replace'] or arc[1][@show='new']) and arc[1][@actuate='onrequest']">
+					<xsl:when test="(arc[1][@show='replace'] or arc[1][@show='new']) and arc[1][@actuate='onrequest']">
 						<a>
 							<xsl:choose>
 								<!-- when a textual hyperlink is desired, i.e. <resource> element contains data -->
@@ -1079,12 +1048,10 @@ Changes:
 										<img src="{$pathToIcon}{$iconFilename}" border="0">
 											<xsl:if test="following::arc[1]/@title">
 												<xsl:attribute name="title">
-												<xsl:value-of select="following::arc[1]/@title"
-												/>
+													<xsl:value-of select="following::arc[1]/@title"/>
 												</xsl:attribute>
 												<xsl:attribute name="alt">
-												<xsl:value-of select="following::arc[1]/@title"
-												/>
+													<xsl:value-of select="following::arc[1]/@title"/>
 												</xsl:attribute>
 											</xsl:if>
 										</img>

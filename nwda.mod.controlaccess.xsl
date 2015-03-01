@@ -11,12 +11,16 @@ Modifications and Revisions by Mark Carlson, 2004
 		the indexing terms. carlsonm -->
 		<a id="{$controlaccess_id}"></a>
 		<div id="controlaccess">
-			<h3 class="structhead">
+			<h3>
 				<xsl:value-of select="$controlaccess_head"/>
-				<input type="button" id="toggle_controlaccess" class="togglebutton" onclick="fade('h_controlaccess')" value="+/-"/>
+				<small>
+					<a href="#" class="toggle-button" id="toggle-controlaccess">
+						<span class="glyphicon glyphicon-minus"/>
+					</a>
+				</small>
 			</h3>
 
-			<div class="controlaccess" id="h_controlaccess" >
+			<div class="controlaccess" id="controlaccess-content">
 				<xsl:call-template name="group_subject"/>
 				<xsl:if
 					test="descendant::*[@encodinganalog='700'] or descendant::*[@encodinganalog='710']">
@@ -99,14 +103,6 @@ Other FA's to check: James F. Bishop (OSU Archives)
 		</xsl:if>
 	</xsl:template>
 	<xsl:template name="group_other">
-		<!-- not needed because we don't need a link from the TOC 
-<a name="{$othercreators_id}"></a>
--->
-		<!-- wrong head type
-<h3 class="structhead">
-<xsl:value-of select="$othercreators_head" />
-</h3>
--->
 		<ul class="ca_list">
 			<li class="ca_head">Other Creators :</li>
 			<xsl:choose>

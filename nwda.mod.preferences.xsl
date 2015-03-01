@@ -9,8 +9,25 @@ version 0.0.1
 	<!-- ********************* <PREFERENCES.USAGE> *********************** -->
 	<!-- usage prefeerences to go here -->
 	<!--USER definided-->
-    <xsl:variable name="serverURL">http://nwda.orbiscascade.org</xsl:variable>
-    <xsl:variable name="pathToFiles">/xsl/support/</xsl:variable>
+	<xsl:variable name="serverURL">http://nwda.orbiscascade.org</xsl:variable>
+	<!-- boolean variables dependent on the Harvester and Repository Metadata Editor being in production -->
+	<xsl:variable name="harvester-active">false</xsl:variable>
+	<xsl:variable name="editor-active">true</xsl:variable>
+	
+	<!-- set mode = 'linux' or 'windows' to use either msxsl or exsl to get node-set -->
+	<xsl:variable name="mode">linux</xsl:variable>
+	<xsl:variable name="pathToFiles">
+		<xsl:choose>
+			<xsl:when test="$mode='linux'">support/</xsl:when>
+			<xsl:otherwise>/xsl/support/</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+	<xsl:variable name="pathToRdf">
+		<xsl:choose>
+			<xsl:when test="$mode='linux'">file:///var/lib/tomcat7/webapps/orbeon/WEB-INF/resources/repository_records/</xsl:when>
+			<xsl:otherwise>C:\Program Files (x86)\Apache Software Foundation\Tomcat 8.0\webapps\orbeon\WEB-INF\resources\repository_records\</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 	<!-- if 'true', will expand abbr/expan elements and attributes: Autograph Letter Signed (ALS)-->
 	<xsl:variable name="expandAbbr">true</xsl:variable>
 	<!-- if 'true', will display profiledesc/creation with $creation_label-->

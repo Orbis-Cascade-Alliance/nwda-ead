@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This is a page flow for getting the NWDA researcher site working in Orbeon for development purposes.
+-->
+<config xmlns="http://www.orbeon.com/oxf/controller" xmlns:oxf="http://www.orbeon.com/oxf/processors" matcher="oxf:perl5-matcher">
+	
+	<page path="/nwda-ead/(.*)" view="render.xpl"/>
+
+	<epilogue url="oxf:/config/epilogue.xpl"/>
+</config>
