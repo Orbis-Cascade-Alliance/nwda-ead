@@ -12,7 +12,7 @@ version 0.0.1
 	<xsl:variable name="serverURL">http://nwda.orbiscascade.org</xsl:variable>
 	<!-- boolean variables dependent on the Harvester and Repository Metadata Editor being in production -->
 	<xsl:variable name="harvester-active">false</xsl:variable>
-	<xsl:variable name="editor-active">true</xsl:variable>
+	<xsl:variable name="editor-active">false</xsl:variable>
 	
 	<!-- set mode = 'linux' or 'windows' to use either msxsl or exsl to get node-set -->
 	<xsl:variable name="mode">linux</xsl:variable>

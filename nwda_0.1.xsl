@@ -29,6 +29,10 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 		<xsl:value-of select="string(//revisiondesc/change[position()=last()]/date/@normal)"/>
 	</xsl:variable>
 
+	<xsl:variable name="empty-rdf">
+		<rdf:RDF/>
+	</xsl:variable>
+
 	<xsl:variable name="rdf">
 		<xsl:choose>
 			<xsl:when test="$editor-active = 'true'">
@@ -44,10 +48,10 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 			<xsl:otherwise>
 				<xsl:choose>
 					<xsl:when test="$mode='linux'">
-						<xsl:copy-of select="exsl:node-set(rdf:RDF)"/>
+						<xsl:copy-of select="exsl:node-set($empty-rdf)"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:copy-of select="msxsl:node-set(rdf:RDF)"/>
+						<xsl:copy-of select="msxsl:node-set($empty-rdf)"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:otherwise>
