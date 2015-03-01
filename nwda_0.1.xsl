@@ -9,9 +9,9 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
 	xmlns:nwda="https://github.com/ewg118/nwda-editor#" xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/"
-	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:exsl="http://exslt.org/common">
-	<!--<xsl:output method="xml" omit-xml-declaration="yes" encoding="UTF-8" indent="no" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>-->
-	<xsl:output encoding="UTF-8"/>
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="nwda xsd vcard xsl exsl msxsl
+	rdf arch dcterms foaf">
+	<xsl:output encoding="UTF-8" method="html"/>
 
 	<xsl:param name="doc"/>
 
@@ -28,7 +28,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 	<xsl:variable name="dateLastRev">
 		<xsl:value-of select="string(//revisiondesc/change[position()=last()]/date/@normal)"/>
 	</xsl:variable>
-	
+
 	<!-- ********************* </XML_VARIABLES> *********************** -->
 	<!-- ********************* <MODULES> *********************** -->
 	<!--set stylesheet preferences -->
@@ -55,7 +55,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 
 	<!--loose archdesc-->
 	<xsl:include href="nwda.mod.structures.xsl"/>
-	
+
 	<!--get RDF -->
 	<xsl:variable name="rdf">
 		<xsl:if test="$editor-active = 'true'">
@@ -67,7 +67,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 					<xsl:copy-of select="msxsl:node-set(document(concat($pathToRdf, //eadid/@mainagencycode, '.xml'))/rdf:RDF)"/>
 				</xsl:otherwise>
 			</xsl:choose>
-		</xsl:if>		
+		</xsl:if>
 	</xsl:variable>
 	<xsl:variable name="hasCHOs">
 		<xsl:if test="$harvester-active = 'true'">
