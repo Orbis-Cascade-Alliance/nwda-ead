@@ -53,6 +53,9 @@ a:visited{
 a:hover{
 	color:#ffac27;
 }
+table {
+	font-size:14px;
+}
 /* ******BOOTSTRAP NAVBAR HEADER ****** */
 .navbar-default{
 	/*background-color: white;*/
