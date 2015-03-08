@@ -11,7 +11,7 @@ Mark Carlson
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
 	xmlns:nwda="https://github.com/ewg118/nwda-editor#" xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/"
-	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" exclude-result-prefixes="nwda xsd vcard xsl">
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="nwda xsd vcard xsl msxsl exsl" >
 
 	<xsl:template match="profiledesc | revisiondesc | filedesc | eadheader | frontmatter"/>
 
@@ -168,8 +168,17 @@ Mark Carlson
 								<xsl:value-of select="$contactinformation_label"/>
 							</dt>
 							<dd>
-								<xsl:apply-templates select="$rdf//arch:Archive" mode="repository"/>
-								<xsl:apply-templates select="$rdf//arch:Archive" mode="contact"/>
+								<xsl:choose>
+									<xsl:when test="$platform='linux'">
+										<xsl:apply-templates select="exsl:node-set($rdf)//arch:Archive" mode="repository"/>
+										<xsl:apply-templates select="exsl:node-set($rdf)//arch:Archive" mode="contact"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:apply-templates select="msxsl:node-set($rdf)//arch:Archive" mode="repository"/>
+										<xsl:apply-templates select="msxsl:node-set($rdf)//arch:Archive" mode="contact"/>
+									</xsl:otherwise>
+								</xsl:choose>
+								
 							</dd>
 						</xsl:when>
 						<xsl:otherwise>

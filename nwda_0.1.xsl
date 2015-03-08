@@ -8,9 +8,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 -->
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-	xmlns:nwda="https://github.com/ewg118/nwda-editor#" xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/"
-	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="nwda xsd vcard xsl exsl msxsl
-	rdf arch dcterms foaf">
+	xmlns:nwda="https://github.com/ewg118/nwda-editor#" xmlns:arch="http://purl.org/archival/vocab/arch#" exclude-result-prefixes="nwda xsd vcard xsl">
 	<xsl:output encoding="UTF-8" method="html" omit-xml-declaration="yes" doctype-public="html"/>
 
 	<xsl:param name="doc"/>
@@ -36,9 +34,9 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 	<!--HTML header table -->
 	<xsl:include href="nwda.mod.html.header.xsl"/>
 	<!-- Dublin Core MD -->
-	<xsl:include href="nwda.mod.metadata.xsl"/>
+	<!-- March 2015: Deprecated HTML head metadata in favor of RDFa following Aaron Rubinstein's arch ontology and dcterms -->
+	<!--<xsl:include href="nwda.mod.metadata.xsl"/>-->
 	<!--Major finding aid structures: bioghist, scopecontent, controlaccess, dsc etc.-->
-	<!--<xsl:include href="nwda.mod.structures_0.1.xsl"/>-->
 	<!--classes of generic elements... e.g. P class="abstract"
 	nice idea, didn't run with it.
 	<xsl:include href="nwda.mod.classes.xsl"/>-->
@@ -56,27 +54,8 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 	<!--loose archdesc-->
 	<xsl:include href="nwda.mod.structures.xsl"/>
 
-	<!--get RDF -->
-	<xsl:variable name="rdf">
-		<xsl:if test="$editor-active = 'true'">
-			<xsl:choose>
-				<xsl:when test="$mode='linux'">
-					<xsl:copy-of select="exsl:node-set(document(concat($pathToRdf, //eadid/@mainagencycode, '.xml'))/rdf:RDF)"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="msxsl:node-set(document(concat($pathToRdf, //eadid/@mainagencycode, '.xml'))/rdf:RDF)"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:if>
-	</xsl:variable>
-	<xsl:variable name="hasCHOs">
-		<xsl:if test="$harvester-active = 'true'">
-			<xsl:if test="string(//eadid/@identifier) and descendant::dao[@role='harvest-all' and string(@href)]">
-				<!-- if there is an ARK in eadid/@identifier and at least one dao with a 'harvest-all' @role, then assume CHOs is true: ASP.NET seems not use allow URIs in xsl document() function -->
-				<xsl:text>true</xsl:text>
-			</xsl:if>
-		</xsl:if>
-	</xsl:variable>
+	<!-- *** RDF and CHO variables moved into nwda.mod.preferences.xsl *** -->
+
 
 	<!-- ********************* </MODULES> *********************** -->
 	<!-- Hide elements with altrender nodisplay and internal audience attributes-->
@@ -122,7 +101,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 			</head>
 			<body>
 				<xsl:call-template name="html.header.table"/>
-				<div class="container-fluid">	
+				<div class="container-fluid">
 					<div class="row pull-right">
 						<div class="col-md-12">
 							<ul class="list-inline">
@@ -153,8 +132,8 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 							</ul>
 						</div>
 					</div>
-					<div class="row">						
-						<div class="col-md-12 text-center">							
+					<div class="row">
+						<div class="col-md-12 text-center">
 							<h1>
 								<xsl:value-of select="/ead/archdesc/did/unittitle/text()"/>
 							</h1>
@@ -173,7 +152,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 								</xsl:choose>
 							</xsl:if>
 						</div>
-					</div>					
+					</div>
 					<div class="row">
 						<div class="col-md-3 navBody">
 							<xsl:call-template name="toc"/>

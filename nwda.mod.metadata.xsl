@@ -23,8 +23,7 @@ version 0.0.1
 		<meta lang="{$isoLang}" name="DC.Title" content="{$titleproper}"/>
 		<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#title" />
 		<meta lang="{$isoLang}" name="DC.Title.Alternative" content="{$filingTitleproper}"/>
-		<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#title"/>
-		<meta lang="{$isoLang}" name="DC.Date" schema="{$isoDate}" content="{$dateToday}"/>
+		<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#title"/>		
 		<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#date"/>
 		<meta lang="{$isoLang}" name="DC.Date.X-MetadataLastModified" schema="{$isoDate}" content="{$dateLastRev}"/>
 		<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#date"/>

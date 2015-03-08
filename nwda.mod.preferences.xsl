@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-stephen.yearl@yale.edu
-2004-04-25/
-version 0.0.1
+
 -->
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" version="1.0">
 	<!-- ********************* <PREFERENCES.USAGE> *********************** -->
 	<!-- usage prefeerences to go here -->
 	<!--USER definided-->
@@ -12,21 +10,37 @@ version 0.0.1
 	<!-- boolean variables dependent on the Harvester and Repository Metadata Editor being in production -->
 	<xsl:variable name="harvester-active">false</xsl:variable>
 	<xsl:variable name="editor-active">true</xsl:variable>
-	
-	<!-- set mode = 'linux' or 'windows' to use either msxsl or exsl to get node-set -->
-	<xsl:variable name="mode">linux</xsl:variable>
+
+	<!-- set platform = 'linux' or 'windows' to use either msxsl or exsl to get node-set -->
+	<xsl:variable name="platform">linux</xsl:variable>
 	<xsl:variable name="pathToFiles">
 		<xsl:choose>
-			<xsl:when test="$mode='linux'">support/</xsl:when>
+			<xsl:when test="$platform='linux'">support/</xsl:when>
 			<xsl:otherwise>/xsl/support/</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
 	<xsl:variable name="pathToRdf">
 		<xsl:choose>
-			<xsl:when test="$mode='linux'">file:///var/lib/tomcat7/webapps/orbeon/WEB-INF/resources/repository_records/</xsl:when>
+			<xsl:when test="$platform='linux'">file:///var/lib/tomcat7/webapps/orbeon/WEB-INF/resources/repository_records/</xsl:when>
 			<xsl:otherwise>C:\Program Files (x86)\Apache Software Foundation\Tomcat 8.0\webapps\orbeon\WEB-INF\resources\repository_records\</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
+
+	<!-- March 2015: RDF and hasCHOs variables moved to this stylesheet -->
+	<xsl:variable name="rdf">
+		<xsl:if test="$editor-active = 'true'">
+			<xsl:copy-of select="document(concat($pathToRdf, //eadid/@mainagencycode, '.xml'))/rdf:RDF"/>
+		</xsl:if>
+	</xsl:variable>
+	<xsl:variable name="hasCHOs">
+		<xsl:if test="$harvester-active = 'true'">
+			<xsl:if test="string(//eadid/@identifier) and descendant::dao[@role='harvest-all' and string(@href)]">
+				<!-- if there is an ARK in eadid/@identifier and at least one dao with a 'harvest-all' @role, then assume CHOs is true: ASP.NET seems not use allow URIs in xsl document() function -->
+				<xsl:text>true</xsl:text>
+			</xsl:if>
+		</xsl:if>
+	</xsl:variable>
+
 	<!-- if 'true', will expand abbr/expan elements and attributes: Autograph Letter Signed (ALS)-->
 	<xsl:variable name="expandAbbr">true</xsl:variable>
 	<!-- if 'true', will display profiledesc/creation with $creation_label-->
@@ -35,7 +49,6 @@ version 0.0.1
 	<xsl:variable name="showRevision">false</xsl:variable>
 	<!-- if 'true', will group controlled access points: all persnames together, for example-->
 	<xsl:variable name="groupControlaccess">false</xsl:variable>
-	<xsl:variable name="dateToday">2004-05-21</xsl:variable>
 	<xsl:variable name="operator">Stephen Yearl</xsl:variable>
 	<xsl:variable name="logoName">nwda.logo.gif</xsl:variable>
 	<xsl:variable name="logoAlt">NWDA logo</xsl:variable>
@@ -47,6 +60,7 @@ version 0.0.1
 	<xsl:variable name="dscOrder">bfu</xsl:variable>
 	<!--defunct-->
 	<!-- ********************* </PREFERENCES.USAGE> *********************** -->
+
 	<!-- ********************* <SECTION HEADS> *********************** -->
 	<!--virtual-->
 	<xsl:param name="admininfo_head">Administrative Information</xsl:param>
@@ -86,7 +100,9 @@ version 0.0.1
 		</h3>
 	</xsl:template>
 	<!-- ********************* </SECTION HEADS> *********************** -->
+
 	<!-- ********************* <LABELS> *********************** -->
+	<!-- March 2015 note: if NWDA migrates to an XSLT 2.0 processor, recommending normalization based on local-name() in an XSL function -->
 	<!--Section heads and other labels will default to these values if there is no head or labal present in the EAD original-->
 	<xsl:param name="label_style">asis</xsl:param>
 	<!-- refers to css sheet. current valid values are caps, smcaps, titlecase, asis-->
@@ -164,22 +180,4 @@ version 0.0.1
 	<xsl:param name="acknowledgement_label">Acknowledgements</xsl:param>
 	<xsl:param name="acknowledgement_id">acknowledgementID</xsl:param>
 	<!-- ********************* </LABELS> *********************** -->
-	<!-- ********************* <OVERVIEW ENTRIES> *********************** -->
-	<xsl:template name="overview_entry">
-		<xsl:param name="overview_label"/>
-		<xsl:param name="overview_value"/>
-		<tr>
-			<td valign="top">&#160;</td>
-			<td valign="top">
-				<h5>
-					<xsl:value-of select="$overview_label"/>
-				</h5>
-			</td>
-			<td valign="top">&#160;</td>
-			<td valign="top">
-				<xsl:value-of select="$overview_value"/>
-			</td>
-		</tr>
-	</xsl:template>
-	<!-- ********************* </OVERVIEW ENTRIES> *********************** -->
 </xsl:stylesheet>
