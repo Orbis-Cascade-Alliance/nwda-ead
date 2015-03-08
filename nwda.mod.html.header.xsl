@@ -5,7 +5,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:template name="html.header.table">
 
-		<div class="navbar navbar-default navbar-static-top" role="navigation">
+		<nav class="navbar navbar-default">
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -15,7 +15,7 @@
 						<span class="icon-bar"></span>
 					</button>
 					<a class="navbar-brand" href="/index.shtml">
-						<img height="54" src="/images/logos/NWDAlogotype.gif" width="129" alt="NWDA"/>
+						<img src="/images/logos/NWDAlogotype.gif" alt="NWDA" style="height:24"/>
 					</a>
 				</div>
 				<div class="navbar-collapse collapse">
@@ -50,7 +50,7 @@
 					</div>-->
 				</div>
 			</div>
-		</div>
+		</nav>
 		<!--END NWDA HEADER DIV-->
 	</xsl:template>
 </xsl:stylesheet>

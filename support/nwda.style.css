@@ -1,77 +1,72 @@
 /* ******GLOBAL ****** */
-body {
-	color: #6b6b6b;
-	font-family: georgia, "times new roman", times, serif;
+body{
+	color:#6b6b6b;
+	font-family:georgia, "times new roman", times, serif;
 }
-h1, h2, h3, h4, h5, h6{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
 	color:#676d38;
 }
 
 #results
 {
-	height: expression( this.scrollHeight > 449 ? "450px" : "auto" ); /* sets max-height for IE */
-	max-height: 450px;
-	overflow: auto;
-	width: 157px;
-	margin: 0px;
-	margin-left: -10px;
-	padding: 0px;
-	padding-left: 10px;
+	height:expression(this.scrollHeight > 449 ? "450px" : "auto" ); /* sets max-height for IE */
+	max-height:450px;
+	overflow:auto;
+	width:157px;
+	margin:0px;
+	margin-left:-10px;
+	padding:0px;
+	padding-left:10px;
 	/*border: solid 1px black;*/
 }
 
-#results>ol
+#results > ol
 {
-	margin: 0px;
-	padding: 0px;
+	margin:0px;
+	padding:0px;
 }
 .IESUCKS
 {
-	margin: 0px;
-	padding: 0px;
-	height: 0px;
-	display: none;
+	margin:0px;
+	padding:0px;
+	height:0px;
+	display:none;
 }
-
-p {
-	margin-bottom:10px;
-	margin-top:5px;
-}
-.findaidtitles {
-	font-weight: 800;
-	FONT-SIZE: 140%;
-/* text-transform: uppercase; */
-	color: #676d38;
-	font-family: Georgia, "Times New Roman", Times, serif;
+.findaidtitles{
+	font-weight:800;
+	font-size:140%;
+	color:#676d38;
 	text-align:center;
 }
-.footer {
+.footer{
 	padding-top:20px;
 	padding-bottom:20px;
 	text-align:center;
 }
-a:link {
-	color: #47371f;
+a:link{
+	color:#47371f;
 }
-a:visited {
-	color: #47371f;
+a:visited{
+	color:#47371f;
 }
-a:hover {
-	color: #ffac27;
+a:hover{
+	color:#ffac27;
 }
 /* ******BOOTSTRAP NAVBAR HEADER ****** */
-.navbar-default {
+.navbar-default{
 	/*background-color: white;*/
-	margin-bottom:0;
 	border-bottom:10px solid #999999;
-	font-family: arial,helvetica,sans-serif;
+	font-family:arial, helvetica, sans-serif;
 	font-size:120%;
 	font-weight:bold;
+	margin-bottom:0;
 }
-/*.navbar-default {
-	color:white;
-}
-.nav-home {
+/*.nav-home {
 	background-color: #a47c41;
 }
 .nav-search {
@@ -85,180 +80,165 @@ a:hover {
 }
 .nav-tools {
 	background-color: #ead44f;
+}
+.navbar-default a:hover {
+	color:white;
 }*/
 /* ****** END BOOTSTRAP NAVBAR HEADER ****** */
-/* ****** EAD LOGICAL BLOCKS ****** */
-.overview {
-}
-.admininfo {
-}
-.relatedinfo {
-}
-/* ****** END EAD LOGICAL BLOCKS ****** */
 /* ****** EAD STRUCTURAL BLOCKS ****** */
-.filedesc {
-}
-.archdesc {
-}
-.arrangement, .bioghist, .scopecontent, .index, .odd, .altformavail, .userestrict, .accessrestrict, .note, .physdesc, .physloc, .origination {
+.arrangement,
+.bioghist,
+.scopecontent,
+.index,
+.odd,
+.altformavail,
+.userestrict,
+.accessrestrict,
+.note,
+.physdesc,
+.physloc,
+.origination{
 	padding-left:24px;
 	padding-top:5px;
 	padding-bottom:5px;
 }
-.controlaccess {
-}
-.subject {
-	margin-left: 2em;
+.subject{
+	margin-left:2em;
 }
 
 /* ****** END EAD STRUCTURAL BLOCKS ****** */
 /* ****** CONTROLS INDENTATION WITHIN C0X ******* */
-.c02 {
-	padding-left: 0em;
+.c02{
+	padding-left:0em;
 }
-.c03 {
-	padding-left: 2em;
+.c03{
+	padding-left:2em;
 }
-.c04 {
-	padding-left: 4em;
+.c04{
+	padding-left:4em;
 }
-.c05 {
-	padding-left: 6em;
+.c05{
+	padding-left:6em;
 }
-.c06 {
-	padding-left: 8em;
+.c06{
+	padding-left:8em;
 }
-.c07 {
-	padding-left: 10em;
+.c07{
+	padding-left:10em;
 }
-.c08 {
-	padding-left: 12em;
+.c08{
+	padding-left:12em;
 }
-.c09 {
-	padding-left: 14em;
+.c09{
+	padding-left:14em;
 }
-.c10 {
-	padding-left: 16em;
+.c10{
+	padding-left:16em;
 }
-.c11 {
-	padding-left: 18em;
+.c11{
+	padding-left:18em;
 }
-.c12 {
-	padding-left: 20em;
+.c12{
+	padding-left:20em;
 }
 /* ****** END CONTROLS INDENTATION WITHIN C0X ******* */
-.containerLabel {
-	color: #676d38;
-	font-size: 85%;
-	text-decoration: none;
-	text-transform: capitalize;
-}
-/* Styling for the Overview of Collection table: */
-.overview_label {
-	vertical-align:top;
-	font-weight: 600;
-	text-align: right;
-	color: #676d38;
-	padding-bottom:8px;
-}
-.overview_entry {
-	vertical-align:top;
-	padding-left:8px;
-	padding-bottom:8px;
+.containerLabel{
+	color:#676d38;
+	font-size:85%;
+	text-decoration:none;
+	text-transform:capitalize;
 }
 /* styling related to c0x */
-.c01_did_head {
-	font-weight: 800;
-	color: #676d38;
-	font-family: georgia, "times new roman", times, serif;
+.c01_did_head{
+	font-weight:800;
+	color:#676d38;
+	font-family:georgia, "times new roman", times, serif;
 	padding-left:16px;
 }
-.c0x_container_large {
+.c0x_container_large{
 	width:170px;
 	padding-top:2px;
 	padding-bottom:2px;
 	padding-left:16px;
 	vertical-align:top;
 }
-.c0x_container_small {
+.c0x_container_small{
 	width:85px;
 	padding-top:2px;
 	padding-bottom:2px;
 	vertical-align:top;
 }
-.c0x_container_left {
+.c0x_container_left{
 	padding-left:16px;
 }
-.c0x_content {
+.c0x_content{
 	padding-top:2px;
 	padding-bottom:2px;
 	vertical-align:top;
 }
-.c0x_date {
+.c0x_date{
 	padding-top:2px;
 	padding-bottom:2px;
 	padding-left:2px;
 	vertical-align:top;
 	width:140px;
 }
-.c0x_header {
+.c0x_header{
 	font-weight:bold;
 	padding-top:16px;
 	padding-bottom:16px;
 	font-size:85%;
 }
 /* ****** HTML HEADINGS AND LABELS ****** */
-.frontmatter {
-	text-align:center;
+.structhead{
+	font-weight:800;
+	color:#676d38;
 }
-.structhead {
-	font-weight: 800;
-	color: #676d38;
-}
-.thead {
-	text-align: left;
-}
-.dao_desc {
-	font-weight: 600;
-	color: #676d38;
+.dao_desc{
+	font-weight:600;
+	color:#676d38;
 	background-color:#edede8;
 }
-.collection_image {
+.collection_image{
 	border-style:dashed;
 	border-color:#ccc;
 	border-width:1px;
 	background-color:#edede8;
 }
-.top {
+.top{
 	margin-top:10px;
 	margin-bottom:10px;
 	padding:2px;
 	border-style:dashed;
 	border-color:#ccc;
 	border-width:1px;
-	text-align: left;
+	text-align:left;
 	background-color:#edede8;
 }
 /* ****** END HTML HEADINGS ****** */
 /* ****** HTML TOC ****** */
-.navBody ul {
-	margin-left: 2em;
-	font-weight: bold;
+/*.navBody{
+	position:fixed;
+}*/
+.navBody ul{
+	margin-left:2em;
+	font-weight:bold;
 }
-.navBody li {
+.navBody li{
 	margin-bottom:10px;
 }
+
 /* ************* CONTROL ACCESS LIST FORMATTING **************** */
-.ca_list {
+.ca_list{
 	list-style-type:none;
 }
-.ca_head {
+.ca_head{
 	font-weight:bold;
 	margin-left:-2em;
 	padding-top:2px;
 	padding-bottom:2px;
 }
-.ca_li {
+.ca_li{
 	margin-left:-2em;
 	padding-top:2px;
 	padding-bottom:2px;
@@ -266,88 +246,87 @@ a:hover {
 /* ************ END CONTROL ACCESS LIST FORMATTING **************** */
 /* *********** TABLE OF CONTENTS ****************** */
 /* links for menu */
-.toc1 {
-	font-weight: 700;
-/* font-size 105%; */
-/* text-transform: uppercase; */
-	color: #676d38;
-	font-family: Georgia, "Times New Roman", Times, serif;
-	padding-right: 5px;
-	padding-left: 5px;
+.toc1{
+	font-weight:700;
+	color:#676d38;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	padding-right:5px;
+	padding-left:5px;
 	vertical-align:top;
 }
-.admin_item {
-	font-family: Georgia, "Times New Roman", Times, serif;
-	padding-right: 5px;
-	padding-left: 12px;
-	padding-bottom: 6px;
-}
-.useinfo_item {
-	font-family: Georgia, "Times New Roman", Times, serif;
-	padding-right: 5px;
-	padding-left: 12px;
-	padding-bottom: 6px;
-}
-.toc_dsc_item {
-	font-family: Georgia, "Times New Roman", Times, serif;
-	padding-right: 5px;
-	padding-left: 12px;
-	padding-bottom: 6px;
+.useinfo_item,
+.admin_item,
+.toc_dsc_item{
+	padding-right:5px;
+	padding-left:12px;
+	padding-bottom:6px;
 }
 /* ***************** END TABLE OF CONTENTS *************** */
 
 /****** Comment System Additions - BETA DO NOT USE ON PRODUCTION SERVICES 
 
 PLACE IN PRODUCTION AREA WHEN IMPLEMENTED*****/
-.commentHeader {
- 	margin-top:10px;
+.commentHeader{
+	margin-top:10px;
 	margin-bottom:10px;
 	padding:2px;
 	/*border-style:none;
 	border-color:#000000;
 	border-width:1px 1px 1px 1px;*/
-	text-align: left;
+	text-align:left;
 	background-color:#edede7;
-	font-weight: bold;
+	font-weight:bold;
 }
 .commentSection{
-  margin-right:7%;
-  background-color:#edede7;
+	margin-right:7%;
+	background-color:#edede7;
 }
 
 .commentRoot{
-  margin-top:10px;
-  margin-left:30px;
-  /*margin-right:30px;*/
-  padding:2px;
-  padding-left:5px;
-  text-align:left;
-  background-color:#edede7;
+	margin-top:10px;
+	margin-left:30px;
+	/*margin-right:30px;*/
+	padding:2px;
+	padding-left:5px;
+	text-align:left;
+	background-color:#edede7;
 }
 .commentReply{
-  margin-top:10px;
-  margin-left:50px;
-  /*margin-right:30px;*/
-  padding:2px;
-  padding-left:5px;
-  text-align:left;
-  background-color:#edede7;
+	margin-top:10px;
+	margin-left:50px;
+	/*margin-right:30px;*/
+	padding:2px;
+	padding-left:5px;
+	text-align:left;
+	background-color:#edede7;
 }
 .commentName{
-  text-align:left;
+	text-align:left;
 }
 .commentDate{
-  text-align:right;
-  position:absolute;
-  right:50%;
+	text-align:right;
+	position:absolute;
+	right:50%;
 }
 .commentMin{
- position:absolute;
- right:7%;
- text-decoration:none;
- color:blue;
+	position:absolute;
+	right:7%;
+	text-decoration:none;
+	color:blue;
 }
-.commentMin1 A:link {text-decoration:none; color:blue;}
-.commentMin1 A:visited {text-decoration:none; color:blue;}
-.commentMin1 A:active {text-decoration:none; color:blue;}
-.commentMin1 A:hover {text-decoration:none; color:blue;}
+.commentMin1 A:link{
+	text-decoration:none;
+	color:blue;
+}
+.commentMin1 A:visited{
+	text-decoration:none;
+	color:blue;
+}
+.commentMin1 A:active{
+	text-decoration:none;
+	color:blue;
+}
+.commentMin1 A:hover{
+	text-decoration:none;
+	color:blue;
+}

@@ -71,7 +71,7 @@ Mark Carlson
 			</small>
 		</h3>
 
-		<div class="archdesc">
+		<div class="archdesc" typeof="arch:Collection" about="{$serverURL}/ark:/{$identifier}">
 			<div class="overview" id="overview-content">
 				<dl class="dl-horizontal">
 					<!--origination-->
@@ -88,7 +88,7 @@ Mark Carlson
 								</xsl:otherwise>
 							</xsl:choose>
 						</dt>
-						<dd>
+						<dd property="dcterms:creator">
 							<xsl:apply-templates select="did/origination"/>
 						</dd>
 					</xsl:if>
@@ -97,7 +97,7 @@ Mark Carlson
 						<dt>
 							<xsl:value-of select="$unittitle_label"/>
 						</dt>
-						<dd>
+						<dd property="dcterms:title">
 							<xsl:apply-templates select="did/unittitle[1]"/>
 						</dd>
 					</xsl:if>
@@ -107,16 +107,7 @@ Mark Carlson
 							<xsl:value-of select="$dates_label"/>
 						</dt>
 						<dd>
-							<xsl:for-each select="did/unitdate">
-								<!--ought to pull in unitdate template-->
-								<xsl:apply-templates/>
-								<xsl:if test="@type">
-									<xsl:text> </xsl:text>( <xsl:value-of select="@type"/> ) </xsl:if>
-								<xsl:if test="position() != last()">
-									<br/>
-								</xsl:if>
-
-							</xsl:for-each>
+							<xsl:apply-templates select="did/unitdate" mode="archdesc"/>
 						</dd>
 					</xsl:if>
 					<!--collection physdesc-->
@@ -126,19 +117,8 @@ Mark Carlson
 						</dt>
 						<dd>
 							<xsl:for-each select="did/physdesc">
-								<xsl:apply-templates select="extent[1]"/>
+								<xsl:apply-templates select="extent"/>
 								<!-- multiple extents contained in parantheses -->
-								<xsl:if test="string(extent[2])">
-									<xsl:text> </xsl:text>
-									<xsl:for-each select="extent[position() &gt; 1]">
-										<xsl:text>(</xsl:text>
-										<xsl:value-of select="."/>
-										<xsl:text>)</xsl:text>
-										<xsl:if test="not(position() = last())">
-											<xsl:text> </xsl:text>
-										</xsl:if>
-									</xsl:for-each>
-								</xsl:if>
 								<xsl:if test="string(physfacet) and string(extent)"> &#160;:&#160; </xsl:if>
 								<xsl:apply-templates select="physfacet"/>
 								<xsl:if test="string(dimensions) and string(physfacet)"> &#160;;&#160; </xsl:if>
@@ -169,9 +149,7 @@ Mark Carlson
 							<xsl:value-of select="$collectionNumber_label"/>
 						</dt>
 						<dd>
-							<xsl:apply-templates select="did/unitid[1]"/>
-							<xsl:if test="did/unitid[2]"> ( <xsl:value-of select="did/unitid[1]/@type"/>), <xsl:apply-templates select="did/unitid[2]"/> ( <xsl:value-of select="did/unitid[2]/@type"/>)
-							</xsl:if>
+							<xsl:apply-templates select="did/unitid" mode="archdesc"/>
 						</dd>
 					</xsl:if>
 					<!--collection abstract/summary-->
@@ -179,7 +157,7 @@ Mark Carlson
 						<dt>
 							<xsl:value-of select="$abstract_label"/>
 						</dt>
-						<dd>
+						<dd property="dcterms:abstract">
 							<xsl:apply-templates select="did/abstract"/>
 						</dd>
 					</xsl:if>
@@ -202,16 +180,20 @@ Mark Carlson
 								<dd>
 									<xsl:for-each select="did/repository">
 										<xsl:variable name="selfRepos">
-											<xsl:apply-templates select="text()|*[not(self::*)]"/>
+											<xsl:value-of select="normalize-space(text())"/>
 										</xsl:variable>
 										<xsl:if test="string-length($selfRepos)&gt;0">
-											<xsl:value-of select="$selfRepos"/>
+											<span property="arch:heldBy">
+												<xsl:value-of select="$selfRepos"/>
+											</span>
 											<br/>
 										</xsl:if>
 										<xsl:if test="string(corpname)">
 											<xsl:for-each select="corpname">
 												<xsl:if test="string-length(.)&gt;string-length(subarea)">
-													<xsl:apply-templates select="text()|*[not(self::subarea)]"/>
+													<span property="arch:heldBy">
+														<xsl:apply-templates select="text()|*[not(self::subarea)]"/>
+													</span>
 													<br/>
 												</xsl:if>
 											</xsl:for-each>
@@ -234,6 +216,37 @@ Mark Carlson
 							</xsl:if>
 						</xsl:otherwise>
 					</xsl:choose>
+					
+					<!-- inserted accessrestrict as per March 2015 revision specifications -->
+					<xsl:if test="accessrestrict">
+						<dt>
+							<xsl:value-of select="$accessrestrict_label"/>
+						</dt>
+						<dd>
+							<xsl:for-each select="accessrestrict/p">
+								<xsl:value-of select="."/>
+								<xsl:if test="not(position()=last())">
+									<xsl:text> </xsl:text>
+								</xsl:if>
+							</xsl:for-each>
+						</dd>
+					</xsl:if>
+					
+					<!-- inserted accessrestrict as per March 2015 revision specifications -->
+					<xsl:if test="otherfindaid">
+						<dt>
+							<xsl:value-of select="$otherfindaid_label"/>
+						</dt>
+						<dd>
+							<xsl:for-each select="otherfindaid/p">
+								<xsl:value-of select="."/>
+								<xsl:if test="not(position()=last())">
+									<xsl:text> </xsl:text>
+								</xsl:if>
+							</xsl:for-each>
+						</dd>
+					</xsl:if>
+					
 					<!--finding aid creation information-->
 					<xsl:if test="/ead/eadheader/profiledesc/creation and $showCreation='true'">
 						<dt>
@@ -253,6 +266,7 @@ Mark Carlson
 							<xsl:apply-templates select="/ead/eadheader/revisiondesc/change"/>
 						</dd>
 					</xsl:if>
+					
 					<!--language note-->
 					<xsl:if test="did/langmaterial">
 						<dt>
@@ -261,11 +275,15 @@ Mark Carlson
 						<dd>
 							<xsl:choose>
 								<xsl:when test="langmaterial/text()">
-									<xsl:apply-templates select="did/langmaterial"/>
+									<span property="dcterms:language">
+										<xsl:apply-templates select="did/langmaterial"/>
+									</span>
 								</xsl:when>
 								<xsl:otherwise>
 									<xsl:for-each select="did/langmaterial/language">
-										<xsl:apply-templates select="."/>
+										<span property="dcterms:language">
+											<xsl:apply-templates select="."/>
+										</span>
 										<xsl:if test="not(position()=last())">
 											<xsl:text>, </xsl:text>
 										</xsl:if>
@@ -456,11 +474,14 @@ Mark Carlson
 		<xsl:choose>
 			<xsl:when test="self::physdesc">
 				<div class="{name()}">
-					<xsl:apply-templates select="extent[1]"/>
-					<xsl:if test="string(extent[2])"> &#160;( <xsl:apply-templates select="extent[2]"/>) </xsl:if>
-					<xsl:if test="string(physfacet) and string(extent)"> &#160;:&#160; </xsl:if>
+					<xsl:apply-templates select="extent"/>
+					<xsl:if test="string(physfacet) and string(extent)">
+						<xsl:text> : </xsl:text>
+					</xsl:if>
 					<xsl:apply-templates select="physfacet"/>
-					<xsl:if test="string(dimensions) and string(physfacet)"> &#160;;&#160; </xsl:if>
+					<xsl:if test="string(dimensions) and string(physfacet)">
+						<xsl:text> ; </xsl:text>
+					</xsl:if>
 					<xsl:apply-templates select="dimensions"/>
 				</div>
 			</xsl:when>
@@ -635,7 +656,8 @@ Mark Carlson
 	<!-- ********************* </ODD> *********************** -->
 	<!-- ********************* <USEINFO> *********************** -->
 	<xsl:template name="useinfo">
-		<xsl:if test="altformavail | accessrestrict | userestrict | prefercite">
+		<!-- removed accessrestrict from this section, moved to Collection Overview, as per March 2015 spec -->
+		<xsl:if test="altformavail | userestrict | prefercite">
 			<h3>
 				<xsl:if test="@id">
 					<a id="{@id}"/>
@@ -649,7 +671,7 @@ Mark Carlson
 				</small>
 			</h3>
 			<div class="use" id="usediv-content">
-				<xsl:for-each select="altformavail | accessrestrict | userestrict | prefercite">
+				<xsl:for-each select="altformavail | userestrict | prefercite">
 					<xsl:call-template name="archdesc_minor_children">
 						<xsl:with-param name="withLabel">true</xsl:with-param>
 					</xsl:call-template>
@@ -829,11 +851,16 @@ Mark Carlson
 		<xsl:choose>
 			<xsl:when test="foaf:homepage/@rdf:resource">
 				<a href="{foaf:homepage/@rdf:resource}" target="_blank">
-					<xsl:value-of select="foaf:name"/>
+					<span property="arch:heldBy" resource="{@rdf:about}">
+						<xsl:value-of select="foaf:name"/>
+					</span>
+
 				</a>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="foaf:name"/>
+				<span property="arch:heldBy" resource="{@rdf:about}">
+					<xsl:value-of select="foaf:name"/>
+				</span>
 			</xsl:otherwise>
 		</xsl:choose>
 

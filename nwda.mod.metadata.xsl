@@ -43,46 +43,4 @@ version 0.0.1
 			<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#subject"/>
 		</xsl:for-each>
 	</xsl:template>
-	<!--
-
-
-
-
-
-<META NAME="DC.Subject" SCHEME="LCSH" CONTENT="dd">
-<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#subject">
-
-
-<META NAME="DC.Publisher" CONTENT="dd">
-<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#publisher">
-
-<META NAME="DC.Publisher.Address" CONTENT="dd">
-<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#publisher">
-
-<META NAME="DC.Contributor" CONTENT="ddd">
-<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#contributor">
-
-<META NAME="DC.Source" CONTENT="source">
-<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#source">
-
-<META NAME="DC.Language" SCHEME="ISO639-1" CONTENT="en">
-
-
-<META NAME="DC.Relation" CONTENT="oether materials">
-<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#relation">
-
-<META NAME="DC.Coverage" CONTENT="coverage">
-<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#coverage">
-
-
-
-<META NAME="DC.Date.X-MetadataLastModified" SCHEME="ISO8601" CONTENT="2003-04-17">
-<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#date">
-
--->
 </xsl:stylesheet>
-<!-- Stylus Studio meta-information - (c)1998-2003 Copyright Sonic Software Corporation. All rights reserved.
-<metaInformation>
-<scenarios/><MapperInfo srcSchemaPath="" srcSchemaRoot="" srcSchemaPathIsRelative="yes" srcSchemaInterpretAsXML="no" destSchemaPath="" destSchemaRoot="" destSchemaPathIsRelative="yes" destSchemaInterpretAsXML="no"/>
-</metaInformation>
--->

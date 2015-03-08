@@ -11,7 +11,7 @@ version 0.0.1
 	<xsl:variable name="serverURL">http://nwda.orbiscascade.org</xsl:variable>
 	<!-- boolean variables dependent on the Harvester and Repository Metadata Editor being in production -->
 	<xsl:variable name="harvester-active">false</xsl:variable>
-	<xsl:variable name="editor-active">false</xsl:variable>
+	<xsl:variable name="editor-active">true</xsl:variable>
 	
 	<!-- set mode = 'linux' or 'windows' to use either msxsl or exsl to get node-set -->
 	<xsl:variable name="mode">linux</xsl:variable>
@@ -74,7 +74,7 @@ version 0.0.1
 	<xsl:param name="scopecontent_head">Content Description</xsl:param>
 	<xsl:param name="scopecontent_label">Content Description</xsl:param>
 	<xsl:param name="scopecontent_id">scopecontentID</xsl:param>
-	<xsl:param name="controlaccess_head">Subjects</xsl:param>
+	<xsl:param name="controlaccess_head">Controlled Access Terms</xsl:param>
 	<xsl:param name="controlaccess_id">caID</xsl:param>
 	<xsl:param name="othercreators_head">Other Creators</xsl:param>
 	<xsl:param name="othercreators_id">ocID</xsl:param>
@@ -119,7 +119,7 @@ version 0.0.1
 	<xsl:param name="unitid_label">Unit ID</xsl:param>
 	<xsl:param name="unitid_id">unitidID</xsl:param>
 	<!--did siblings-->
-	<xsl:param name="accessrestrict_label">Restrictions on Access</xsl:param>
+	<xsl:param name="accessrestrict_label">Access Restrictions</xsl:param>
 	<xsl:param name="accessrestrict_id">accessrestrictID</xsl:param>
 	<xsl:param name="accruals_label">Future Additions</xsl:param>
 	<xsl:param name="accruals_id">accrualsID</xsl:param>

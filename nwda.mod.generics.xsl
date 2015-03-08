@@ -10,10 +10,7 @@ Major or significant revision history:
 2004-11-30 add code to process <eventgrp>.  See OSU SC "Pauling" in <bioghist> or OSU Archives "Board of Regents" in <odd>
 2004-12-07 put chronlist into a table format instead of a def list
 -->
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0">
-                
-	<xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0">
 	<!--links-->
 	<xsl:template match="ref">
 		<a class="xref">
@@ -53,8 +50,7 @@ Major or significant revision history:
 				<xsl:value-of select="@href"/>. <xsl:value-of select="@content-role"/>
 			</xsl:attribute>
 			<xsl:value-of select="daodesc"/>
-			<img src="{$pathToFiles}camicon.gif" alt="digital content available" width="17"
-				height="14" border="0"/>
+			<img src="{$pathToFiles}camicon.gif" alt="digital content available" width="17" height="14" border="0"/>
 		</a>
 	</xsl:template>
 	<!-- 2004-07-14 carlson mod to fix daoloc display -->
@@ -63,8 +59,7 @@ Major or significant revision history:
 			<xsl:attribute name="href">
 				<!--<xsl:value-of disable-output-escaping="yes" select="@href"/> removed 7/23/07 by Ethan Gruber-->
 				<xsl:value-of select="@href"/>
-			</xsl:attribute> &#160; <img src="{$pathToFiles}camicon.gif"
-				alt="digital content available" width="17" height="14" border="0"/>
+			</xsl:attribute> &#160; <img src="{$pathToFiles}camicon.gif" alt="digital content available" width="17" height="14" border="0"/>
 		</a>
 	</xsl:template>
 	<!--expan/abbr-->
@@ -87,7 +82,9 @@ Major or significant revision history:
 		</xsl:choose>
 	</xsl:template>
 	<!--lists-->
-	<xsl:template match="bibliography/p[bibref]"><xsl:apply-templates/></xsl:template>
+	<xsl:template match="bibliography/p[bibref]">
+		<xsl:apply-templates/>
+	</xsl:template>
 	<xsl:template match="item | indexentry | bibref">
 		<li class="{name()}">
 			<xsl:apply-templates/>
@@ -191,9 +188,164 @@ Major or significant revision history:
     <xsl:if test="@type">&#160;<xsl:text></xsl:text>(<xsl:value-of select="@type"/>)</xsl:if>	 
 	 -->
 		<!-- 2004-07-16 carlsonm mod Do not display @type if c02+ -->
-		<xsl:if test="@type and not(ancestor::c01)">&#160; <xsl:text/>( <xsl:value-of
-				select="@type"/>) </xsl:if>
+		<xsl:if test="@type and not(ancestor::c01)">&#160; <xsl:text/>( <xsl:value-of select="@type"/>) </xsl:if>
 	</xsl:template>
+
+	<xsl:template match="unitid" mode="archdesc">
+		<span property="dcterms:identifier" content="{.}">
+			<xsl:value-of select="."/>
+			<xsl:if test="@type">
+				<xsl:text> (</xsl:text>
+				<xsl:value-of select="@type"/>
+				<xsl:text>)</xsl:text>
+			</xsl:if>
+			<xsl:if test="not(position() = last())">
+				<xsl:text>, </xsl:text>
+			</xsl:if>
+		</span>
+	</xsl:template>
+
+	<xsl:template match="unitdate" mode="archdesc">
+		<xsl:value-of select="."/>
+		<xsl:if test="@type">
+			<xsl:text> (</xsl:text>
+			<xsl:value-of select="@type"/>
+			<xsl:text>)</xsl:text>
+		</xsl:if>
+		<xsl:if test="@normal">
+			<div class="hidden">
+				<xsl:choose>
+					<xsl:when test="contains(@normal, '/')">
+						<xsl:variable name="start" select="substring-before(@normal, '/')"/>
+						<xsl:variable name="end" select="substring-after(@normal, '/')"/>
+						
+						
+						<xsl:choose>
+							<xsl:when test="@type='bulk'">
+								<span content="{$start}" property="arch:bulkStart">
+									<xsl:attribute name="datatype">
+										<xsl:call-template name="unitdate-datatype">
+											<xsl:with-param name="date" select="$start"/>
+										</xsl:call-template>
+									</xsl:attribute>
+									<xsl:value-of select="$start"/>
+								</span>
+								<span content="{$end}" property="arch:bulkEnd">
+									<xsl:attribute name="datatype">
+										<xsl:call-template name="unitdate-datatype">
+											<xsl:with-param name="date" select="$end"/>
+										</xsl:call-template>
+									</xsl:attribute>
+									<xsl:value-of select="$end"/>
+								</span>
+							</xsl:when>
+							<xsl:otherwise>
+								<span content="{$start}" property="arch:inclusiveStart">
+									<xsl:attribute name="datatype">
+										<xsl:call-template name="unitdate-datatype">
+											<xsl:with-param name="date" select="$start"/>
+										</xsl:call-template>
+									</xsl:attribute>								
+									
+									<xsl:value-of select="$start"/>
+								</span>
+								<span content="{$end}" property="arch:inclusiveEnd">
+									<xsl:attribute name="datatype">
+										<xsl:call-template name="unitdate-datatype">
+											<xsl:with-param name="date" select="$end"/>
+										</xsl:call-template>
+									</xsl:attribute>
+									<xsl:value-of select="$end"/>
+								</span>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:choose>
+							<xsl:when test="@type='bulk'">
+								<span content="{@normal}" property="arch:bulkStart">
+									<xsl:attribute name="datatype">
+										<xsl:call-template name="unitdate-datatype">
+											<xsl:with-param name="date" select="@normal"/>
+										</xsl:call-template>
+									</xsl:attribute>
+									<xsl:value-of select="@normal"/>
+								</span>
+								<span content="{@normal}" property="arch:bulkEnd">
+									<xsl:attribute name="datatype">
+										<xsl:call-template name="unitdate-datatype">
+											<xsl:with-param name="date" select="@normal"/>
+										</xsl:call-template>
+									</xsl:attribute>
+									<xsl:value-of select="@normal"/>
+								</span>
+							</xsl:when>
+							<xsl:otherwise>
+								<span content="{@normal}" property="arch:inclusiveStart">
+									<xsl:attribute name="datatype">
+										<xsl:call-template name="unitdate-datatype">
+											<xsl:with-param name="date" select="@normal"/>
+										</xsl:call-template>
+									</xsl:attribute>
+									<xsl:value-of select="@normal"/>
+								</span>
+								<span content="{@normal}" property="arch:inclusiveEnd">
+									<xsl:attribute name="datatype">
+										<xsl:call-template name="unitdate-datatype">
+											<xsl:with-param name="date" select="@normal"/>
+										</xsl:call-template>
+									</xsl:attribute>
+									<xsl:value-of select="@normal"/>
+								</span>
+							</xsl:otherwise>
+						</xsl:choose>
+						
+					</xsl:otherwise>
+				</xsl:choose>
+			</div>
+			
+		</xsl:if>
+		<xsl:if test="not(position() = last())">
+			<br/>
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template name="unitdate-datatype">
+		<xsl:param name="date"/>
+		
+		<xsl:choose>
+			<xsl:when test="$date castable as xs:date">
+				<xsl:attribute name="datatype">xsd:date</xsl:attribute>
+			</xsl:when>
+			<xsl:when test="$date castable as xs:gYearMonth">
+				<xsl:attribute name="datatype">xsd:gYearMonth</xsl:attribute>
+			</xsl:when>
+			<xsl:when test="$date castable as xs:gYear">
+				<xsl:attribute name="datatype">xsd:gYear</xsl:attribute>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template match="extent">
+		<xsl:choose>
+			<xsl:when test="position() = 1">
+				<span property="dcterms:extent">
+					<xsl:value-of select="."/>
+				</span>
+			</xsl:when>
+			<xsl:otherwise>
+				<span property="dcterms:extent" content="{.}">
+					<xsl:text>(</xsl:text>
+					<xsl:value-of select="."/>
+					<xsl:text>)</xsl:text>
+				</span>
+				<xsl:if test="not(position() = last())">
+					<xsl:text> </xsl:text>
+				</xsl:if>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
 	<xsl:template match="p">
 		<!-- 2004-09-27 carlsonm: adding test to remove excess space if <p> is in <dsc> 
 Tracking # 4.20
@@ -234,13 +386,10 @@ Tracking # 4.20
 					<xsl:when test="contains(normalize-space(.), 'http://')">
 						<xsl:choose>
 							<xsl:when test="substring-before(normalize-space(.), 'http://')">
-								<xsl:value-of
-									select="substring-before(normalize-space(.), 'http://')"/>
-								<a href="http://{substring-after(normalize-space(.), 'http://')}"
-									target="_blank">
+								<xsl:value-of select="substring-before(normalize-space(.), 'http://')"/>
+								<a href="http://{substring-after(normalize-space(.), 'http://')}" target="_blank">
 									<xsl:text>http://</xsl:text>
-									<xsl:value-of
-										select="substring-after(normalize-space(.), 'http://')"/>
+									<xsl:value-of select="substring-after(normalize-space(.), 'http://')"/>
 								</a>
 							</xsl:when>
 							<xsl:otherwise>
@@ -261,8 +410,7 @@ Tracking # 4.20
 								<xsl:value-of select="substring-before(normalize-space(.), ' ')"/>
 								<xsl:text> </xsl:text>
 								<a href="mailto:{substring-after(normalize-space(.), ' ')}">
-									<xsl:value-of select="substring-after(normalize-space(.), ' ')"
-									/>
+									<xsl:value-of select="substring-after(normalize-space(.), ' ')"/>
 								</a>
 								<!-- insert break only if it's not the last line.  this will cut back on unnecessary whitespace -->
 								<xsl:if test="not(position() = last())">
@@ -307,7 +455,7 @@ Tracking # 4.20
 -->
 	<xsl:template match="title">
 		<i>
-			<xsl:apply-templates />
+			<xsl:apply-templates/>
 		</i>
 	</xsl:template>
 	<xsl:template match="*[@type='restricted']">

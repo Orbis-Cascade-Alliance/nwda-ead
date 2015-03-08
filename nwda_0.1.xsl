@@ -11,7 +11,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 	xmlns:nwda="https://github.com/ewg118/nwda-editor#" xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="nwda xsd vcard xsl exsl msxsl
 	rdf arch dcterms foaf">
-	<xsl:output encoding="UTF-8" method="html"/>
+	<xsl:output encoding="UTF-8" method="html" omit-xml-declaration="yes" doctype-public="html"/>
 
 	<xsl:param name="doc"/>
 
@@ -99,19 +99,21 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 
 
 	<xsl:template name="html_base">
-		<html lang="en">
+		<html lang="en" prefix="dcterms: http://purl.org/dc/terms/    foaf: http://xmlns.com/foaf/0.1/    owl:  http://www.w3.org/2002/07/owl#    rdf:  http://www.w3.org/1999/02/22-rdf-syntax-ns#
+			skos: http://www.w3.org/2004/02/skos/core#    dcterms: http://purl.org/dc/terms/    arch: http://purl.org/archival/vocab/arch#    xsd: http://www.w3.org/2001/XMLSchema#">
 			<head>
 				<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 				<!-- Dublin Core metadata-->
 				<!--<xsl:call-template name="md.dc"/>-->
-				<!-- bootstrap -->
+				<!-- jquery -->
 				<meta name="viewport" content="width=device-width, initial-scale=1"/>
 				<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">//</script>
 				<!-- bootstrap -->
 				<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
+				<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">//</script>
 
+				<!-- local styling -->
 				<link href="{$pathToFiles}{$styleFileName}" rel="stylesheet"/>
-				<link href="/css/header.css" rel="stylesheet" type="text/css"/>
 				<link href="{$serverURL}/ark:/{$identifier}" rel="canonical"/>
 				<script language="javascript" type="text/javascript" src="{$pathToFiles}jqs.js">//</script>
 				<title>
@@ -120,9 +122,39 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 			</head>
 			<body>
 				<xsl:call-template name="html.header.table"/>
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-md-12 text-center">
+				<div class="container-fluid">	
+					<div class="row pull-right">
+						<div class="col-md-12">
+							<ul class="list-inline">
+								<li>
+									<strong>Share:</strong>
+								</li>
+								<li>
+									<!-- AddThis Button BEGIN -->
+									<div class="addthis_toolbox addthis_default_style">
+										<a class="addthis_button_preferred_1"/>
+										<a class="addthis_button_preferred_2"/>
+										<a class="addthis_button_preferred_3"/>
+										<a class="addthis_button_preferred_4"/>
+										<a class="addthis_button_compact"/>
+										<a class="addthis_counter addthis_bubble_style"/>
+									</div>
+									<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-525d63ef6a07cd89"/>
+								</li>
+								<li>
+									<strong>Export:</strong>
+								</li>
+								<li>
+									<a href="{$serverURL}/ark:/{$identifier}.xml">XML</a>
+								</li>
+								<li>
+									<a href="{$serverURL}/ark:/{$identifier}.pdf">PDF</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="row">						
+						<div class="col-md-12 text-center">							
 							<h1>
 								<xsl:value-of select="/ead/archdesc/did/unittitle/text()"/>
 							</h1>
@@ -141,7 +173,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 								</xsl:choose>
 							</xsl:if>
 						</div>
-					</div>
+					</div>					
 					<div class="row">
 						<div class="col-md-3 navBody">
 							<xsl:call-template name="toc"/>
@@ -155,7 +187,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 					</div>
 				</div>
 
-				<script type="text/javascript">
+				<!--<script type="text/javascript">
         var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
         document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
         </script>
@@ -165,7 +197,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 			pageTracker._setLocalRemoteServerMode();
 			pageTracker._trackPageview();
 		}
-		</script>
+		</script>-->
 			</body>
 		</html>
 	</xsl:template>
