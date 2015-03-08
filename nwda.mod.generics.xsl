@@ -312,8 +312,8 @@ Major or significant revision history:
 	
 	<xsl:template name="unitdate-datatype">
 		<xsl:param name="date"/>
-		
-		<xsl:choose>
+		<xsl:attribute name="datatype">xsd:gYear</xsl:attribute>
+		<!--<xsl:choose>
 			<xsl:when test="$date castable as xs:date">
 				<xsl:attribute name="datatype">xsd:date</xsl:attribute>
 			</xsl:when>
@@ -323,7 +323,7 @@ Major or significant revision history:
 			<xsl:when test="$date castable as xs:gYear">
 				<xsl:attribute name="datatype">xsd:gYear</xsl:attribute>
 			</xsl:when>
-		</xsl:choose>
+		</xsl:choose>-->
 	</xsl:template>
 
 	<xsl:template match="extent">
