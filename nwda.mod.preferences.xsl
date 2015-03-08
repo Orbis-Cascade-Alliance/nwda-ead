@@ -95,7 +95,7 @@
 	<xsl:param name="index_head">Index</xsl:param>
 	<xsl:template name="section_head">
 		<xsl:param name="structhead"/>
-		<h3 class="structhead">
+		<h3>
 			<xsl:value-of select="$structhead"/>
 		</h3>
 	</xsl:template>

@@ -42,7 +42,7 @@ Changes:
 			<a id="{@id}"/>
 		</xsl:if>
 		<a id="{$dsc_id}"/>
-		<h3 class="structhead">
+		<h3>
 			<xsl:value-of select="$dsc_head"/>
 			<small>
 				<a href="#" class="toggle-button" id="toggle-dscdiv">
