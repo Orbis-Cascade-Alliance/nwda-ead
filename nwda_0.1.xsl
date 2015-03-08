@@ -64,7 +64,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 					<xsl:copy-of select="exsl:node-set(document(concat($pathToRdf, //eadid/@mainagencycode, '.xml'))/rdf:RDF)"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:copy-of select="msxsl:node-set(document(concat($pathToRdf, //eadid/@mainagencycode, '.xml'))/rdf:RDF)"/>
+					<xsl:value-of select="msxsl:node-set(document(concat($pathToRdf, //eadid/@mainagencycode, '.xml'))/rdf:RDF)"/>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:if>
