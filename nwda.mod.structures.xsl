@@ -859,11 +859,8 @@ Mark Carlson
 	<xsl:template match="arch:Archive" mode="repository">
 		<xsl:choose>
 			<xsl:when test="foaf:homepage/@rdf:resource">
-				<a href="{foaf:homepage/@rdf:resource}" target="_blank">
-					<span property="arch:heldBy" resource="{@rdf:about}">
-						<xsl:value-of select="foaf:name"/>
-					</span>
-
+				<a href="{foaf:homepage/@rdf:resource}" target="_blank" property="arch:heldBy" resource="{@rdf:about}">
+					<xsl:value-of select="foaf:name"/>
 				</a>
 			</xsl:when>
 			<xsl:otherwise>
