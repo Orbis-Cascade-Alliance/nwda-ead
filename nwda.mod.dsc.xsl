@@ -32,7 +32,7 @@ Changes:
 	<xsl:variable name="lcChars">abcdefghijklmnopqrstuvwxyz</xsl:variable>
 	<xsl:variable name="lcCharsHyphen">abcdefghijklmnopqrstuvwxyz-</xsl:variable>
 	<xsl:variable name="lcCharsSlash">abcdefghijklmnopqrstuvwxyz/</xsl:variable>
-	<xsl:variable name="ucChars">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:variable>	
+	<xsl:variable name="ucChars">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:variable>
 	<xsl:variable name="repCode" select="translate(//eadid/@mainagencycode,$ucChars,$lcChars)"/>
 
 
@@ -196,78 +196,82 @@ Changes:
 			<xsl:apply-templates select="did"/>
 		</div>
 
-		<table border="0" summary="A listing of materials in {./did/unittitle}." width="100%">
-			<!-- calls the labels for the table -->
-			<xsl:call-template name="table_label"/>
+		<xsl:if test="descendant::c02">
+			<table class="table" summary="A listing of materials in {./did/unittitle}.">
+				<!-- calls the labels for the table -->
+				<xsl:call-template name="table_label"/>
+				<tbody>
+					<xsl:if test="@level='item' or @level='file'">
+						<tr>
+							<td class="c0x_container_small c0x_container_left">
+								<div class="containerLabel">
+									<xsl:value-of select="did/container[1]/@type"/>
+								</div>
+							</td>
+							<td class="c0x_container_small">
+								<div class="containerLabel">
+									<xsl:value-of select="did/container[2]/@type"/>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="c0x_container_small c0x_container_left">
+								<xsl:value-of select="did/container[1]"/>
+							</td>
+							<td class="c0x_container_small">
+								<xsl:value-of select="did/container[2]"/>
+							</td>
+							<td class="c0x_content"/>
+						</tr>
+					</xsl:if>
+					<xsl:apply-templates select="c02|c03|c04|c05|c06|c07|c08|c09|c10|c11|c12"/>
+				</tbody>
+			</table>
+		</xsl:if>
 
-			<xsl:if test="@level='item' or @level='file'">
-				<tr>
-					<td class="c0x_container_small c0x_container_left">
-						<div class="containerLabel">
-							<xsl:value-of select="did/container[1]/@type"/>
-						</div>
-					</td>
-					<td class="c0x_container_small">
-						<div class="containerLabel">
-							<xsl:value-of select="did/container[2]/@type"/>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td class="c0x_container_small c0x_container_left">
-						<xsl:value-of select="did/container[1]"/>
-					</td>
-					<td class="c0x_container_small">
-						<xsl:value-of select="did/container[2]"/>
-					</td>
-					<td class="c0x_content"/>
-				</tr>
-			</xsl:if>
-
-			<xsl:apply-templates select="c02|c03|c04|c05|c06|c07|c08|c09|c10|c11|c12"/>
-
-		</table>
 
 	</xsl:template>
 	<!-- ********************* </DSC TABLE> *************************** -->
 	<!-- ********************* LABELS FOR TABLE ********************* -->
 	<xsl:template name="table_label">
-		<tr>
-			<xsl:choose>
-				<xsl:when test="descendant::container">
-					<xsl:choose>
-						<xsl:when test="not(descendant::container[2]) and not(descendant::container[3])">
-							<td>
-								<div class="c0x_header">Container(s)</div>
-							</td>
-						</xsl:when>
-						<xsl:otherwise>
-							<td colspan="2">
-								<div class="c0x_header">Container(s)</div>
-							</td>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:when>
-				<xsl:otherwise>
-					<td class="c0x_container_large"/>
-				</xsl:otherwise>
-			</xsl:choose>
+		<thead>
+			<tr>
+				<xsl:choose>
+					<xsl:when test="descendant::container">
+						<xsl:choose>
+							<xsl:when test="not(descendant::container[2]) and not(descendant::container[3])">
+								<th>
+									<div class="c0x_header">Container(s)</div>
+								</th>
+							</xsl:when>
+							<xsl:otherwise>
+								<th colspan="2">
+									<div class="c0x_header">Container(s)</div>
+								</th>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:when>
+					<xsl:otherwise>
+						<td class="c0x_container_large"/>
+					</xsl:otherwise>
+				</xsl:choose>
 
-			<xsl:if test="string(descendant::unittitle) and string(descendant::c02)">
-				<td class="c0x_content">
-					<div class="c0x_header">Description</div>
-				</td>
-			</xsl:if>
-
-			<xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
-				<xsl:if test="string(descendant::c02) and string(descendant::unitdate)">
-					<td class="c0x_date">
-						<div class="c0x_header">Dates</div>
-					</td>
+				<xsl:if test="string(descendant::unittitle) and string(descendant::c02)">
+					<th class="c0x_content">
+						<div class="c0x_header">Description</div>
+					</th>
 				</xsl:if>
-			</xsl:if>
 
-		</tr>
+				<xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
+					<xsl:if test="string(descendant::c02) and string(descendant::unitdate)">
+						<th class="c0x_date">
+							<div class="c0x_header">Dates</div>
+						</th>
+					</xsl:if>
+				</xsl:if>
+
+			</tr>
+		</thead>
 	</xsl:template>
 	<!-- ********************* END LABELS FOR TABLE ************************** -->
 	<!-- ********************* START c0xs *************************** -->
@@ -773,7 +777,7 @@ Changes:
                 -->
 				<!-- <xsl:variable select="count(../preceding-sibling::*)+1" name="ppos"/> -->
 				<xsl:variable select="count(../preceding-sibling::c01)+1" name="ppos"/>
-				<div class="c01_did_head" id="c01_{$ppos}">
+				<h4>
 					<!--<a id="c01_{count(parent::c01/preceding-sibling::c01)+1}"></a>-->
 					<xsl:if test="@id">
 						<a id="{@id}"/>
@@ -829,7 +833,14 @@ Changes:
 						</xsl:otherwise>
 					</xsl:choose>
 					<!-- END what if no unitititle-->
-				</div>
+				</h4>
+				<!-- March 2015: Adding container display as per revision specification 7.1.2 -->
+				<xsl:if test="count(container) &gt; 0">
+					<p>
+						<strong>Container(s): </strong>
+						<xsl:apply-templates select="container" mode="c01"/>
+					</p>
+				</xsl:if>
 			</xsl:when>
 			<xsl:when test="$repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps'">
 				<!-- 2004-09-26 carlsonm mod to add display for <unitid> -->
@@ -870,6 +881,13 @@ Changes:
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:for-each>
+				</xsl:if>
+				<!-- March 2015: Adding container display as per revision specification 7.1.2 -->
+				<xsl:if test="count(container) &gt; 0">
+					<p>
+						<strong>Container(s): </strong>
+						<xsl:apply-templates select="container" mode="c01"/>
+					</p>
 				</xsl:if>
 			</xsl:when>
 			<!-- carlsonm This is where the unittitle info is output when it is a c01 list only -->
@@ -921,6 +939,14 @@ Changes:
 					<xsl:otherwise>Subordinate Component</xsl:otherwise>
 				</xsl:choose>
 				<!-- END what if no unitititle-->
+
+				<!-- March 2015: Adding container display as per revision specification 7.1.2 -->
+				<xsl:if test="count(container) &gt; 0">
+					<p>
+						<strong>Container(s): </strong>
+						<xsl:apply-templates select="container" mode="c01"/>
+					</p>
+				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
 		<!--non-unittitle,unitdate,unitid descriptive information-->

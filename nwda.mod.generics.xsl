@@ -325,6 +325,18 @@ Major or significant revision history:
 			</xsl:when>
 		</xsl:choose>-->
 	</xsl:template>
+	
+	<!-- March 2015: For displaying the container within c01/did. Revision specification 7.1.2 -->
+	<xsl:template match="container" mode="c01">
+		<xsl:if test="@type">
+			<xsl:value-of select="concat(translate(substring(@type, 1, 1), 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'), substring(@type, 2))"/>
+			<xsl:text> </xsl:text>
+		</xsl:if>
+		<xsl:value-of select="."/>
+		<xsl:if test="not(position()=last())">
+			<xsl:text>, </xsl:text>
+		</xsl:if>
+	</xsl:template>
 
 	<xsl:template match="extent">
 		<xsl:choose>

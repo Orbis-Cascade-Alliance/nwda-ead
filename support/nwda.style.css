@@ -3,12 +3,7 @@ body{
 	color:#6b6b6b;
 	font-family:georgia, "times new roman", times, serif;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6{
+h1,h2,h3,h4,h5,h6{
 	color:#676d38;
 }
 
@@ -98,7 +93,7 @@ a:hover{
 .physdesc,
 .physloc,
 .origination{
-	padding-left:24px;
+	padding-left:1em;
 	padding-top:5px;
 	padding-bottom:5px;
 }
@@ -141,6 +136,9 @@ a:hover{
 .c12{
 	padding-left:20em;
 }
+table {
+	width:100%;
+}
 /* ****** END CONTROLS INDENTATION WITHIN C0X ******* */
 .containerLabel{
 	color:#676d38;
@@ -149,12 +147,6 @@ a:hover{
 	text-transform:capitalize;
 }
 /* styling related to c0x */
-.c01_did_head{
-	font-weight:800;
-	color:#676d38;
-	font-family:georgia, "times new roman", times, serif;
-	padding-left:16px;
-}
 .c0x_container_large{
 	width:170px;
 	padding-top:2px;
@@ -190,10 +182,6 @@ a:hover{
 	font-size:85%;
 }
 /* ****** HTML HEADINGS AND LABELS ****** */
-.structhead{
-	font-weight:800;
-	color:#676d38;
-}
 .dao_desc{
 	font-weight:600;
 	color:#676d38;
@@ -244,25 +232,6 @@ a:hover{
 	padding-bottom:2px;
 }
 /* ************ END CONTROL ACCESS LIST FORMATTING **************** */
-/* *********** TABLE OF CONTENTS ****************** */
-/* links for menu */
-.toc1{
-	font-weight:700;
-	color:#676d38;
-	font-family:Georgia, "Times New Roman", Times, serif;
-	padding-right:5px;
-	padding-left:5px;
-	vertical-align:top;
-}
-.useinfo_item,
-.admin_item,
-.toc_dsc_item{
-	padding-right:5px;
-	padding-left:12px;
-	padding-bottom:6px;
-}
-/* ***************** END TABLE OF CONTENTS *************** */
-
 /****** Comment System Additions - BETA DO NOT USE ON PRODUCTION SERVICES 
 
 PLACE IN PRODUCTION AREA WHEN IMPLEMENTED*****/
