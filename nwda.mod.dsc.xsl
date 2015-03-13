@@ -197,7 +197,7 @@ Changes:
 		</div>
 
 		<xsl:if test="descendant::c02">
-			<table class="table" summary="A listing of materials in {./did/unittitle}.">
+			<table class="table table-striped" summary="A listing of materials in {./did/unittitle}.">
 				<!-- calls the labels for the table -->
 				<xsl:call-template name="table_label"/>
 				<tbody>
@@ -241,31 +241,31 @@ Changes:
 						<xsl:choose>
 							<xsl:when test="not(descendant::container[2]) and not(descendant::container[3])">
 								<th>
-									<div class="c0x_header">Container(s)</div>
+									<span class="c0x_header">Container(s)</span>
 								</th>
 							</xsl:when>
 							<xsl:otherwise>
 								<th colspan="2">
-									<div class="c0x_header">Container(s)</div>
+									<span class="c0x_header">Container(s)</span>
 								</th>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:when>
 					<xsl:otherwise>
-						<td class="c0x_container_large"/>
+						<th class="c0x_container_large"/>
 					</xsl:otherwise>
 				</xsl:choose>
 
 				<xsl:if test="string(descendant::unittitle) and string(descendant::c02)">
 					<th class="c0x_content">
-						<div class="c0x_header">Description</div>
+						<span class="c0x_header">Description</span>
 					</th>
 				</xsl:if>
 
 				<xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
 					<xsl:if test="string(descendant::c02) and string(descendant::unitdate)">
 						<th class="c0x_date">
-							<div class="c0x_header">Dates</div>
+							<span class="c0x_header">Dates</span>
 						</th>
 					</xsl:if>
 				</xsl:if>

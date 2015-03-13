@@ -20,7 +20,13 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 
 	<!-- ********************* <XML_VARIABLES> *********************** -->
 	<xsl:variable name="identifier" select="string(normalize-space(/ead/eadheader/eadid/@identifier))"/>
-	<xsl:variable name="titleproper" select="string(normalize-space(/ead/archdesc/did/unittitle))"/>
+	<xsl:variable name="titleproper">
+		<xsl:value-of select="normalize-space(/ead/archdesc/did/unittitle)"/>
+		<xsl:if test="/ead/archdesc/did/unitdate">
+			<xsl:text>, </xsl:text>
+			<xsl:value-of select="/ead/archdesc/did/unitdate"/>
+		</xsl:if>
+	</xsl:variable>
 	<!--check later for not()altrender-->
 	<xsl:variable name="filingTitleproper" select="string(normalize-space(/ead/eadheader//titlestmt/titleproper[@altrender]))"/>
 	<xsl:variable name="dateLastRev">
@@ -96,6 +102,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 				<link href="{$serverURL}/ark:/{$identifier}" rel="canonical"/>
 				<script language="javascript" type="text/javascript" src="{$pathToFiles}jqs.js">//</script>
 				<title>
+					<xsl:text>Northwest Digital Archives: </xsl:text>
 					<xsl:value-of select="$titleproper"/>
 				</title>
 			</head>
@@ -135,22 +142,12 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 					<div class="row">
 						<div class="col-md-12 text-center">
 							<h1>
-								<xsl:value-of select="/ead/archdesc/did/unittitle/text()"/>
-							</h1>
-							<xsl:if test="/ead/archdesc/did/unittitle/unitdate or /ead/archdesc/did/unitdate">
-								<xsl:choose>
-									<xsl:when test="/ead/archdesc/did/unittitle/unitdate">
-										<h2>
-											<xsl:value-of select="/ead/archdesc/did/unittitle/unitdate"/>
-										</h2>
-									</xsl:when>
-									<xsl:when test="/ead/archdesc/did/unitdate">
-										<h2>
-											<xsl:value-of select="/ead/archdesc/did/unitdate"/>
-										</h2>
-									</xsl:when>
-								</xsl:choose>
-							</xsl:if>
+								<xsl:value-of select="normalize-space(/ead/archdesc/did/unittitle)"/>
+								<xsl:if test="/ead/archdesc/did/unitdate">
+									<xsl:text>, </xsl:text>
+									<xsl:value-of select="/ead/archdesc/did/unitdate"/>
+								</xsl:if>
+							</h1>							
 						</div>
 					</div>
 					<div class="row">

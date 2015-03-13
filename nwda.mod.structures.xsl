@@ -301,22 +301,20 @@ Mark Carlson
 							</xsl:choose>
 						</dd>
 					</xsl:if>
-					<!--sponsor-->
-					<xsl:if test="/ead/eadheader//sponsor[1]">
+					<!--sponsor; March 2015, moved sponsor to Administration Information -->
+					<!--<xsl:if test="/ead/eadheader//sponsor[1]">
 						<dt>
 							<xsl:value-of select="$sponsor_label"/>
 						</dt>
 						<dd>
 							<xsl:apply-templates select="/ead/eadheader//sponsor[1]"/>
 						</dd>
-					</xsl:if>
+					</xsl:if>-->
 					<!-- display link to Harvester CHOs if $hasCHOs is 'true' -->
 					<xsl:if test="$hasCHOs = 'true'">
 						<dt>Cultural Heritage Objects</dt>
 						<dd>
-							<a href="{concat('http://harvester.orbiscascade.org/apis/get?ark=ark:/', //eadid/@identifier)}">
-								<xsl:value-of select="concat('http://harvester.orbiscascade.org/apis/get?ark=ark:/', //eadid/@identifier)"/>
-							</a>
+							<a href="{concat('http://harvester.orbiscascade.org/apis/get?ark=ark:/', //eadid/@identifier)}">yes</a>
 						</dd>
 					</xsl:if>
 				</dl>
@@ -363,13 +361,10 @@ Mark Carlson
 	<!-- ********************* END COLLECTION IMAGE *********************** -->
 	<!-- ********************* <ARCHDESC_MINOR_CHILDREN> *********************** -->
 	<!--this template generically called by arbitrary groupings: see per eg. relatedinfo template -->
-	<xsl:template name="archdesc_minor_children">
-		<xsl:param name="label"/>
-		<xsl:param name="nodeName"/>
-		<xsl:param name="withLabel"/>
-		<xsl:param name="foo"/>
+	<xsl:template name="archdesc_minor_children">		
+		<xsl:param name="withLabel"/>		
 		<xsl:if test="$withLabel='true'">
-			<b>
+			<h4>
 				<xsl:if test="@id">
 					<a id="{@id}"/>
 				</xsl:if>
@@ -474,9 +469,12 @@ Mark Carlson
 						<a id="{$index_id}"/>
 						<xsl:value-of select="$index_label"/>
 					</xsl:when>
+					<xsl:when test="name()='sponsor'">
+						<xsl:value-of select="$sponsor_label"/>
+					</xsl:when>
 					<xsl:otherwise/>
 				</xsl:choose>
-			</b> : <xsl:text>&#160;</xsl:text>
+			</h4>
 		</xsl:if>
 		<!-- 2004-11-30 Suppress the display of all <head> elements (with exceptions).  Example, Pauling finding aid of OSU SC -->
 		<!-- 2004-12-06 Process physdesc separately -->
@@ -730,7 +728,7 @@ Mark Carlson
 				<a id="{@id}"/>
 			</xsl:if>
 			<a id="{$arrangement_id}"/>
-			<b>Arrangement :</b>
+			<h4>Arrangement</h4>
 		</xsl:if>
 		<div class="{$class}">
 			<xsl:apply-templates select="./*[not(self::head)]"/>
@@ -739,15 +737,20 @@ Mark Carlson
 	<!-- ********************* </ARRANGEMENT> *********************** -->
 	<!-- ********************* <ADMININFO> *********************** -->
 	<xsl:template name="admininfo">
-		<xsl:if test="acqinfo | accruals | custodhist | processinfo | separatedmaterial | bibliography | otherfindaid | relatedmaterial | originalsloc | appraisal">
+		<xsl:if test="acqinfo | accruals | custodhist | processinfo | separatedmaterial | bibliography | otherfindaid | relatedmaterial | originalsloc | appraisal | //sponsor">
 			<xsl:if test="not(ancestor::dsc)">
-				<xsl:if test="@id">
-					<a id="{@id}"/>
-				</xsl:if>
-				<a id="{$admininfo_id}"/>
+				<xsl:choose>
+					<xsl:when test="@id">
+						<a id="{@id}"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<a id="{$admininfo_id}"/>
+					</xsl:otherwise>
+				</xsl:choose>
+				
 			</xsl:if>
 			<div class="admininfo">
-				<xsl:for-each select="custodhist | acqinfo | accruals | processinfo | separatedmaterial | bibliography | otherfindaid | relatedmaterial | appraisal | originalsloc">
+				<xsl:for-each select="custodhist | acqinfo | accruals | processinfo | separatedmaterial | bibliography | otherfindaid | relatedmaterial | appraisal | originalsloc | //sponsor">
 					<xsl:call-template name="archdesc_minor_children">
 						<xsl:with-param name="withLabel">true</xsl:with-param>
 					</xsl:call-template>
