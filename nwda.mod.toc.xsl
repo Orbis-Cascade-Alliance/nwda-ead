@@ -230,7 +230,17 @@
 			<ul class="list-unstyled" id="dsc-content">
 				<xsl:for-each select="//c01">
 					<li>
-						<a href="#{name()}_{position()}" class="showdsc">
+						<a>
+							<xsl:attribute name="href">
+								<xsl:choose>
+									<xsl:when test="@id">
+										<xsl:value-of select="concat('#', @id)"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="concat('#', generate-id())"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:attribute>
 							<!-- what if no unitititle-->
 							<xsl:choose>
 								<xsl:when test="./did/unittitle">

@@ -782,11 +782,17 @@ Changes:
 				<!-- <xsl:variable select="count(../preceding-sibling::*)+1" name="ppos"/> -->
 				<xsl:variable select="count(../preceding-sibling::c01)+1" name="ppos"/>
 				<h4>
-					<!--<a id="c01_{count(parent::c01/preceding-sibling::c01)+1}"></a>-->
-					<xsl:if test="@id">
-						<a id="{@id}"/>
-					</xsl:if>
-					<a id="{generate-id()}"/>
+					<xsl:attribute name="id">
+						<xsl:choose>
+							<xsl:when test="parent::node()/@id">
+								<xsl:value-of select="parent::node()/@id"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="generate-id(parent::node())"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>					
+					
 					<!-- what if no unitititle-->
 					<xsl:choose>
 						<xsl:when test="./unittitle">
