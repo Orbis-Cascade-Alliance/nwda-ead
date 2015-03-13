@@ -543,6 +543,8 @@ Changes:
 								<xsl:value-of select="$first_container"/>
 							</div>
 						</td>
+						<td/>
+						<td/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</tr>
