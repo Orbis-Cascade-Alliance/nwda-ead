@@ -516,6 +516,8 @@ Changes:
 								<xsl:value-of select="$second_container"/>
 							</div>
 						</td>
+						<td/>
+						<td/>
 					</xsl:when>
 
 					<!-- for one container -->
