@@ -136,6 +136,7 @@ Other FA's to check: James F. Bishop (OSU Archives)
 					<xsl:when test="self::persname or self::corpname or self::famname or self::name">f_names</xsl:when>
 					<xsl:when test="self::function">f_functions</xsl:when>
 					<xsl:when test="self::geogname">f_places</xsl:when>
+					<xsl:when test="self::genreform">f_mattypes</xsl:when>
 					<xsl:when test="self::occupation">f_occupations</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
