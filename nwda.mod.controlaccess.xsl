@@ -8,8 +8,7 @@ Modifications and Revisions by Mark Carlson, 2004
 	<xsl:template match="controlaccess">
 		<!-- P.S. Can't just select index [1] controlaccess because it may not be the group with
 		the indexing terms. carlsonm -->
-		<a id="{$controlaccess_id}"/>
-		<div id="controlaccess">
+		<div  id="{$controlaccess_id}">
 			<h3>
 				<xsl:value-of select="$controlaccess_head"/>
 				<small>
@@ -19,7 +18,7 @@ Modifications and Revisions by Mark Carlson, 2004
 				</small>
 			</h3>
 
-			<div class="controlaccess" id="controlaccess-content">
+			<div class="controlaccess controlaccess-content">
 				<xsl:call-template name="group_subject"/>
 				<xsl:if test="descendant::*[@encodinganalog='700'] or descendant::*[@encodinganalog='710']">
 					<xsl:call-template name="group_other"/>
@@ -72,7 +71,7 @@ Other FA's to check: James F. Bishop (OSU Archives)
 				</xsl:when>
 				<xsl:otherwise>
 					<ul class="ca_list">
-						<xsl:for-each select="name[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |
+						<xsl:apply-templates select="name[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |
 							persname[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |
 							corpname[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |
 							famname[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |
@@ -81,14 +80,9 @@ Other FA's to check: James F. Bishop (OSU Archives)
 							geogname[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |
 							occupation[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |
 							function[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |
-							title[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0]">
-							<xsl:sort/>
-
-							<!--<li class="ca_li">
-								<xsl:apply-templates mode="controlaccess"/>
-								<xsl:if test="@role and not(@role='subject')"> &#160;( <xsl:value-of select="@role"/>) </xsl:if>
-							</li>-->
-						</xsl:for-each>
+							title[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0]" mode="controlaccess">
+							<xsl:sort select="normalize-space(.)"/>
+						</xsl:apply-templates>
 					</ul>
 				</xsl:otherwise>
 			</xsl:choose>
@@ -101,33 +95,23 @@ Other FA's to check: James F. Bishop (OSU Archives)
 			<xsl:choose>
 				<xsl:when test="child::controlaccess and controlaccess/*/@encodinganalog='700' or controlaccess/*/@encodinganalog='710'">
 					<xsl:for-each select="controlaccess">
-
-						<xsl:for-each select="name[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')] |
+						<xsl:apply-templates select="name[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')] |
 							persname[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')] |
 							corpname[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')] |
-							famname[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')]">
+							famname[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')]" mode="controlaccess">
 
 							<xsl:sort select="normalize-space(.)"/>
-							<!--<li class="ca_li">
-								<xsl:apply-templates mode="controlaccess"/>
-								<xsl:if test="@role and not(@role='creator') and not(@role='subject')"> &#160;( <xsl:value-of select="@role"/>) </xsl:if>
-							</li>-->
-						</xsl:for-each>
+						</xsl:apply-templates>
 
 					</xsl:for-each>
 				</xsl:when>
 				<xsl:otherwise>
-
-					<xsl:for-each select="name[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')] |
+					<xsl:apply-templates select="name[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')] |
 						persname[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')] |
 						corpname[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')] |
-						famname[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')]">
-						<xsl:sort/>
-						<!--<li class="ca_li">						
-							<xsl:apply-templates mode="controlaccess"/>
-							<xsl:if test="@role and not(@role='creator') and not(@role='subject')"> &#160;( <xsl:value-of select="@role"/>) </xsl:if>
-						</li>-->
-					</xsl:for-each>
+						famname[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')]" mode="controlaccess">
+						<xsl:sort select="normalize-space(.)"/>
+					</xsl:apply-templates>
 
 				</xsl:otherwise>
 			</xsl:choose>
@@ -149,15 +133,18 @@ Other FA's to check: James F. Bishop (OSU Archives)
 			<xsl:variable name="facet">
 				<xsl:choose>
 					<xsl:when test="self::subject">f_subjects</xsl:when>
+					<xsl:when test="self::persname or self::corpname or self::famname or self::name">f_names</xsl:when>
+					<xsl:when test="self::function">f_functions</xsl:when>
+					<xsl:when test="self::geogname">f_places</xsl:when>
+					<xsl:when test="self::occupation">f_occupations</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
 			
 			<xsl:choose>
 				<xsl:when test="string-length($facet) &gt; 0">
-					<!--<a href="/search/blah">
+					<a href="/search/results.aspx?t=i&amp;{$facet}={translate(., ' ', '+')}">
 						<xsl:value-of select="."/>
-					</a>-->
-					<xsl:value-of select="."/>
+					</a>					
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="."/>

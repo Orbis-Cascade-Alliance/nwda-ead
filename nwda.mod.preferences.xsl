@@ -13,10 +13,16 @@
 
 	<!-- set platform = 'linux' or 'windows' to use either msxsl or exsl to get node-set -->
 	<xsl:variable name="platform">linux</xsl:variable>
-	<xsl:variable name="pathToFiles">
+	<xsl:variable name="pathToCss">
 		<xsl:choose>
-			<xsl:when test="$platform='linux'">support/</xsl:when>
-			<xsl:otherwise>/xsl/support/</xsl:otherwise>
+			<xsl:when test="$platform='linux'">css/</xsl:when>
+			<xsl:otherwise>/xsl/css/</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+	<xsl:variable name="pathToJavascript">
+		<xsl:choose>
+			<xsl:when test="$platform='linux'">javascript/</xsl:when>
+			<xsl:otherwise>/xsl/javascript/</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
 	<xsl:variable name="pathToRdf">

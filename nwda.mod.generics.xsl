@@ -50,7 +50,7 @@ Major or significant revision history:
 				<xsl:value-of select="@href"/>. <xsl:value-of select="@content-role"/>
 			</xsl:attribute>
 			<xsl:value-of select="daodesc"/>
-			<img src="{$pathToFiles}camicon.gif" alt="digital content available" width="17" height="14" border="0"/>
+			<span class="glyphicon glyphicon-camera"/>
 		</a>
 	</xsl:template>
 	<!-- 2004-07-14 carlson mod to fix daoloc display -->
@@ -59,7 +59,7 @@ Major or significant revision history:
 			<xsl:attribute name="href">
 				<!--<xsl:value-of disable-output-escaping="yes" select="@href"/> removed 7/23/07 by Ethan Gruber-->
 				<xsl:value-of select="@href"/>
-			</xsl:attribute> &#160; <img src="{$pathToFiles}camicon.gif" alt="digital content available" width="17" height="14" border="0"/>
+			</xsl:attribute> &#160; <span class="glyphicon glyphicon-camera"/>
 		</a>
 	</xsl:template>
 	<!--expan/abbr-->

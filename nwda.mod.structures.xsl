@@ -11,7 +11,7 @@ Mark Carlson
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
 	xmlns:nwda="https://github.com/ewg118/nwda-editor#" xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/"
-	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="nwda xsd vcard xsl msxsl exsl" >
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="nwda xsd vcard xsl msxsl exsl">
 
 	<xsl:template match="profiledesc | revisiondesc | filedesc | eadheader | frontmatter"/>
 
@@ -33,34 +33,32 @@ Mark Carlson
 	<!-- ********************* <END FOOTER> *********************** -->
 	<!-- ********************* <OVERVIEW> *********************** -->
 	<xsl:template match="archdesc">
+		<div class="col-md-3 navBody hidden-xs hidden-sm">
+			<xsl:call-template name="toc"/>
+		</div>
+		<div class="col-md-9">
+			<div class="archdesc">
+				<xsl:call-template name="collection_overview"/>
+				<hr/>
+				<div class="navBody visible-xs visible-sm hidden-md">
+					<xsl:call-template name="toc"/>
+					<hr/>
+				</div>
 
-		<!-- these variables are for defining the rowspan of a column that is created in the existence of a collection image or institutional logo.
-		the rowspan was hardcoded as six, but if the rowspan does not exactly equal the number of rows in the Overview of Collection
-		the institutional logo and collection image will not be aligned properly to the top or bottom, respectively.-->
+				<xsl:apply-templates select="bioghist | scopecontent | odd"/>
+				<xsl:call-template name="useinfo"/>
+				<xsl:call-template name="administrative_info"/>
+				<hr/>
 
-		<!--		<xsl:variable name="did_children" select="count(did/child::node())"/>
-		<xsl:variable name="sponsor">
-			<xsl:choose>
-				<xsl:when test="//sponsor[1]">1</xsl:when>
-				<xsl:otherwise>0</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="creation">
-			<xsl:choose>
-				<xsl:when test="//profiledesc/creation and $showCreation='true'">1</xsl:when>
-				<xsl:otherwise>0</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="revision">
-			<xsl:choose>
-				<xsl:when test="//profiledesc/creation and $showRevision='true'">1</xsl:when>
-				<xsl:otherwise>0</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
+				<xsl:apply-templates select="dsc"/>
+				<xsl:apply-templates select="controlaccess"/>
+			</div>
+		</div>
 
-		<xsl:variable name="overview_children"
-			select="$did_children + $sponsor + $creation + $revision"/>-->
+	</xsl:template>
 
+	<!-- ********************* COLLECTION OVERVIEW *********************** -->
+	<xsl:template name="collection_overview">
 		<h3>
 			<a id="overview"/>
 			<xsl:value-of select="$overview_head"/>
@@ -70,239 +68,237 @@ Mark Carlson
 				</a>
 			</small>
 		</h3>
-
-		<div class="archdesc" typeof="arch:Collection" about="{$serverURL}/ark:/{$identifier}">
-			<div class="overview" id="overview-content">
-				<dl class="dl-horizontal">
-					<!--origination-->
-					<xsl:if test="string(did/origination)">
+		<div class="overview overview-content">
+			<dl class="dl-horizontal">
+				<!--origination-->
+				<xsl:if test="string(did/origination)">
+					<dt>
+						<xsl:choose>
+							<xsl:when test="did/origination/*/@role">
+								<xsl:variable name="orig1" select="substring(did/origination/*/@role, 1, 1)"/>
+								<xsl:value-of select="translate($orig1, 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ')"/>
+								<xsl:value-of select="substring(did/origination/*/@role, 2)"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="$origination_label"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</dt>
+					<dd property="dcterms:creator">
+						<xsl:apply-templates select="did/origination"/>
+					</dd>
+				</xsl:if>
+				<!--collection title-->
+				<xsl:if test="did/unittitle">
+					<dt>
+						<xsl:value-of select="$unittitle_label"/>
+					</dt>
+					<dd property="dcterms:title">
+						<xsl:apply-templates select="did/unittitle[1]"/>
+					</dd>
+				</xsl:if>
+				<!--collection dates-->
+				<xsl:if test="did/unitdate">
+					<dt>
+						<xsl:value-of select="$dates_label"/>
+					</dt>
+					<dd>
+						<xsl:apply-templates select="did/unitdate" mode="archdesc"/>
+					</dd>
+				</xsl:if>
+				<!--collection physdesc-->
+				<xsl:if test="did/physdesc">
+					<dt>
+						<xsl:value-of select="$physdesc_label"/>
+					</dt>
+					<dd>
+						<xsl:for-each select="did/physdesc">
+							<xsl:apply-templates select="extent"/>
+							<!-- multiple extents contained in parantheses -->
+							<xsl:if test="string(physfacet) and string(extent)"> &#160;:&#160; </xsl:if>
+							<xsl:apply-templates select="physfacet"/>
+							<xsl:if test="string(dimensions) and string(physfacet)"> &#160;;&#160; </xsl:if>
+							<xsl:apply-templates select="dimensions"/>
+							<xsl:if test="not(position()=last())">
+								<br/>
+							</xsl:if>
+						</xsl:for-each>
+					</dd>
+				</xsl:if>
+				<!--collection physloc-->
+				<xsl:if test="did/physloc">
+					<dt>
+						<xsl:value-of select="$physloc_label"/>
+					</dt>
+					<dd>
+						<xsl:for-each select="did/physloc">
+							<xsl:apply-templates/>
+							<xsl:if test="not(position()=last())">
+								<br/>
+							</xsl:if>
+						</xsl:for-each>
+					</dd>
+				</xsl:if>
+				<!--collection #-->
+				<xsl:if test="did/unitid">
+					<dt>
+						<xsl:value-of select="$collectionNumber_label"/>
+					</dt>
+					<dd>
+						<xsl:apply-templates select="did/unitid" mode="archdesc"/>
+					</dd>
+				</xsl:if>
+				<!--collection abstract/summary-->
+				<xsl:if test="did/abstract">
+					<dt>
+						<xsl:value-of select="$abstract_label"/>
+					</dt>
+					<dd property="dcterms:abstract">
+						<xsl:apply-templates select="did/abstract"/>
+					</dd>
+				</xsl:if>
+				<!--contact information-->
+				<xsl:choose>
+					<xsl:when test="$editor-active='true'">
 						<dt>
+							<xsl:value-of select="$contactinformation_label"/>
+						</dt>
+						<dd>
 							<xsl:choose>
-								<xsl:when test="did/origination/*/@role">
-									<xsl:variable name="orig1" select="substring(did/origination/*/@role, 1, 1)"/>
-									<xsl:value-of select="translate($orig1, 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ')"/>
-									<xsl:value-of select="substring(did/origination/*/@role, 2)"/>
+								<xsl:when test="$platform='linux'">
+									<xsl:apply-templates select="exsl:node-set($rdf)//arch:Archive" mode="repository"/>
+									<xsl:apply-templates select="exsl:node-set($rdf)//arch:Archive" mode="contact"/>
 								</xsl:when>
 								<xsl:otherwise>
-									<xsl:value-of select="$origination_label"/>
+									<xsl:apply-templates select="msxsl:node-set($rdf)//arch:Archive" mode="repository"/>
+									<xsl:apply-templates select="msxsl:node-set($rdf)//arch:Archive" mode="contact"/>
 								</xsl:otherwise>
 							</xsl:choose>
-						</dt>
-						<dd property="dcterms:creator">
-							<xsl:apply-templates select="did/origination"/>
+
 						</dd>
-					</xsl:if>
-					<!--collection title-->
-					<xsl:if test="did/unittitle">
-						<dt>
-							<xsl:value-of select="$unittitle_label"/>
-						</dt>
-						<dd property="dcterms:title">
-							<xsl:apply-templates select="did/unittitle[1]"/>
-						</dd>
-					</xsl:if>
-					<!--collection dates-->
-					<xsl:if test="did/unitdate">
-						<dt>
-							<xsl:value-of select="$dates_label"/>
-						</dt>
-						<dd>
-							<xsl:apply-templates select="did/unitdate" mode="archdesc"/>
-						</dd>
-					</xsl:if>
-					<!--collection physdesc-->
-					<xsl:if test="did/physdesc">
-						<dt>
-							<xsl:value-of select="$physdesc_label"/>
-						</dt>
-						<dd>
-							<xsl:for-each select="did/physdesc">
-								<xsl:apply-templates select="extent"/>
-								<!-- multiple extents contained in parantheses -->
-								<xsl:if test="string(physfacet) and string(extent)"> &#160;:&#160; </xsl:if>
-								<xsl:apply-templates select="physfacet"/>
-								<xsl:if test="string(dimensions) and string(physfacet)"> &#160;;&#160; </xsl:if>
-								<xsl:apply-templates select="dimensions"/>
-								<xsl:if test="not(position()=last())">
-									<br/>
-								</xsl:if>
-							</xsl:for-each>
-						</dd>
-					</xsl:if>
-					<!--collection physloc-->
-					<xsl:if test="did/physloc">
-						<dt>
-							<xsl:value-of select="$physloc_label"/>
-						</dt>
-						<dd>
-							<xsl:for-each select="did/physloc">
-								<xsl:apply-templates/>
-								<xsl:if test="not(position()=last())">
-									<br/>
-								</xsl:if>
-							</xsl:for-each>
-						</dd>
-					</xsl:if>
-					<!--collection #-->
-					<xsl:if test="did/unitid">
-						<dt>
-							<xsl:value-of select="$collectionNumber_label"/>
-						</dt>
-						<dd>
-							<xsl:apply-templates select="did/unitid" mode="archdesc"/>
-						</dd>
-					</xsl:if>
-					<!--collection abstract/summary-->
-					<xsl:if test="did/abstract">
-						<dt>
-							<xsl:value-of select="$abstract_label"/>
-						</dt>
-						<dd property="dcterms:abstract">
-							<xsl:apply-templates select="did/abstract"/>
-						</dd>
-					</xsl:if>
-					<!--contact information-->
-					<xsl:choose>
-						<xsl:when test="$editor-active='true'">
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:if test="did/repository">
 							<dt>
 								<xsl:value-of select="$contactinformation_label"/>
 							</dt>
 							<dd>
-								<xsl:choose>
-									<xsl:when test="$platform='linux'">
-										<xsl:apply-templates select="exsl:node-set($rdf)//arch:Archive" mode="repository"/>
-										<xsl:apply-templates select="exsl:node-set($rdf)//arch:Archive" mode="contact"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:apply-templates select="msxsl:node-set($rdf)//arch:Archive" mode="repository"/>
-										<xsl:apply-templates select="msxsl:node-set($rdf)//arch:Archive" mode="contact"/>
-									</xsl:otherwise>
-								</xsl:choose>
-								
-							</dd>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:if test="did/repository">
-								<dt>
-									<xsl:value-of select="$contactinformation_label"/>
-								</dt>
-								<dd>
-									<xsl:for-each select="did/repository">
-										<xsl:variable name="selfRepos">
-											<xsl:value-of select="normalize-space(text())"/>
-										</xsl:variable>
-										<xsl:if test="string-length($selfRepos)&gt;0">
-											<span property="arch:heldBy">
-												<xsl:value-of select="$selfRepos"/>
-											</span>
-											<br/>
-										</xsl:if>
-										<xsl:if test="string(corpname)">
-											<xsl:for-each select="corpname">
-												<xsl:if test="string-length(.)&gt;string-length(subarea)">
-													<span property="arch:heldBy">
-														<xsl:apply-templates select="text()|*[not(self::subarea)]"/>
-													</span>
-													<br/>
-												</xsl:if>
-											</xsl:for-each>
-											<xsl:if test="string(corpname/subarea)">
-												<xsl:for-each select="corpname/subarea">
-													<xsl:apply-templates/>
-													<br/>
-												</xsl:for-each>
-											</xsl:if>
-										</xsl:if>
-										<xsl:if test="string(subarea)">
-											<xsl:apply-templates select="subarea"/>
-											<br/>
-										</xsl:if>
-										<xsl:if test="string(address)">
-											<xsl:apply-templates select="address"/>
-										</xsl:if>
-									</xsl:for-each>
-								</dd>
-							</xsl:if>
-						</xsl:otherwise>
-					</xsl:choose>
-					
-					<!-- inserted accessrestrict as per March 2015 revision specifications -->
-					<xsl:if test="accessrestrict">
-						<dt>
-							<xsl:value-of select="$accessrestrict_label"/>
-						</dt>
-						<dd>
-							<xsl:for-each select="accessrestrict/p">
-								<xsl:value-of select="."/>
-								<xsl:if test="not(position()=last())">
-									<xsl:text> </xsl:text>
-								</xsl:if>
-							</xsl:for-each>
-						</dd>
-					</xsl:if>
-					
-					<!-- inserted accessrestrict as per March 2015 revision specifications -->
-					<xsl:if test="otherfindaid">
-						<dt>
-							<xsl:value-of select="$otherfindaid_label"/>
-						</dt>
-						<dd>
-							<xsl:for-each select="otherfindaid/p">
-								<xsl:value-of select="."/>
-								<xsl:if test="not(position()=last())">
-									<xsl:text> </xsl:text>
-								</xsl:if>
-							</xsl:for-each>
-						</dd>
-					</xsl:if>
-					
-					<!--finding aid creation information-->
-					<xsl:if test="/ead/eadheader/profiledesc/creation and $showCreation='true'">
-						<dt>
-							<xsl:value-of select="$creation_label"/>
-						</dt>
-						<dd>
-							<xsl:apply-templates select="/ead/eadheader/profiledesc/creation"/>
-						</dd>
-					</xsl:if>
-
-					<!--finding aid revision information-->
-					<xsl:if test="/ead/eadheader/profiledesc/creation and $showRevision='true'">
-						<dt>
-							<xsl:value-of select="$revision_label"/>
-						</dt>
-						<dd>
-							<xsl:apply-templates select="/ead/eadheader/revisiondesc/change"/>
-						</dd>
-					</xsl:if>
-					
-					<!--language note-->
-					<xsl:if test="did/langmaterial">
-						<dt>
-							<xsl:value-of select="$langmaterial_label"/>
-						</dt>
-						<dd>
-							<xsl:choose>
-								<xsl:when test="langmaterial/text()">
-									<span property="dcterms:language">
-										<xsl:apply-templates select="did/langmaterial"/>
-									</span>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:for-each select="did/langmaterial/language">
-										<span property="dcterms:language">
-											<xsl:apply-templates select="."/>
+								<xsl:for-each select="did/repository">
+									<xsl:variable name="selfRepos">
+										<xsl:value-of select="normalize-space(text())"/>
+									</xsl:variable>
+									<xsl:if test="string-length($selfRepos)&gt;0">
+										<span property="arch:heldBy">
+											<xsl:value-of select="$selfRepos"/>
 										</span>
-										<xsl:if test="not(position()=last())">
-											<xsl:text>, </xsl:text>
+										<br/>
+									</xsl:if>
+									<xsl:if test="string(corpname)">
+										<xsl:for-each select="corpname">
+											<xsl:if test="string-length(.)&gt;string-length(subarea)">
+												<span property="arch:heldBy">
+													<xsl:apply-templates select="text()|*[not(self::subarea)]"/>
+												</span>
+												<br/>
+											</xsl:if>
+										</xsl:for-each>
+										<xsl:if test="string(corpname/subarea)">
+											<xsl:for-each select="corpname/subarea">
+												<xsl:apply-templates/>
+												<br/>
+											</xsl:for-each>
 										</xsl:if>
-									</xsl:for-each>
-								</xsl:otherwise>
-							</xsl:choose>
-						</dd>
-					</xsl:if>
-					<!--sponsor; March 2015, moved sponsor to Administration Information -->
-					<!--<xsl:if test="/ead/eadheader//sponsor[1]">
+									</xsl:if>
+									<xsl:if test="string(subarea)">
+										<xsl:apply-templates select="subarea"/>
+										<br/>
+									</xsl:if>
+									<xsl:if test="string(address)">
+										<xsl:apply-templates select="address"/>
+									</xsl:if>
+								</xsl:for-each>
+							</dd>
+						</xsl:if>
+					</xsl:otherwise>
+				</xsl:choose>
+
+				<!-- inserted accessrestrict as per March 2015 revision specifications -->
+				<xsl:if test="accessrestrict">
+					<dt>
+						<xsl:value-of select="$accessrestrict_label"/>
+					</dt>
+					<dd>
+						<xsl:for-each select="accessrestrict/p">
+							<xsl:value-of select="."/>
+							<xsl:if test="not(position()=last())">
+								<xsl:text> </xsl:text>
+							</xsl:if>
+						</xsl:for-each>
+					</dd>
+				</xsl:if>
+
+				<!-- inserted accessrestrict as per March 2015 revision specifications -->
+				<xsl:if test="otherfindaid">
+					<dt>
+						<xsl:value-of select="$otherfindaid_label"/>
+					</dt>
+					<dd>
+						<xsl:for-each select="otherfindaid/p">
+							<xsl:value-of select="."/>
+							<xsl:if test="not(position()=last())">
+								<xsl:text> </xsl:text>
+							</xsl:if>
+						</xsl:for-each>
+					</dd>
+				</xsl:if>
+
+				<!--finding aid creation information-->
+				<xsl:if test="/ead/eadheader/profiledesc/creation and $showCreation='true'">
+					<dt>
+						<xsl:value-of select="$creation_label"/>
+					</dt>
+					<dd>
+						<xsl:apply-templates select="/ead/eadheader/profiledesc/creation"/>
+					</dd>
+				</xsl:if>
+
+				<!--finding aid revision information-->
+				<xsl:if test="/ead/eadheader/profiledesc/creation and $showRevision='true'">
+					<dt>
+						<xsl:value-of select="$revision_label"/>
+					</dt>
+					<dd>
+						<xsl:apply-templates select="/ead/eadheader/revisiondesc/change"/>
+					</dd>
+				</xsl:if>
+
+				<!--language note-->
+				<xsl:if test="did/langmaterial">
+					<dt>
+						<xsl:value-of select="$langmaterial_label"/>
+					</dt>
+					<dd>
+						<xsl:choose>
+							<xsl:when test="langmaterial/text()">
+								<span property="dcterms:language">
+									<xsl:apply-templates select="did/langmaterial"/>
+								</span>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:for-each select="did/langmaterial/language">
+									<span property="dcterms:language">
+										<xsl:apply-templates select="."/>
+									</span>
+									<xsl:if test="not(position()=last())">
+										<xsl:text>, </xsl:text>
+									</xsl:if>
+								</xsl:for-each>
+							</xsl:otherwise>
+						</xsl:choose>
+					</dd>
+				</xsl:if>
+				<!--sponsor; March 2015, moved sponsor to Administration Information -->
+				<!--<xsl:if test="/ead/eadheader//sponsor[1]">
 						<dt>
 							<xsl:value-of select="$sponsor_label"/>
 						</dt>
@@ -310,25 +306,17 @@ Mark Carlson
 							<xsl:apply-templates select="/ead/eadheader//sponsor[1]"/>
 						</dd>
 					</xsl:if>-->
-					<!-- display link to Harvester CHOs if $hasCHOs is 'true' -->
-					<xsl:if test="$hasCHOs = 'true'">
-						<dt>Cultural Heritage Objects</dt>
-						<dd>
-							<a href="{concat('http://harvester.orbiscascade.org/apis/get?ark=ark:/', //eadid/@identifier)}">yes</a>
-						</dd>
-					</xsl:if>
-				</dl>
-			</div>
-			<hr/>
-			<xsl:apply-templates select="bioghist | scopecontent | odd"/>
-			<xsl:call-template name="useinfo"/>
-			<xsl:call-template name="administrative_info"/>
-			<hr/>
-
-			<xsl:apply-templates select="dsc"/>
-			<xsl:apply-templates select="controlaccess"/>
+				<!-- display link to Harvester CHOs if $hasCHOs is 'true' -->
+				<xsl:if test="$hasCHOs = 'true'">
+					<dt>Cultural Heritage Objects</dt>
+					<dd>
+						<a href="{concat('http://harvester.orbiscascade.org/apis/get?ark=ark:/', //eadid/@identifier)}">yes</a>
+					</dd>
+				</xsl:if>
+			</dl>
 		</div>
 	</xsl:template>
+
 	<!-- ********************* </OVERVIEW> *********************** -->
 	<xsl:template name="sect_separator">
 		<p class="top">
@@ -361,8 +349,8 @@ Mark Carlson
 	<!-- ********************* END COLLECTION IMAGE *********************** -->
 	<!-- ********************* <ARCHDESC_MINOR_CHILDREN> *********************** -->
 	<!--this template generically called by arbitrary groupings: see per eg. relatedinfo template -->
-	<xsl:template name="archdesc_minor_children">		
-		<xsl:param name="withLabel"/>		
+	<xsl:template name="archdesc_minor_children">
+		<xsl:param name="withLabel"/>
 		<xsl:if test="$withLabel='true'">
 			<h4>
 				<xsl:if test="@id">
@@ -554,12 +542,17 @@ Mark Carlson
 				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
-		<div class="{$class}">
-			<xsl:if test="name(..) = 'archdesc'">
-				<xsl:attribute name="id">
-					<xsl:value-of select="concat($class, '-content')"/>
-				</xsl:attribute>
-			</xsl:if>
+		<div>
+			<xsl:attribute name="class">
+				<xsl:choose>
+					<xsl:when test="name(..) = 'archdesc'">
+						<xsl:value-of select="concat($class, ' ', $class, '-content')"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$class"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
 			<xsl:for-each select="p">
 				<p>
 					<xsl:apply-templates/>
@@ -593,12 +586,17 @@ Mark Carlson
 			</h3>
 		</xsl:if>
 
-		<div class="{$class}">
-			<xsl:if test="name(..) = 'archdesc'">
-				<xsl:attribute name="id">
-					<xsl:value-of select="concat($class, '-content')"/>
-				</xsl:attribute>
-			</xsl:if>
+		<div>
+			<xsl:attribute name="class">
+				<xsl:choose>
+					<xsl:when test="name(..) = 'archdesc'">
+						<xsl:value-of select="concat($class, ' ', $class, '-content')"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$class"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
 			<xsl:for-each select="p">
 				<p>
 					<xsl:apply-templates/>
@@ -647,12 +645,17 @@ Mark Carlson
 			</xsl:otherwise>
 		</xsl:choose>
 
-		<div class="{$class}">
-			<xsl:if test="name(..) = 'archdesc'">
-				<xsl:attribute name="id">
-					<xsl:value-of select="concat($class, '-content')"/>
-				</xsl:attribute>
-			</xsl:if>
+		<div>
+			<xsl:attribute name="class">
+				<xsl:choose>
+					<xsl:when test="name(..) = 'archdesc'">
+						<xsl:value-of select="concat($class, ' ', $class, '-content')"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$class"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
 			<xsl:for-each select="p">
 				<p>
 					<xsl:apply-templates/>
@@ -677,7 +680,7 @@ Mark Carlson
 					</a>
 				</small>
 			</h3>
-			<div class="use" id="usediv-content">
+			<div class="use usediv-content">
 				<xsl:for-each select="altformavail | userestrict | prefercite">
 					<xsl:call-template name="archdesc_minor_children">
 						<xsl:with-param name="withLabel">true</xsl:with-param>
@@ -702,7 +705,7 @@ Mark Carlson
 				</a>
 			</small>
 		</h3>
-		<div class="ai" id="ai-content">
+		<div class="ai ai-content">
 			<xsl:apply-templates select="arrangement"/>
 			<xsl:call-template name="admininfo"/>
 			<xsl:if test="string(index[not(ancestor::dsc)])">
@@ -747,7 +750,7 @@ Mark Carlson
 						<a id="{$admininfo_id}"/>
 					</xsl:otherwise>
 				</xsl:choose>
-				
+
 			</xsl:if>
 			<div class="admininfo">
 				<xsl:for-each select="custodhist | acqinfo | accruals | processinfo | separatedmaterial | bibliography | otherfindaid | relatedmaterial | appraisal | originalsloc | //sponsor">
@@ -778,34 +781,40 @@ Mark Carlson
 			</xsl:if>
 			<a id="{$index_id}"/>
 		</xsl:if>
+		
 		<div class="{$class}">
-			<table width="100%">
+			<table class="table table-striped">
 				<xsl:apply-templates select="p"/>
 				<xsl:apply-templates select="listhead"/>
-				<xsl:apply-templates select="indexentry"/>
+				<tbody>
+					<xsl:apply-templates select="indexentry"/>
+				</tbody>
+				
 			</table>
 		</div>
 		<xsl:call-template name="sect_separator"/>
 	</xsl:template>
 
 	<xsl:template match="listhead">
-		<tr valign="top">
-			<td style="padding-left: 10px; text-decoration:underline;" width="50%">
-				<xsl:apply-templates select="head01"/>
-			</td>
-			<td style="padding-left: 10px; text-decoration:underline;" width="50%">
-				<xsl:apply-templates select="head02"/>
-			</td>
-		</tr>
+		<thead>
+			<tr>
+				<th style="width:50%">
+					<xsl:apply-templates select="head01"/>
+				</th>
+				<th>
+					<xsl:apply-templates select="head02"/>
+				</th>
+			</tr>
+		</thead>		
 
 	</xsl:template>
 
 	<xsl:template match="indexentry">
-		<tr valign="top">
-			<td style="padding-left: 10px;" width="50%">
+		<tr>
+			<td>
 				<xsl:apply-templates select="corpname | famname | function | genreform | geogname | name | occupation | persname | subject | title"/>
 			</td>
-			<td style="padding-left: 10px;" width="50%">
+			<td>
 				<xsl:for-each select="ref | ptrgrp/ref">
 					<xsl:choose>
 						<xsl:when test="@target">

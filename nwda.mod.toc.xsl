@@ -10,16 +10,16 @@
 	<xsl:template name="toc">
 		<h3 id="toc">Table of Contents</h3>
 		<ul class="list-unstyled">
-			<xsl:if test="archdesc/did">
+			<xsl:if test="did">
 				<li>
 					<a href="#overview" id="showoverview">
 						<xsl:value-of select="$overview_head"/>
 					</a>
 				</li>
 			</xsl:if>
-			<xsl:if test="string(archdesc/bioghist)">
+			<xsl:if test="string(bioghist)">
 				<li>
-					<xsl:for-each select="archdesc/bioghist">
+					<xsl:for-each select="bioghist">
 						<xsl:choose>
 							<xsl:when test="./head/text()='Biographical Note'">
 								<a href="#{$bioghist_id}" class="showbioghist">
@@ -43,8 +43,8 @@
 					</xsl:for-each>
 				</li>
 			</xsl:if>
-			<xsl:if test="string(archdesc/odd/*)">
-				<xsl:for-each select="archdesc/odd[not(@audience='internal')]">
+			<xsl:if test="string(odd/*)">
+				<xsl:for-each select="odd[not(@audience='internal')]">
 					<li>
 						<a href="#{$odd_id}" class="ltoc1">
 							<xsl:choose>
@@ -59,14 +59,14 @@
 					</li>
 				</xsl:for-each>
 			</xsl:if>
-			<xsl:if test="string(archdesc/scopecontent)">
+			<xsl:if test="string(scopecontent)">
 				<li>
 					<a href="#{$scopecontent_id}" class="showscopecontent">
 						<xsl:value-of select="$scopecontent_head"/>
 					</a>
 				</li>
 			</xsl:if>
-			<xsl:if test="(string(archdesc/accessrestrict)) or (string(archdesc/userestrict)) or (string(archdesc/altformavail))">
+			<xsl:if test="(string(accessrestrict)) or (string(userestrict)) or (string(altformavail))">
 				<li>		
 					<a href="#" class="toggle-button" id="toggle-use">
 						<span class="glyphicon glyphicon-plus"> </span>
@@ -74,29 +74,29 @@
 					<a href="#{$useinfo_id}" class="showuseinfo">
 						<xsl:value-of select="$useinfo_head"/>
 					</a>					
-					<ul style="display:none" class="list-unstyled" id="use-content">
-						<xsl:if test="string(archdesc/altformavail)">
+					<ul style="display:none" class="list-unstyled use-content">
+						<xsl:if test="string(altformavail)">
 							<li>
 								<a href="#{$altformavail_id}" class="showuseinfo">
 									<xsl:value-of select="$altformavail_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(archdesc/accessrestrict)">
+						<xsl:if test="string(accessrestrict)">
 							<li>
 								<a href="#{$accessrestrict_id}" class="showuseinfo">
 									<xsl:value-of select="$accessrestrict_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(archdesc/userestrict)">
+						<xsl:if test="string(userestrict)">
 							<li>
 								<a href="#{$userestrict_id}" class="showuseinfo">
 									<xsl:value-of select="$userestrict_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(archdesc/prefercite)">
+						<xsl:if test="string(prefercite)">
 							<li>
 								<a href="#{$prefercite_id}" class="showuseinfo">
 									<xsl:value-of select="$prefercite_label"/>
@@ -108,9 +108,9 @@
 			</xsl:if>
 
 			<!-- ADMINISTRATIVE INFO -->
-			<xsl:if test="string(archdesc/arrangement) or string(archdesc/custodhist) or string(archdesc/acqinfo)       or string(archdesc/processinfo) or string(archdesc/accruals) or
-				string(archdesc/separatedmaterial) or string(archdesc/originalsloc)      or string(archdesc/bibliography) or string(archdesc/otherfindaid) or string(archdesc/relatedmaterial) or
-				string(archdesc/index)">
+			<xsl:if test="string(arrangement) or string(custodhist) or string(acqinfo)       or string(processinfo) or string(accruals) or
+				string(separatedmaterial) or string(originalsloc)      or string(bibliography) or string(otherfindaid) or string(relatedmaterial) or
+				string(index)">
 				<li>			
 					<a href="#" class="toggle-button" id="toggle-admin">
 						<span class="glyphicon glyphicon-plus"> </span>
@@ -118,78 +118,78 @@
 					<a href="#administrative_info">
 						<xsl:text>Administrative Information</xsl:text>
 					</a>					
-					<ul style="display:none" class="list-unstyled" id="admin-content">
-						<xsl:if test="string(archdesc/arrangement)">
+					<ul style="display:none" class="list-unstyled admin-content">
+						<xsl:if test="string(arrangement)">
 							<li>
 								<a href="#{$arrangement_id}" class="showai">
 									<xsl:value-of select="$arrangement_head"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(archdesc/custodhist)">
+						<xsl:if test="string(custodhist)">
 							<li>
 								<a href="#{$custodhist_id}" class="showai">
 									<xsl:value-of select="$custodhist_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(archdesc/acqinfo)">
+						<xsl:if test="string(acqinfo)">
 							<li>
 								<a href="#{$acqinfo_id}" class="showai">
 									<xsl:value-of select="$acqinfo_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(archdesc/accruals)">
+						<xsl:if test="string(accruals)">
 							<li>
 								<a href="#{$accruals_id}" class="showai">
 									<xsl:value-of select="$accruals_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(archdesc/processinfo)">
+						<xsl:if test="string(processinfo)">
 							<li>
 								<a href="#{$processinfo_id}" class="showai">
 									<xsl:value-of select="$processinfo_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(archdesc/separatedmaterial)">
+						<xsl:if test="string(separatedmaterial)">
 							<li>
 								<a href="#{$separatedmaterial_id}" class="showai">
 									<xsl:value-of select="$separatedmaterial_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(archdesc/bibliography)">
+						<xsl:if test="string(bibliography)">
 							<li>
 								<a href="#{$bibliography_id}" class="showai">
 									<xsl:value-of select="$bibliography_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(archdesc/otherfindaid)">
+						<xsl:if test="string(otherfindaid)">
 							<li>
 								<a href="#{$otherfindaid_id}" class="showai">
 									<xsl:value-of select="$otherfindaid_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(archdesc/relatedmaterial)">
+						<xsl:if test="string(relatedmaterial)">
 							<li>
 								<a href="#{$relatedmaterial_id}" class="showai">
 									<xsl:value-of select="$relatedmaterial_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(archdesc/appraisal)">
+						<xsl:if test="string(appraisal)">
 							<li>
 								<a href="#{appraisal_id}" class="showai">
 									<xsl:value-of select="$appraisal_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(archdesc/originalsloc)">
+						<xsl:if test="string(originalsloc)">
 							<li>
 								<a href="#{$originalsloc_id}" class="showai">
 									<xsl:value-of select="$originalsloc_label"/>
@@ -199,7 +199,7 @@
 					</ul>
 				</li>
 			</xsl:if>
-			<xsl:if test="string(archdesc/dsc)">
+			<xsl:if test="string(dsc)">
 				<li>			
 					<xsl:if test="//c02">
 						<a href="#" class="toggle-button" id="toggle-dsc">
@@ -214,7 +214,7 @@
 					</xsl:if>
 				</li>
 			</xsl:if>
-			<xsl:if test="string(archdesc/controlaccess/*/subject) or string(archdesc/controlaccess/subject)">
+			<xsl:if test="string(controlaccess/*/subject) or string(controlaccess/subject)">
 				<li>
 					<a href="#{$controlaccess_id}" class="showcontrolaccess">
 						<xsl:text>Subjects</xsl:text>
@@ -227,7 +227,7 @@
 		<!-- if there are c02's anywhere in the dsc, then display the c01 headings
 			if there are no c02's, all of the c01's are an in-depth type of dsc -->
 		<xsl:if test="//c02">
-			<ul class="list-unstyled" id="dsc-content">
+			<ul class="list-unstyled dsc-content">
 				<xsl:for-each select="//c01">
 					<li>
 						<a>

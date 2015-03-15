@@ -98,9 +98,9 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 				<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">//</script>
 
 				<!-- local styling -->
-				<link href="{$pathToFiles}{$styleFileName}" rel="stylesheet"/>
+				<link href="{$pathToCss}{$styleFileName}" rel="stylesheet"/>
 				<link href="{$serverURL}/ark:/{$identifier}" rel="canonical"/>
-				<script language="javascript" type="text/javascript" src="{$pathToFiles}jqs.js">//</script>
+				<script language="javascript" type="text/javascript" src="{$pathToJavascript}jqs.js">//</script>
 				<title>
 					<xsl:text>Northwest Digital Archives: </xsl:text>
 					<xsl:value-of select="$titleproper"/>
@@ -108,7 +108,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 			</head>
 			<body>
 				<xsl:call-template name="html.header.table"/>
-				<div class="container-fluid">
+				<div class="container-fluid" typeof="arch:Collection" about="{$serverURL}/ark:/{$identifier}">
 					<div class="row pull-right">
 						<div class="col-md-12">
 							<ul class="list-inline">
@@ -147,18 +147,15 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 									<xsl:text>, </xsl:text>
 									<xsl:value-of select="/ead/archdesc/did/unitdate"/>
 								</xsl:if>
-							</h1>							
+							</h1>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-3 navBody">
-							<xsl:call-template name="toc"/>
-						</div>
-						<div class="col-md-9">
-							<xsl:apply-templates select="archdesc"/>
-							<div class="footer">
-								<xsl:apply-templates select="/ead/eadheader/filedesc/publicationstmt"/>
-							</div>
+						<!-- March 2015: Moved TOC under the archdesc template to accommodate responsive framework.
+						On extra small (phones) and small devices, (< 992 px wide), the TOC will be moved under Collection Overview -->
+						<xsl:apply-templates select="archdesc"/>
+						<div class="footer">
+							<xsl:apply-templates select="/ead/eadheader/filedesc/publicationstmt"/>
 						</div>
 					</div>
 				</div>

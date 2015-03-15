@@ -50,34 +50,17 @@ Changes:
 				</a>
 			</small>
 		</h3>
-		<!-- this section was commented out for now due to some inconsistencies in the encoding of the dsc type throughout varies collections. 
-	since analyticover and combined dsc's would have a very different type of display, different templates were called to deal with the issue. -EG 2007-08-27
-	<xsl:choose>
-			<xsl:when test="not(@type='in-depth')">
-				<div class="dsc" name="{$dsc_id}">
-					<xsl:apply-templates select="*[not(self::head)]"/>
-				</div>
-			</xsl:when>
-			<xsl:otherwise>
-				<div class="dsc" name="{$dsc_id}">
-					<table border="0" summary="A listing of materials in {./did/unittitle}."
-						width="100%">
-						<xsl:call-template name="table_label"/>
-						<xsl:call-template name="indepth"/>
-					</table>
-				</div>
-			</xsl:otherwise>
-		</xsl:choose>
-		-->
-		<div class="dsc" id="dscdiv-content">
+		
+		<div class="dsc dscdiv-content">
 			<xsl:choose>
 				<!-- if there are c02's apply normal templates -->
 				<xsl:when test="descendant::c02">
 					<xsl:apply-templates select="*[not(self::head)]"/>
 				</xsl:when>
 				<xsl:otherwise>
+					<xsl:apply-templates select="p"/>
 					<!-- if there are no c02's then all of the c01s are displayed as rows in a table, like an in-depth finding aid -->
-					<table border="0" summary="A listing of materials in {./did/unittitle}." width="100%">
+					<table class="table table-striped" summary="A listing of materials in {./did/unittitle}.">
 						<xsl:call-template name="indepth"/>
 					</table>
 				</xsl:otherwise>
@@ -106,73 +89,72 @@ Changes:
 	<!-- ********************* </SERIES> *************************** -->
 	<!-- ********************* In-Depth DSC Type ********************* -->
 	<xsl:template name="indepth">
-
-		<xsl:apply-templates select="p"/>
-
-		<xsl:for-each select="c01">
-			<xsl:if test="did/container">
-				<xsl:call-template name="container_row"/>
-			</xsl:if>
-			<xsl:variable name="current_pos" select="position()"/>
-			<tr>
-				<xsl:choose>
-					<xsl:when test="parent::node()/descendant::container">
-						<xsl:choose>
-							<xsl:when test="not(parent::node()/descendant::did/container[2])">
-								<td class="c0x_container_large">
-									<xsl:value-of select="did/container[1]"/>
-								</td>
-							</xsl:when>
-							<xsl:otherwise>
-								<td class="c0x_container_small c0x_container_left">
-									<xsl:value-of select="did/container[1]"/>
-								</td>
-								<td class="c0x_container_small">
-									<xsl:value-of select="did/container[2]"/>
-								</td>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:when>
-					<xsl:otherwise>
-						<!-- no table cell -->
-					</xsl:otherwise>
-				</xsl:choose>
-
-				<td class="c0x_content">
-					<xsl:if test="string(did/unitid)">
-						<xsl:value-of select="did/unitid"/>
-						<xsl:if test="did/unittitle">
-							<xsl:text>: </xsl:text>
-						</xsl:if>
-					</xsl:if>
-					<xsl:apply-templates select="did/unittitle"/>
-
-					<xsl:if test="($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')      and
-						string(descendant::unitdate)">
-						<xsl:text>, </xsl:text>
-						<xsl:for-each select="did/unitdate">
-							<xsl:value-of select="."/>
-							<xsl:if test="not(position() = last())">
-								<xsl:text>, </xsl:text>
-							</xsl:if>
-						</xsl:for-each>
-					</xsl:if>
-					<xsl:call-template name="c0x_children"/>
-				</td>
-
-				<xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
-
-					<td class="c0x_date">
-						<xsl:for-each select="did/unitdate">
-							<xsl:value-of select="."/>
-							<xsl:if test="not(position() = last())">
-								<xsl:text>, </xsl:text>
-							</xsl:if>
-						</xsl:for-each>
-					</td>
+		<tbody>
+			<xsl:for-each select="c01">
+				<xsl:if test="did/container">
+					<xsl:call-template name="container_row"/>
 				</xsl:if>
-			</tr>
-		</xsl:for-each>
+				<xsl:variable name="current_pos" select="position()"/>
+				<tr>
+					<xsl:choose>
+						<xsl:when test="parent::node()/descendant::container">
+							<xsl:choose>
+								<xsl:when test="not(parent::node()/descendant::did/container[2])">
+									<td class="c0x_container_large">
+										<xsl:value-of select="did/container[1]"/>
+									</td>
+								</xsl:when>
+								<xsl:otherwise>
+									<td class="c0x_container_small c0x_container_left">
+										<xsl:value-of select="did/container[1]"/>
+									</td>
+									<td class="c0x_container_small">
+										<xsl:value-of select="did/container[2]"/>
+									</td>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:when>
+						<xsl:otherwise>
+							<!-- no table cell -->
+						</xsl:otherwise>
+					</xsl:choose>
+					
+					<td class="c0x_content">
+						<xsl:if test="string(did/unitid)">
+							<xsl:value-of select="did/unitid"/>
+							<xsl:if test="did/unittitle">
+								<xsl:text>: </xsl:text>
+							</xsl:if>
+						</xsl:if>
+						<xsl:apply-templates select="did/unittitle"/>
+						
+						<xsl:if test="($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')      and
+							string(descendant::unitdate)">
+							<xsl:text>, </xsl:text>
+							<xsl:for-each select="did/unitdate">
+								<xsl:value-of select="."/>
+								<xsl:if test="not(position() = last())">
+									<xsl:text>, </xsl:text>
+								</xsl:if>
+							</xsl:for-each>
+						</xsl:if>
+						<xsl:call-template name="c0x_children"/>
+					</td>
+					
+					<xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
+						
+						<td class="c0x_date">
+							<xsl:for-each select="did/unitdate">
+								<xsl:value-of select="."/>
+								<xsl:if test="not(position() = last())">
+									<xsl:text>, </xsl:text>
+								</xsl:if>
+							</xsl:for-each>
+						</td>
+					</xsl:if>
+				</tr>
+			</xsl:for-each>
+		</tbody>		
 	</xsl:template>
 
 	<!-- ********************* ANALYTICOVER/COMBINED DSC TYPE *************************** -->
