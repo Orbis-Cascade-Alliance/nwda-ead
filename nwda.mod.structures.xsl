@@ -308,7 +308,6 @@ Mark Carlson
 					</xsl:if>-->
 				<!-- display link to Harvester CHOs if $hasCHOs is 'true' -->
 				<xsl:if test="$hasCHOs = 'true'">
-					<dt>Cultural Heritage Objects</dt>
 					<dt>Digital Objects</dt>
 					<dd>
 						<a href="{concat('http://harvester.orbiscascade.org/apis/get?ark=ark:/', //eadid/@identifier)}">yes</a>
