@@ -4,7 +4,9 @@ body{
 	font-family:georgia, "times new roman", times, serif;
 	font-size:14px;
 }
-h1,h2,h3{
+h1,
+h2,
+h3{
 	color:#676d38;
 }
 
@@ -53,7 +55,7 @@ a:visited{
 a:hover{
 	color:#ffac27;
 }
-table {
+table{
 	font-size:14px;
 }
 /* ******BOOTSTRAP NAVBAR HEADER ****** */
@@ -216,7 +218,12 @@ table {
 .navBody li{
 	margin-bottom:10px;
 }
-
+.toc-fixed{
+	width:25%;
+	position:fixed;
+	overflow-y:auto;
+	height:600px;
+}
 /* ************* CONTROL ACCESS LIST FORMATTING **************** */
 .ca_list{
 	list-style-type:none;

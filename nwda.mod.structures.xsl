@@ -32,9 +32,11 @@ Mark Carlson
 
 	<!-- ********************* <END FOOTER> *********************** -->
 	<!-- ********************* <OVERVIEW> *********************** -->
-	<xsl:template match="archdesc">
+	<xsl:template match="archdesc">		
 		<div class="col-md-3 navBody hidden-xs hidden-sm">
-			<xsl:call-template name="toc"/>
+			<div class="toc-fixed">				
+				<xsl:call-template name="toc"/>
+			</div>
 		</div>
 		<div class="col-md-9">
 			<div class="archdesc">

@@ -8,6 +8,7 @@
 	<!-- ********************* <TABLE OF CONTENTS> *********************** -->
 	<!-- TOC TEMPLATE - creates Table of Contents -->
 	<xsl:template name="toc">
+
 		<h3 id="toc">Table of Contents</h3>
 		<ul class="list-unstyled">
 			<xsl:if test="did">
@@ -67,13 +68,13 @@
 				</li>
 			</xsl:if>
 			<xsl:if test="(string(accessrestrict)) or (string(userestrict)) or (string(altformavail))">
-				<li>		
+				<li>
 					<a href="#" class="toggle-button" id="toggle-use">
 						<span class="glyphicon glyphicon-plus"> </span>
 					</a>
 					<a href="#{$useinfo_id}" class="showuseinfo">
 						<xsl:value-of select="$useinfo_head"/>
-					</a>					
+					</a>
 					<ul style="display:none" class="list-unstyled use-content">
 						<xsl:if test="string(altformavail)">
 							<li>
@@ -108,16 +109,15 @@
 			</xsl:if>
 
 			<!-- ADMINISTRATIVE INFO -->
-			<xsl:if test="string(arrangement) or string(custodhist) or string(acqinfo)       or string(processinfo) or string(accruals) or
-				string(separatedmaterial) or string(originalsloc)      or string(bibliography) or string(otherfindaid) or string(relatedmaterial) or
-				string(index)">
-				<li>			
+			<xsl:if test="string(arrangement) or string(custodhist) or string(acqinfo)       or string(processinfo) or string(accruals) or      string(separatedmaterial) or string(originalsloc)
+				or string(bibliography) or string(otherfindaid) or string(relatedmaterial) or      string(index)">
+				<li>
 					<a href="#" class="toggle-button" id="toggle-admin">
 						<span class="glyphicon glyphicon-plus"> </span>
 					</a>
 					<a href="#administrative_info">
 						<xsl:text>Administrative Information</xsl:text>
-					</a>					
+					</a>
 					<ul style="display:none" class="list-unstyled admin-content">
 						<xsl:if test="string(arrangement)">
 							<li>
@@ -200,7 +200,7 @@
 				</li>
 			</xsl:if>
 			<xsl:if test="string(dsc)">
-				<li>			
+				<li>
 					<xsl:if test="//c02">
 						<a href="#" class="toggle-button" id="toggle-dsc">
 							<span class="glyphicon glyphicon-minus"> </span>
@@ -208,7 +208,7 @@
 					</xsl:if>
 					<a href="#{$dsc_id}" class="showdsc">
 						<xsl:value-of select="$dsc_head"/>
-					</a>					
+					</a>
 					<xsl:if test="//dsc[not(@type='in-depth')]">
 						<xsl:call-template name="dsc_links"/>
 					</xsl:if>
@@ -217,11 +217,12 @@
 			<xsl:if test="string(controlaccess/*/subject) or string(controlaccess/subject)">
 				<li>
 					<a href="#{$controlaccess_id}" class="showcontrolaccess">
-						<xsl:text>Subjects</xsl:text>
+						<xsl:value-of select="$controlaccess_head"/>
 					</a>
 				</li>
 			</xsl:if>
 		</ul>
+
 	</xsl:template>
 	<xsl:template name="dsc_links">
 		<!-- if there are c02's anywhere in the dsc, then display the c01 headings
