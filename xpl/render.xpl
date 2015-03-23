@@ -44,7 +44,7 @@
 	<p:processor name="oxf:unsafe-xslt">
 		<p:input name="request" href="#request"/>
 		<p:input name="data" href="#xml"/>
-		<p:input name="config" href="nwda_0.1.xsl"/>
+		<p:input name="config" href="../nwda_0.1.xsl"/>
 		<p:output name="data" id="model"/>
 	</p:processor>
 	

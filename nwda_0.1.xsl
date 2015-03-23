@@ -87,9 +87,11 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 		<html lang="en" prefix="dcterms: http://purl.org/dc/terms/    foaf: http://xmlns.com/foaf/0.1/    owl:  http://www.w3.org/2002/07/owl#    rdf:  http://www.w3.org/1999/02/22-rdf-syntax-ns#
 			skos: http://www.w3.org/2004/02/skos/core#    dcterms: http://purl.org/dc/terms/    arch: http://purl.org/archival/vocab/arch#    xsd: http://www.w3.org/2001/XMLSchema#">
 			<head>
+				<title>
+					<xsl:text>Northwest Digital Archives: </xsl:text>
+					<xsl:value-of select="$titleproper"/>
+				</title>
 				<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-				<!-- Dublin Core metadata-->
-				<!--<xsl:call-template name="md.dc"/>-->
 				<!-- jquery -->
 				<meta name="viewport" content="width=device-width, initial-scale=1"/>
 				<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">//</script>
@@ -101,13 +103,18 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 				<link href="{$pathToCss}{$styleFileName}" rel="stylesheet"/>
 				<link href="{$serverURL}/ark:/{$identifier}" rel="canonical"/>
 				<script language="javascript" type="text/javascript" src="{$pathToJavascript}jqs.js">//</script>
-				<title>
-					<xsl:text>Northwest Digital Archives: </xsl:text>
-					<xsl:value-of select="$titleproper"/>
-				</title>
+				
+				<!-- google analytics -->
+				<script type="text/javascript">
+					if (typeof(_gat) == "object") {
+					var pageTracker = _gat._getTracker("UA-3516166-1");
+					pageTracker._setLocalRemoteServerMode();
+					pageTracker._trackPageview();
+					}
+				</script>
 			</head>
 			<body>
-				<xsl:call-template name="html.header.table"/>
+				<xsl:call-template name="html.header"/>
 				<div class="container-fluid" typeof="arch:Collection" about="{$serverURL}/ark:/{$identifier}">
 					<div class="row pull-right">
 						<div class="col-md-12">
@@ -158,19 +165,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 							<xsl:apply-templates select="/ead/eadheader/filedesc/publicationstmt"/>
 						</div>
 					</div>
-				</div>
-
-				<!--<script type="text/javascript">
-        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-        </script>
-				<script type="text/javascript">
-		if (typeof(_gat) == "object") {
-			var pageTracker = _gat._getTracker("UA-3516166-1");
-			pageTracker._setLocalRemoteServerMode();
-			pageTracker._trackPageview();
-		}
-		</script>-->
+				</div>				
 			</body>
 		</html>
 	</xsl:template>
