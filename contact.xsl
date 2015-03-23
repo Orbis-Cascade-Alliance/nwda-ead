@@ -64,8 +64,9 @@
 	</xsl:template>
 
 	<xsl:template match="arch:Archive">
-		<tr>
-			<td>
+		
+		<tr id="{substring-after(@rdf:about, '#')}">
+			<td>				
 				<xsl:choose>
 					<xsl:when test="foaf:homepage/@rdf:resource">
 						<a href="{foaf:homepage/@rdf:resource}" target="_blank">
