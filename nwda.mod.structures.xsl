@@ -55,6 +55,9 @@ Mark Carlson
 				<xsl:apply-templates select="dsc"/>
 				<xsl:apply-templates select="controlaccess"/>
 			</div>
+			<div class="footer">
+				<xsl:apply-templates select="/ead/eadheader/filedesc/publicationstmt"/>
+			</div>
 		</div>
 
 	</xsl:template>
@@ -68,7 +71,7 @@ Mark Carlson
 				<a href="#" class="toggle-button" id="toggle-overview">
 					<span class="glyphicon glyphicon-minus"> </span>
 				</a>
-			</small>
+			</small>			
 		</h3>
 		<div class="overview overview-content">
 			<dl class="dl-horizontal">
@@ -515,7 +518,11 @@ Mark Carlson
 							<span class="glyphicon glyphicon-minus"> </span>
 						</a>
 					</small>
+					<small>
+						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+					</small>
 				</h3>
+				
 			</xsl:when>
 			<!-- SY Original	<xsl:when test="starts-with(@encodinganalog, '545')"> -->
 			<!-- carlson mod 2004-07-09 only use Bioghist head if encodinganalog starts with 5450 as opposed to 5451 -->
@@ -528,7 +535,10 @@ Mark Carlson
 							<span class="glyphicon glyphicon-minus"> </span>
 						</a>
 					</small>
-				</h3>
+					<small>
+						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+					</small>
+				</h3>				
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:if test="not(ancestor::dsc)">
@@ -540,7 +550,10 @@ Mark Carlson
 								<span class="glyphicon glyphicon-minus"> </span>
 							</a>
 						</small>
-					</h3>
+						<small>
+							<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+						</small>
+					</h3>					
 				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
@@ -584,6 +597,9 @@ Mark Carlson
 					<a href="#" class="toggle-button" id="toggle-{$class}">
 						<span class="glyphicon glyphicon-minus"> </span>
 					</a>
+				</small>
+				<small>
+					<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
 				</small>
 			</h3>
 		</xsl:if>
@@ -632,6 +648,9 @@ Mark Carlson
 							<span class="glyphicon glyphicon-minus"> </span>
 						</a>
 					</small>
+					<small>
+						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+					</small>
 				</h3>
 			</xsl:when>
 			<xsl:otherwise>
@@ -642,6 +661,9 @@ Mark Carlson
 						<a href="#" class="toggle-button" id="toggle-{$class}">
 							<span class="glyphicon glyphicon-minus"> </span>
 						</a>
+					</small>
+					<small>
+						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
 					</small>
 				</h3>
 			</xsl:otherwise>
@@ -681,6 +703,9 @@ Mark Carlson
 						<span class="glyphicon glyphicon-minus"> </span>
 					</a>
 				</small>
+				<small>
+					<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+				</small>
 			</h3>
 			<div class="use usediv-content">
 				<xsl:for-each select="altformavail | userestrict | prefercite">
@@ -703,11 +728,14 @@ Mark Carlson
 			<xsl:text>Administrative Information</xsl:text>
 			<small>
 				<a href="#" class="toggle-button" id="toggle-ai">
-					<span class="glyphicon glyphicon-minus"> </span>
+					<span class="glyphicon glyphicon-plus"> </span>
 				</a>
 			</small>
+			<small>
+				<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+			</small>
 		</h3>
-		<div class="ai ai-content">
+		<div class="ai ai-content" style="display:none">
 			<xsl:apply-templates select="arrangement"/>
 			<xsl:call-template name="admininfo"/>
 			<xsl:if test="string(index[not(ancestor::dsc)])">

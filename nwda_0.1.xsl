@@ -135,11 +135,8 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 									<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-525d63ef6a07cd89"/>
 								</li>
 								<li>
-									<strong>Export:</strong>
-								</li>
-								<li>
-									<a href="{$serverURL}/ark:/{$identifier}.xml">XML</a>
-								</li>
+									<strong>Download/Print:</strong>
+								</li>								
 								<li>
 									<a href="{$serverURL}/ark:/{$identifier}.pdf">PDF</a>
 								</li>
@@ -160,10 +157,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 					<div class="row">
 						<!-- March 2015: Moved TOC under the archdesc template to accommodate responsive framework.
 						On extra small (phones) and small devices, (< 992 px wide), the TOC will be moved under Collection Overview -->
-						<xsl:apply-templates select="archdesc"/>
-						<div class="footer">
-							<xsl:apply-templates select="/ead/eadheader/filedesc/publicationstmt"/>
-						</div>
+						<xsl:apply-templates select="archdesc"/>						
 					</div>
 				</div>				
 			</body>

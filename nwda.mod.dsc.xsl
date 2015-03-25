@@ -49,8 +49,11 @@ Changes:
 					<span class="glyphicon glyphicon-minus"> </span>
 				</a>
 			</small>
+			<small>
+				<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+			</small>
 		</h3>
-		
+
 		<div class="dsc dscdiv-content">
 			<xsl:choose>
 				<!-- if there are c02's apply normal templates -->
@@ -81,7 +84,7 @@ Changes:
 
 			<xsl:if test="//c02 or position()=last()">
 				<p class="top">
-					<a href="#top" title="Top of finding aid">^ Return to Top</a>
+					<a href="#top" title="Top of finding aid"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
 				</p>
 			</xsl:if>
 		</div>
@@ -118,7 +121,7 @@ Changes:
 							<!-- no table cell -->
 						</xsl:otherwise>
 					</xsl:choose>
-					
+
 					<td class="c0x_content">
 						<xsl:if test="string(did/unitid)">
 							<xsl:value-of select="did/unitid"/>
@@ -127,7 +130,7 @@ Changes:
 							</xsl:if>
 						</xsl:if>
 						<xsl:apply-templates select="did/unittitle"/>
-						
+
 						<xsl:if test="($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')      and
 							string(descendant::unitdate)">
 							<xsl:text>, </xsl:text>
@@ -140,9 +143,9 @@ Changes:
 						</xsl:if>
 						<xsl:call-template name="c0x_children"/>
 					</td>
-					
+
 					<xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
-						
+
 						<td class="c0x_date">
 							<xsl:for-each select="did/unitdate">
 								<xsl:value-of select="."/>
@@ -154,7 +157,7 @@ Changes:
 					</xsl:if>
 				</tr>
 			</xsl:for-each>
-		</tbody>		
+		</tbody>
 	</xsl:template>
 
 	<!-- ********************* ANALYTICOVER/COMBINED DSC TYPE *************************** -->
@@ -773,8 +776,8 @@ Changes:
 								<xsl:value-of select="generate-id(parent::node())"/>
 							</xsl:otherwise>
 						</xsl:choose>
-					</xsl:attribute>					
-					
+					</xsl:attribute>
+
 					<!-- what if no unitititle-->
 					<xsl:choose>
 						<xsl:when test="./unittitle">
@@ -825,6 +828,9 @@ Changes:
 						</xsl:otherwise>
 					</xsl:choose>
 					<!-- END what if no unitititle-->
+					<small>
+						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+					</small>
 				</h4>
 				<!-- March 2015: Adding container display as per revision specification 7.1.2 -->
 				<xsl:if test="count(container) &gt; 0">

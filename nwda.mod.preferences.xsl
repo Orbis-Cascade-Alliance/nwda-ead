@@ -94,7 +94,7 @@
 	<xsl:param name="scopecontent_head">Content Description</xsl:param>
 	<xsl:param name="scopecontent_label">Content Description</xsl:param>
 	<xsl:param name="scopecontent_id">scopecontentID</xsl:param>
-	<xsl:param name="controlaccess_head">Controlled Access Terms</xsl:param>
+	<xsl:param name="controlaccess_head">Subjects</xsl:param>
 	<xsl:param name="controlaccess_id">caID</xsl:param>
 	<xsl:param name="othercreators_head">Other Creators</xsl:param>
 	<xsl:param name="othercreators_id">ocID</xsl:param>

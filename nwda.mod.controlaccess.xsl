@@ -8,13 +8,16 @@ Modifications and Revisions by Mark Carlson, 2004
 	<xsl:template match="controlaccess">
 		<!-- P.S. Can't just select index [1] controlaccess because it may not be the group with
 		the indexing terms. carlsonm -->
-		<div  id="{$controlaccess_id}">
+		<div id="{$controlaccess_id}">
 			<h3>
 				<xsl:value-of select="$controlaccess_head"/>
 				<small>
 					<a href="#" class="toggle-button" id="toggle-controlaccess">
 						<span class="glyphicon glyphicon-minus"> </span>
 					</a>
+				</small>
+				<small>
+					<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
 				</small>
 			</h3>
 
@@ -25,7 +28,7 @@ Modifications and Revisions by Mark Carlson, 2004
 				</xsl:if>
 			</div>
 			<p class="top">
-				<a href="#top" title="Top of finding aid">^ Return to Top</a>
+				<a href="#top" title="Top of finding aid"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
 			</p>
 		</div>
 	</xsl:template>
@@ -65,7 +68,7 @@ Other FA's to check: James F. Bishop (OSU Archives)
 								function[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |
 								title[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0]" mode="controlaccess">
 								<xsl:sort select="normalize-space(.)"/>
-							</xsl:apply-templates>							
+							</xsl:apply-templates>
 						</ul>
 					</xsl:for-each>
 				</xsl:when>
@@ -127,8 +130,8 @@ Other FA's to check: James F. Bishop (OSU Archives)
 			<li class="ca_head">
 				<xsl:call-template name="controlaccess_heads"/> : </li>
 		</xsl:if>
-		
-		
+
+
 		<li class="ca_li">
 			<xsl:variable name="facet">
 				<xsl:choose>
@@ -140,18 +143,18 @@ Other FA's to check: James F. Bishop (OSU Archives)
 					<xsl:when test="self::occupation">f_occupations</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
-			
+
 			<xsl:choose>
 				<xsl:when test="string-length($facet) &gt; 0">
 					<a href="/search/results.aspx?t=i&amp;{$facet}={translate(., ' ', '+')}">
 						<xsl:value-of select="."/>
-					</a>					
+					</a>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="."/>
 				</xsl:otherwise>
 			</xsl:choose>
-			
+
 			<xsl:if test="@role and not(@role='subject')"> &#160;( <xsl:value-of select="@role"/>) </xsl:if>
 		</li>
 		<!---->
