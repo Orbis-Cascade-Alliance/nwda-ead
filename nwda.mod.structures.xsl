@@ -519,7 +519,7 @@ Mark Carlson
 						</a>
 					</small>
 					<small>
-						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
 					</small>
 				</h3>
 				
@@ -536,7 +536,7 @@ Mark Carlson
 						</a>
 					</small>
 					<small>
-						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
 					</small>
 				</h3>				
 			</xsl:when>
@@ -551,7 +551,7 @@ Mark Carlson
 							</a>
 						</small>
 						<small>
-							<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+							<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
 						</small>
 					</h3>					
 				</xsl:if>
@@ -599,7 +599,7 @@ Mark Carlson
 					</a>
 				</small>
 				<small>
-					<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+					<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
 				</small>
 			</h3>
 		</xsl:if>
@@ -649,7 +649,7 @@ Mark Carlson
 						</a>
 					</small>
 					<small>
-						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
 					</small>
 				</h3>
 			</xsl:when>
@@ -663,7 +663,7 @@ Mark Carlson
 						</a>
 					</small>
 					<small>
-						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
 					</small>
 				</h3>
 			</xsl:otherwise>
@@ -704,7 +704,7 @@ Mark Carlson
 					</a>
 				</small>
 				<small>
-					<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+					<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
 				</small>
 			</h3>
 			<div class="use usediv-content">
@@ -732,7 +732,7 @@ Mark Carlson
 				</a>
 			</small>
 			<small>
-				<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+				<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
 			</small>
 		</h3>
 		<div class="ai ai-content" style="display:none">

@@ -17,7 +17,7 @@ Modifications and Revisions by Mark Carlson, 2004
 					</a>
 				</small>
 				<small>
-					<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+					<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
 				</small>
 			</h3>
 
@@ -27,9 +27,9 @@ Modifications and Revisions by Mark Carlson, 2004
 					<xsl:call-template name="group_other"/>
 				</xsl:if>
 			</div>
-			<p class="top">
+			<!--<p class="top">
 				<a href="#top" title="Top of finding aid"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
-			</p>
+			</p>-->
 		</div>
 	</xsl:template>
 	<xsl:template name="group_subject">

@@ -50,7 +50,7 @@ Changes:
 				</a>
 			</small>
 			<small>
-				<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+				<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
 			</small>
 		</h3>
 
@@ -83,9 +83,9 @@ Changes:
 			<xsl:call-template name="dsc_table"/>
 
 			<xsl:if test="//c02 or position()=last()">
-				<p class="top">
+				<!--<p class="top">
 					<a href="#top" title="Top of finding aid"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
-				</p>
+				</p>-->
 			</xsl:if>
 		</div>
 	</xsl:template>
@@ -829,7 +829,7 @@ Changes:
 					</xsl:choose>
 					<!-- END what if no unitititle-->
 					<small>
-						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span></a>
+						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
 					</small>
 				</h4>
 				<!-- March 2015: Adding container display as per revision specification 7.1.2 -->
