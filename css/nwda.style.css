@@ -227,14 +227,6 @@ table{
 }
 .ca_head{
 	font-weight:bold;
-	margin-left:-2em;
-	padding-top:2px;
-	padding-bottom:2px;
-}
-.ca_li{
-	margin-left:-2em;
-	padding-top:2px;
-	padding-bottom:2px;
 }
 /* ************ END CONTROL ACCESS LIST FORMATTING **************** */
 /****** Comment System Additions - BETA DO NOT USE ON PRODUCTION SERVICES 
