@@ -20,7 +20,7 @@
 			<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 				<xsl:output indent="yes"/>
 				<xsl:template match="/">
-					<xsl:variable name="doc" select="substring-before(tokenize(/request/request-url, '/')[last()], '.p')"/>					
+					<xsl:variable name="doc" select="tokenize(/request/request-url, '/')[last() - 1]"/>					
 					
 					<config>
 						<url>

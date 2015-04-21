@@ -5,7 +5,7 @@
 <config xmlns="http://www.orbeon.com/oxf/controller" xmlns:oxf="http://www.orbeon.com/oxf/processors" matcher="oxf:perl5-matcher">
 	
 	<page path="/nwda-ead/contact" view="xpl/contact.xpl"/>
-	<page path="/nwda-ead/(.*)\.p" view="xpl/pdf.xpl"/>
+	<page path="/nwda-ead/(.*)/pdf" view="xpl/pdf.xpl"/>
 	<page path="/nwda-ead/(.*)" view="xpl/render.xpl"/>
 
 	<epilogue url="oxf:/config/epilogue.xpl"/>
