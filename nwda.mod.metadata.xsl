@@ -4,7 +4,7 @@ stephen.yearl@yale.edu
 2003-04-25/
 version 0.0.1
 -->
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" version="1.0">
 	<xsl:template name="md.dc">
 		<xsl:variable name="isoLang" select="//langusage/language/@langcode" />
 		<xsl:variable name="isoDate" select="//eadheader/@dateencoding" />

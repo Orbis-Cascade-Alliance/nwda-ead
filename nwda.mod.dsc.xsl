@@ -21,7 +21,7 @@ Changes:
                     from Utah pilot site XSLT with original note date of 08/18/11.)
 
 -->
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 
 	<!-- Set this variable to the server/folder path that points to the icon image file on your server.  
 		This should end with a forward /, e.g. http://myserver.com/images/ -->
@@ -189,14 +189,14 @@ Changes:
 					<xsl:if test="@level='item' or @level='file'">
 						<tr>
 							<td class="c0x_container_small c0x_container_left">
-								<div class="containerLabel">
+								<span class="containerLabel">
 									<xsl:value-of select="did/container[1]/@type"/>
-								</div>
+								</span>
 							</td>
 							<td class="c0x_container_small">
-								<div class="containerLabel">
+								<span class="containerLabel">
 									<xsl:value-of select="did/container[2]/@type"/>
-								</div>
+								</span>
 							</td>
 						</tr>
 						<tr>
@@ -492,14 +492,14 @@ Changes:
 					<!-- for two containers -->
 					<xsl:when test="did/container[2]">
 						<td class="{$c0x_container} c0x_container_left">
-							<div class="containerLabel">
+							<span class="containerLabel">
 								<xsl:value-of select="$first_container"/>
-							</div>
+							</span>
 						</td>
 						<td class="{$c0x_container}">
-							<div class="containerLabel">
+							<span class="containerLabel">
 								<xsl:value-of select="$second_container"/>
-							</div>
+							</span>
 						</td>
 						<td/>
 						<td/>
@@ -524,9 +524,9 @@ Changes:
 							</xsl:choose>
 						</xsl:variable>
 						<td class="{$c0x_container}" colspan="{$container_colspan}">
-							<div class="containerLabel">
+							<span class="containerLabel">
 								<xsl:value-of select="$first_container"/>
-							</div>
+							</span>
 						</td>
 						<td/>
 						<td/>

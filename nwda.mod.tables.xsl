@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" exclude-result-prefixes="fo">
 	<xsl:template match="table">
 		<table class="table table-striped">
 			<xsl:apply-templates/>
@@ -10,15 +10,8 @@
 			<tr>
 				<xsl:for-each select=".//entry">
 					<th>
-						<p class="table_head">
-							<b>
-								<xsl:apply-templates/>
-							</b>
-						</p>
-					</th>
-					<th>
-						<p>&#160;</p>
-					</th>
+						<xsl:apply-templates/>
+					</th>					
 				</xsl:for-each>
 			</tr>
 		</thead>		
@@ -27,13 +20,8 @@
 		<tr>
 			<xsl:for-each select="./entry">
 				<td>
-					<p class="table_entry">
-						<xsl:apply-templates/>
-					</p>
-				</td>
-				<td>
-					<p>&#160;</p>
-				</td>
+					<xsl:apply-templates/>
+				</td>				
 			</xsl:for-each>
 		</tr>
 	</xsl:template>

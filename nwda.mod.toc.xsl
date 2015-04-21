@@ -4,7 +4,7 @@
 	Edited September 2007 by Ethan Gruber, 
 	Rewritten into HTML5/Bootstrap in 2015 by Ethan Gruber -->
 
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" exclude-result-prefixes="fo">
 	<!-- ********************* <TABLE OF CONTENTS> *********************** -->
 	<!-- TOC TEMPLATE - creates Table of Contents -->
 	<xsl:template name="toc">

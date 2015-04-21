@@ -7,8 +7,8 @@ version 0.0.1
 Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 -->
 
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-	xmlns:nwda="https://github.com/ewg118/nwda-editor#" xmlns:arch="http://purl.org/archival/vocab/arch#" exclude-result-prefixes="nwda xsd vcard xsl">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:fo="http://www.w3.org/1999/XSL/Format"
+	xmlns:nwda="https://github.com/ewg118/nwda-editor#" xmlns:arch="http://purl.org/archival/vocab/arch#" exclude-result-prefixes="nwda xsd vcard xsl fo">
 	<xsl:output encoding="UTF-8" method="html" omit-xml-declaration="yes" doctype-public="html"/>
 
 	<xsl:param name="doc"/>
@@ -102,6 +102,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 				<!-- local styling -->
 				<link href="{$pathToCss}{$styleFileName}" rel="stylesheet"/>
 				<link href="{$serverURL}/ark:/{$identifier}" rel="canonical"/>
+				<link href="{$serverURL}/ark:/{$identifier}/pdf" rel="alternate" type="application/pdf"/>
 				<script language="javascript" type="text/javascript" src="{$pathToJavascript}jqs.js">//</script>
 				
 				<!-- google analytics -->
@@ -138,7 +139,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 									<strong>Download/Print:</strong>
 								</li>								
 								<li>
-									<a href="{$serverURL}/ark:/{$identifier}.pdf">PDF</a>
+									<a href="{$serverURL}/ark:/{$identifier}/pdf">PDF</a>
 								</li>
 							</ul>
 						</div>

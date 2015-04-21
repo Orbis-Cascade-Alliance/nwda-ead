@@ -9,7 +9,7 @@ Revisions and enhancements by
 Mark Carlson
 2004-06, 2004-10, 2004-11, 2004-12
 -->
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:fo="http://www.w3.org/1999/XSL/Format"
 	xmlns:nwda="https://github.com/ewg118/nwda-editor#" xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="nwda xsd vcard xsl msxsl exsl">
 
@@ -32,9 +32,9 @@ Mark Carlson
 
 	<!-- ********************* <END FOOTER> *********************** -->
 	<!-- ********************* <OVERVIEW> *********************** -->
-	<xsl:template match="archdesc">		
+	<xsl:template match="archdesc">
 		<div class="col-md-3 navBody hidden-xs hidden-sm">
-			<div class="toc-fixed">				
+			<div class="toc-fixed">
 				<xsl:call-template name="toc"/>
 			</div>
 		</div>
@@ -71,7 +71,7 @@ Mark Carlson
 				<a href="#" class="toggle-button" id="toggle-overview">
 					<span class="glyphicon glyphicon-minus"> </span>
 				</a>
-			</small>			
+			</small>
 		</h3>
 		<div class="overview overview-content">
 			<dl class="dl-horizontal">
@@ -522,7 +522,7 @@ Mark Carlson
 						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
 					</small>
 				</h3>
-				
+
 			</xsl:when>
 			<!-- SY Original	<xsl:when test="starts-with(@encodinganalog, '545')"> -->
 			<!-- carlson mod 2004-07-09 only use Bioghist head if encodinganalog starts with 5450 as opposed to 5451 -->
@@ -538,7 +538,7 @@ Mark Carlson
 					<small>
 						<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
 					</small>
-				</h3>				
+				</h3>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:if test="not(ancestor::dsc)">
@@ -553,7 +553,7 @@ Mark Carlson
 						<small>
 							<a href="#top" title="Return to Top"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
 						</small>
-					</h3>					
+					</h3>
 				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
@@ -811,7 +811,7 @@ Mark Carlson
 			</xsl:if>
 			<a id="{$index_id}"/>
 		</xsl:if>
-		
+
 		<div class="{$class}">
 			<table class="table table-striped">
 				<xsl:apply-templates select="p"/>
@@ -819,7 +819,7 @@ Mark Carlson
 				<tbody>
 					<xsl:apply-templates select="indexentry"/>
 				</tbody>
-				
+
 			</table>
 		</div>
 		<xsl:call-template name="sect_separator"/>
@@ -835,7 +835,7 @@ Mark Carlson
 					<xsl:apply-templates select="head02"/>
 				</th>
 			</tr>
-		</thead>		
+		</thead>
 
 	</xsl:template>
 
