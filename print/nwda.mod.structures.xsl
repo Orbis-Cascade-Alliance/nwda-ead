@@ -65,8 +65,8 @@ Mark Carlson
 				<!--origination-->
 				<xsl:if test="string(did/origination)">
 					             <fo:table-row>
-                     <fo:table-cell text-align="right" font-weight="bold" width="160px" padding-after="10px">
-                        <fo:block>
+                     <fo:table-cell text-align="right" font-weight="bold" width="160px">
+                        <fo:block padding-right="10px">
 						                     <xsl:choose>
 							                       <xsl:when test="did/origination/*/@role">
 								                         <xsl:variable name="orig1" select="substring(did/origination/*/@role, 1, 1)"/>
@@ -90,8 +90,8 @@ Mark Carlson
 				           <!--collection title-->
 				<xsl:if test="did/unittitle">
 					             <fo:table-row>
-                     <fo:table-cell text-align="right" font-weight="bold" width="160px" padding-after="10px">
-                        <fo:block>
+                     <fo:table-cell text-align="right" font-weight="bold" width="160px">
+                        <fo:block padding-right="10px">
 						                     <xsl:value-of select="$unittitle_label"/>
 					                   </fo:block>
                      </fo:table-cell>
@@ -106,8 +106,8 @@ Mark Carlson
 				           <!--collection dates-->
 				<xsl:if test="did/unitdate">
 					             <fo:table-row>
-                     <fo:table-cell text-align="right" font-weight="bold" width="160px" padding-after="10px">
-                        <fo:block>
+                     <fo:table-cell text-align="right" font-weight="bold" width="160px">
+                        <fo:block padding-right="10px">
 						                     <xsl:value-of select="$dates_label"/>
 					                   </fo:block>
                      </fo:table-cell>
@@ -122,8 +122,8 @@ Mark Carlson
 				           <!--collection physdesc-->
 				<xsl:if test="did/physdesc">
 					             <fo:table-row>
-                     <fo:table-cell text-align="right" font-weight="bold" width="160px" padding-after="10px">
-                        <fo:block>
+                     <fo:table-cell text-align="right" font-weight="bold" width="160px">
+                        <fo:block padding-right="10px">
 						                     <xsl:value-of select="$physdesc_label"/>
 					                   </fo:block>
                      </fo:table-cell>
@@ -148,8 +148,8 @@ Mark Carlson
 				           <!--collection physloc-->
 				<xsl:if test="did/physloc">
 					             <fo:table-row>
-                     <fo:table-cell text-align="right" font-weight="bold" width="160px" padding-after="10px">
-                        <fo:block>
+                     <fo:table-cell text-align="right" font-weight="bold" width="160px">
+                        <fo:block padding-right="10px">
 						                     <xsl:value-of select="$physloc_label"/>
 					                   </fo:block>
                      </fo:table-cell>
@@ -169,8 +169,8 @@ Mark Carlson
 				           <!--collection #-->
 				<xsl:if test="did/unitid">
 					             <fo:table-row>
-                     <fo:table-cell text-align="right" font-weight="bold" width="160px" padding-after="10px">
-                        <fo:block>
+                     <fo:table-cell text-align="right" font-weight="bold" width="160px">
+                        <fo:block padding-right="10px">
 						                     <xsl:value-of select="$collectionNumber_label"/>
 					                   </fo:block>
                      </fo:table-cell>
@@ -185,8 +185,8 @@ Mark Carlson
 				           <!--collection abstract/summary-->
 				<xsl:if test="did/abstract">
 					             <fo:table-row>
-                     <fo:table-cell text-align="right" font-weight="bold" width="160px" padding-after="10px">
-                        <fo:block>
+                     <fo:table-cell text-align="right" font-weight="bold" width="160px">
+                        <fo:block padding-right="10px">
 						                     <xsl:value-of select="$abstract_label"/>
 					                   </fo:block>
                      </fo:table-cell>
@@ -202,8 +202,8 @@ Mark Carlson
 				<xsl:choose>
 					             <xsl:when test="$editor-active='true'">
 						               <fo:table-row>
-                        <fo:table-cell text-align="right" font-weight="bold" width="160px" padding-after="10px">
-                           <fo:block>
+                        <fo:table-cell text-align="right" font-weight="bold" width="160px">
+                           <fo:block padding-right="10px">
 							                       <xsl:value-of select="$contactinformation_label"/>
 						                     </fo:block>
                         </fo:table-cell>
@@ -227,8 +227,8 @@ Mark Carlson
 					             <xsl:otherwise>
 						               <xsl:if test="did/repository">
 							                 <fo:table-row>
-                           <fo:table-cell text-align="right" font-weight="bold" width="160px" padding-after="10px">
-                              <fo:block>
+                           <fo:table-cell text-align="right" font-weight="bold" width="160px">
+                              <fo:block padding-right="10px">
 								                         <xsl:value-of select="$contactinformation_label"/>
 							                       </fo:block>
                            </fo:table-cell>
@@ -240,16 +240,16 @@ Mark Carlson
 									                           </xsl:variable>
 									                           <xsl:if test="string-length($selfRepos)&gt;0">
 										                             <fo:inline>
-											
-										</fo:inline>
+											                               <xsl:value-of select="$selfRepos"/>
+										                             </fo:inline>
 										                             <fo:block/>
 									                           </xsl:if>
 									                           <xsl:if test="string(corpname)">
 										                             <xsl:for-each select="corpname">
 											                               <xsl:if test="string-length(.)&gt;string-length(subarea)">
 												                                 <fo:inline>
-													
-												</fo:inline>
+													                                   <xsl:apply-templates select="text()|*[not(self::subarea)]"/>
+												                                 </fo:inline>
 												                                 <fo:block/>
 											                               </xsl:if>
 										                             </xsl:for-each>
@@ -279,8 +279,8 @@ Mark Carlson
 				           <!-- inserted accessrestrict as per March 2015 revision specifications -->
 				<xsl:if test="accessrestrict">
 					             <fo:table-row>
-                     <fo:table-cell text-align="right" font-weight="bold" width="160px" padding-after="10px">
-                        <fo:block>
+                     <fo:table-cell text-align="right" font-weight="bold" width="160px">
+                        <fo:block padding-right="10px">
 						                     <xsl:value-of select="$accessrestrict_label"/>
 					                   </fo:block>
                      </fo:table-cell>
@@ -301,8 +301,8 @@ Mark Carlson
 				           <!-- inserted accessrestrict as per March 2015 revision specifications -->
 				<xsl:if test="otherfindaid">
 					             <fo:table-row>
-                     <fo:table-cell text-align="right" font-weight="bold" width="160px" padding-after="10px">
-                        <fo:block>
+                     <fo:table-cell text-align="right" font-weight="bold" width="160px">
+                        <fo:block padding-right="10px">
 						                     <xsl:value-of select="$otherfindaid_label"/>
 					                   </fo:block>
                      </fo:table-cell>
@@ -323,8 +323,8 @@ Mark Carlson
 				           <!--finding aid creation information-->
 				<xsl:if test="/ead/eadheader/profiledesc/creation and $showCreation='true'">
 					             <fo:table-row>
-                     <fo:table-cell text-align="right" font-weight="bold" width="160px" padding-after="10px">
-                        <fo:block>
+                     <fo:table-cell text-align="right" font-weight="bold" width="160px">
+                        <fo:block padding-right="10px">
 						                     <xsl:value-of select="$creation_label"/>
 					                   </fo:block>
                      </fo:table-cell>
@@ -340,8 +340,8 @@ Mark Carlson
 				           <!--finding aid revision information-->
 				<xsl:if test="/ead/eadheader/profiledesc/creation and $showRevision='true'">
 					             <fo:table-row>
-                     <fo:table-cell text-align="right" font-weight="bold" width="160px" padding-after="10px">
-                        <fo:block>
+                     <fo:table-cell text-align="right" font-weight="bold" width="160px">
+                        <fo:block padding-right="10px">
 						                     <xsl:value-of select="$revision_label"/>
 					                   </fo:block>
                      </fo:table-cell>
@@ -357,8 +357,8 @@ Mark Carlson
 				           <!--language note-->
 				<xsl:if test="did/langmaterial">
 					             <fo:table-row>
-                     <fo:table-cell text-align="right" font-weight="bold" width="160px" padding-after="10px">
-                        <fo:block>
+                     <fo:table-cell text-align="right" font-weight="bold" width="160px">
+                        <fo:block padding-right="10px">
 						                     <xsl:value-of select="$langmaterial_label"/>
 					                   </fo:block>
                      </fo:table-cell>
@@ -367,14 +367,14 @@ Mark Carlson
                            <xsl:choose>
 							                       <xsl:when test="langmaterial/text()">
 								                         <fo:inline>
-									
-								</fo:inline>
+									                           <xsl:apply-templates select="did/langmaterial"/>
+								                         </fo:inline>
 							                       </xsl:when>
 							                       <xsl:otherwise>
 								                         <xsl:for-each select="did/langmaterial/language">
 									                           <fo:inline>
-										
-									</fo:inline>
+										                             <xsl:apply-templates select="."/>
+									                           </fo:inline>
 									                           <xsl:if test="not(position()=last())">
 										                             <xsl:text>, </xsl:text>
 									                           </xsl:if>
@@ -398,8 +398,8 @@ Mark Carlson
 				<!-- display link to Harvester CHOs if $hasCHOs is 'true' -->
 				<xsl:if test="$hasCHOs = 'true'">
 					             <fo:table-row>
-                     <fo:table-cell text-align="right" font-weight="bold" width="160px" padding-after="10px">
-                        <fo:block>Digital Objects</fo:block>
+                     <fo:table-cell text-align="right" font-weight="bold" width="160px">
+                        <fo:block padding-right="10px">Digital Objects</fo:block>
                      </fo:table-cell>
                      <fo:table-cell>
                         <fo:block>
@@ -826,10 +826,10 @@ Mark Carlson
 		    </xsl:if>
 
 		    <fo:block>
-			      <fo:table width="100%" table-layout="fixed">
+			      <fo:table width="100%">
 				        <xsl:apply-templates select="p"/>
 				        <xsl:apply-templates select="listhead"/>
-				        <fo:table-body>
+				        <fo:table-body width="100%">
 					          <xsl:apply-templates select="indexentry"/>
 				        </fo:table-body>
 
@@ -932,8 +932,8 @@ Mark Carlson
 			      </xsl:when>
 			      <xsl:otherwise>
 				        <fo:inline>
-					
-				</fo:inline>
+					          <xsl:value-of select="foaf:name"/>
+				        </fo:inline>
 			      </xsl:otherwise>
 		    </xsl:choose>
 

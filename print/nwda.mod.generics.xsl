@@ -116,8 +116,8 @@ Major or significant revision history:
 				           <xsl:choose>
 					             <xsl:when test="event">
 						               <fo:inline>
-							
-						</fo:inline>
+							                 <xsl:apply-templates select="event"/>
+						               </fo:inline>
 						               <fo:block/>
 					             </xsl:when>
 					             <xsl:when test="eventgrp">
@@ -131,8 +131,8 @@ Major or significant revision history:
 	  <xsl:template match="eventgrp" mode="chronlist">
 		    <xsl:for-each select="event">
 			      <fo:inline>
-				
-			</fo:inline>
+				        <xsl:apply-templates/>
+			      </fo:inline>
 			      <fo:block/>
 		    </xsl:for-each>
 	  </xsl:template>
@@ -156,16 +156,16 @@ Major or significant revision history:
 	<!-- 2004-12-07 carlsonm: put chronlist into a table format instead of a def list -->
 	<xsl:template match="chronlist">
 		    <fo:inline>
-			
-		</fo:inline>
-		    <fo:table width="100%" table-layout="fixed">
+			      <xsl:apply-templates select="head"/>
+		    </fo:inline>
+		    <fo:table width="100%">
 			      <xsl:apply-templates select="./*[not(self::head)]"/>
 		    </fo:table>
 	  </xsl:template>
 	  <xsl:template match="list | index | fileplan | bibliography">
 		    <fo:inline>
-			
-		</fo:inline>
+			      <xsl:apply-templates select="head"/>
+		    </fo:inline>
 		    <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
 			      <xsl:apply-templates select="./*[not(self::head)]"/>
 		    </fo:list-block>
@@ -216,16 +216,16 @@ Major or significant revision history:
 
 	  <xsl:template match="unitid" mode="archdesc">
 		    <fo:inline>
-			
-			
-				 (
-				
-				)
-			
-			
-				, 
-			
-		</fo:inline>
+			      <xsl:value-of select="."/>
+			      <xsl:if test="@type">
+				        <xsl:text> (</xsl:text>
+				        <xsl:value-of select="@type"/>
+				        <xsl:text>)</xsl:text>
+			      </xsl:if>
+			      <xsl:if test="not(position() = last())">
+				        <xsl:text>, </xsl:text>
+			      </xsl:if>
+		    </fo:inline>
 	  </xsl:template>
 
 	  <xsl:template match="unitdate" mode="archdesc">
@@ -247,39 +247,23 @@ Major or significant revision history:
 							              <xsl:when test="@type='bulk'">
 								                <fo:inline>
 									
-										
-											
-										
-									
-									
-								</fo:inline>
+									                  <xsl:value-of select="$start"/>
+								                </fo:inline>
 								                <fo:inline>
 									
-										
-											
-										
-									
-									
-								</fo:inline>
+									                  <xsl:value-of select="$end"/>
+								                </fo:inline>
 							              </xsl:when>
 							              <xsl:otherwise>
 								                <fo:inline>
-									
-										
-											
-										
 																	
 									
-									
-								</fo:inline>
+									                  <xsl:value-of select="$start"/>
+								                </fo:inline>
 								                <fo:inline>
 									
-										
-											
-										
-									
-									
-								</fo:inline>
+									                  <xsl:value-of select="$end"/>
+								                </fo:inline>
 							              </xsl:otherwise>
 						            </xsl:choose>
 					          </xsl:when>
@@ -288,38 +272,22 @@ Major or significant revision history:
 							              <xsl:when test="@type='bulk'">
 								                <fo:inline>
 									
-										
-											
-										
-									
-									
-								</fo:inline>
+									                  <xsl:value-of select="@normal"/>
+								                </fo:inline>
 								                <fo:inline>
 									
-										
-											
-										
-									
-									
-								</fo:inline>
+									                  <xsl:value-of select="@normal"/>
+								                </fo:inline>
 							              </xsl:when>
 							              <xsl:otherwise>
 								                <fo:inline>
 									
-										
-											
-										
-									
-									
-								</fo:inline>
+									                  <xsl:value-of select="@normal"/>
+								                </fo:inline>
 								                <fo:inline>
 									
-										
-											
-										
-									
-									
-								</fo:inline>
+									                  <xsl:value-of select="@normal"/>
+								                </fo:inline>
 							              </xsl:otherwise>
 						            </xsl:choose>
 						
@@ -335,7 +303,7 @@ Major or significant revision history:
 	
 	  <xsl:template name="unitdate-datatype">
 		    <xsl:param name="date"/>
-		    <xsl:attribute name="datatype">xsd:gYear</xsl:attribute>
+		
 		    <!--<xsl:choose>
 			<xsl:when test="$date castable as xs:date">
 				<xsl:attribute name="datatype">xsd:date</xsl:attribute>
@@ -365,15 +333,15 @@ Major or significant revision history:
 		    <xsl:choose>
 			      <xsl:when test="position() = 1">
 				        <fo:inline>
-					
-				</fo:inline>
+					          <xsl:value-of select="."/>
+				        </fo:inline>
 			      </xsl:when>
 			      <xsl:otherwise>
 				        <fo:inline>
-					(
-					
-					)
-				</fo:inline>
+					          <xsl:text>(</xsl:text>
+					          <xsl:value-of select="."/>
+					          <xsl:text>)</xsl:text>
+				        </fo:inline>
 				        <xsl:if test="not(position() = last())">
 					          <xsl:text> </xsl:text>
 				        </xsl:if>
@@ -495,8 +463,8 @@ Tracking # 4.20
 	  </xsl:template>
 	  <xsl:template match="*[@type='restricted']">
 		    <fo:inline>
-			
-		</fo:inline>
+			      <xsl:value-of select="."/>
+		    </fo:inline>
 	  </xsl:template>
 	  <!-- ********************* <* @render> *********************** -->
 	<xsl:template match="*[@render]">

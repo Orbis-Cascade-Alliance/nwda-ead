@@ -511,13 +511,13 @@ Changes:
 							<xsl:choose>
 								<xsl:when test="/ead/dsc[@type='in-depth'] | /ead/archdesc/dsc[@type='in-depth']">
 									<xsl:choose>
-										<xsl:when test="ancestor-or-self::dsc/descendant-or-self::container[2]">2</xsl:when>
+										<xsl:when test="ancestor-or-self::dsc/descendant::did/container[2]">2</xsl:when>
 										<xsl:otherwise>1</xsl:otherwise>
 									</xsl:choose>
 								</xsl:when>
 								<xsl:otherwise>
 									<xsl:choose>
-										<xsl:when test="ancestor-or-self::c01/descendant-or-self::container[2]">2</xsl:when>
+										<xsl:when test="ancestor-or-self::c01/descendant::did/container[2]">2</xsl:when>
 										<xsl:otherwise>1</xsl:otherwise>
 									</xsl:choose>
 								</xsl:otherwise>

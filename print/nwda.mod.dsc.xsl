@@ -58,7 +58,7 @@ Changes:
 				        <xsl:otherwise>
 					          <xsl:apply-templates select="p"/>
 					          <!-- if there are no c02's then all of the c01s are displayed as rows in a table, like an in-depth finding aid -->
-					<fo:table width="100%" table-layout="fixed">
+					<fo:table width="100%">
 						            <xsl:call-template name="indepth"/>
 					          </fo:table>
 				        </xsl:otherwise>
@@ -87,7 +87,7 @@ Changes:
 	  <!-- ********************* </SERIES> *************************** -->
 	<!-- ********************* In-Depth DSC Type ********************* -->
 	<xsl:template name="indepth">
-		    <fo:table-body>
+		    <fo:table-body width="100%">
 			      <xsl:for-each select="c01">
 				        <xsl:if test="did/container">
 					          <xsl:call-template name="container_row"/>
@@ -127,7 +127,8 @@ Changes:
 					          </xsl:choose>
 
 					          <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
-                              border-bottom-style="solid">
+                              border-bottom-style="solid"
+                              width="60%">
                   <fo:block>
 						               <xsl:if test="string(did/unitid)">
 							                 <xsl:value-of select="did/unitid"/>
@@ -191,14 +192,10 @@ Changes:
 		    </fo:block>
 
 		    <xsl:if test="descendant::c02">
-			      <fo:table width="100%" table-layout="fixed">
-            <fo:table-column column-width="10%"/>
-            <fo:table-column column-width="10%"/>
-            <fo:table-column column-width="70%"/>
-            <fo:table-column column-width="10%"/>
-				        <!-- calls the labels for the table -->
+			      <fo:table width="100%">
+				<!-- calls the labels for the table -->
 				<xsl:call-template name="table_label"/>
-				        <fo:table-body>
+				        <fo:table-body width="100%">
 					          <xsl:if test="@level='item' or @level='file'">
 						            <fo:table-row width="100%">
 							              <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
@@ -206,8 +203,8 @@ Changes:
                         <fo:block>
 								                   <fo:inline color="#676d38" font-size="85%" text-decoration="none"
                                       text-transform="capitalize">
-									
-								</fo:inline>
+									                     <xsl:value-of select="did/container[1]/@type"/>
+								                   </fo:inline>
 							                 </fo:block>
                      </fo:table-cell>
 							              <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
@@ -215,8 +212,8 @@ Changes:
                         <fo:block>
 								                   <fo:inline color="#676d38" font-size="85%" text-decoration="none"
                                       text-transform="capitalize">
-									
-								</fo:inline>
+									                     <xsl:value-of select="did/container[2]/@type"/>
+								                   </fo:inline>
 							                 </fo:block>
                      </fo:table-cell>
 						            </fo:table-row>
@@ -234,7 +231,8 @@ Changes:
 							                 </fo:block>
                      </fo:table-cell>
 							              <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
-                                    border-bottom-style="solid">
+                                    border-bottom-style="solid"
+                                    width="60%">
                         <fo:block/>
                      </fo:table-cell>
 						            </fo:table-row>
@@ -560,8 +558,8 @@ Changes:
                      <fo:block>
 							                 <fo:inline color="#676d38" font-size="85%" text-decoration="none"
                                    text-transform="capitalize">
-								
-							</fo:inline>
+								                   <xsl:value-of select="$first_container"/>
+							                 </fo:inline>
 						               </fo:block>
                   </fo:table-cell>
 						            <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
@@ -569,8 +567,8 @@ Changes:
                      <fo:block>
 							                 <fo:inline color="#676d38" font-size="85%" text-decoration="none"
                                    text-transform="capitalize">
-								
-							</fo:inline>
+								                   <xsl:value-of select="$second_container"/>
+							                 </fo:inline>
 						               </fo:block>
                   </fo:table-cell>
 						            <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
@@ -589,13 +587,13 @@ Changes:
 							              <xsl:choose>
 								                <xsl:when test="/ead/dsc[@type='in-depth'] | /ead/archdesc/dsc[@type='in-depth']">
 									                  <xsl:choose>
-										                    <xsl:when test="ancestor-or-self::dsc/descendant-or-self::container[2]">2</xsl:when>
+										                    <xsl:when test="ancestor-or-self::dsc/descendant::did/container[2]">2</xsl:when>
 										                    <xsl:otherwise>1</xsl:otherwise>
 									                  </xsl:choose>
 								                </xsl:when>
 								                <xsl:otherwise>
 									                  <xsl:choose>
-										                    <xsl:when test="ancestor-or-self::c01/descendant-or-self::container[2]">2</xsl:when>
+										                    <xsl:when test="ancestor-or-self::c01/descendant::did/container[2]">2</xsl:when>
 										                    <xsl:otherwise>1</xsl:otherwise>
 									                  </xsl:choose>
 								                </xsl:otherwise>
@@ -607,8 +605,8 @@ Changes:
                      <fo:block>
 							                 <fo:inline color="#676d38" font-size="85%" text-decoration="none"
                                    text-transform="capitalize">
-								
-							</fo:inline>
+								                   <xsl:value-of select="$first_container"/>
+							                 </fo:inline>
 						               </fo:block>
                   </fo:table-cell>
 						            <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
@@ -854,28 +852,19 @@ Changes:
 				<!-- <xsl:variable select="count(../preceding-sibling::*)+1" name="ppos"/> -->
 				<xsl:variable select="count(../preceding-sibling::c01)+1" name="ppos"/>
 				        <fo:block font-size="18px" color="#6b6b6b" margin-bottom="10px" margin-top="10px">
-					          <xsl:attribute name="id">
-						            <xsl:choose>
-							              <xsl:when test="parent::node()/@id">
-								                <xsl:value-of select="parent::node()/@id"/>
-							              </xsl:when>
-							              <xsl:otherwise>
-								                <xsl:value-of select="generate-id(parent::node())"/>
-							              </xsl:otherwise>
-						            </xsl:choose>
-					          </xsl:attribute>
+					
 
-					          <!-- what if no unitititle-->
+					<!-- what if no unitititle-->
 					<xsl:choose>
 						            <xsl:when test="./unittitle">
 							              <xsl:if test="string(unitid)">
 								                <xsl:if test="unitid/@label">
 									                  <fo:inline color="#676d38" font-size="85%" text-decoration="none"
                                       text-transform="capitalize">
-										
-										 
-										 Cassette Counter  
-									</fo:inline>
+										                    <xsl:value-of select="unitid/@label"/>
+										                    <xsl:text> </xsl:text>
+										                    <xsl:if test="unitid/@type='counter' or unitid/@type='counternumber'"> Cassette Counter  </xsl:if>
+									                  </fo:inline>
 								                </xsl:if>
 								                <xsl:if test="$repCode='wau-ar' and unitid[@type='accession']"> Accession No.  </xsl:if>
 								                <xsl:value-of select="unitid"/>: <xsl:text> </xsl:text>
@@ -901,10 +890,10 @@ Changes:
 							              <xsl:if test="unitid/@label">
 								                <fo:inline color="#676d38" font-size="85%" text-decoration="none"
                                    text-transform="capitalize">
-									
-									 
-									 Cassette Counter  
-								</fo:inline>
+									                  <xsl:value-of select="unitid/@label"/>
+									                  <xsl:text> </xsl:text>
+									                  <xsl:if test="unitid/@type='counter' or unitid/@type='counternumber'"> Cassette Counter  </xsl:if>
+								                </fo:inline>
 							              </xsl:if>
 							              <xsl:if test="$repCode='wau-ar' and unitid[@type='accession']">
 								<!--  and ../c01[@otherlevel='accession'] --> Accession No.  </xsl:if>
@@ -934,9 +923,9 @@ Changes:
 					          <xsl:if test="unitid/@label">
 						            <fo:inline color="#676d38" font-size="85%" text-decoration="none"
                              text-transform="capitalize">
-							
-							 
-						</fo:inline>
+							              <xsl:value-of select="unitid/@label"/>
+							              <xsl:text> </xsl:text>
+						            </fo:inline>
 					          </xsl:if>
 					          <xsl:if test="unitid/@type='counter' or unitid/@type='counternumber'"> Cassette Counter  </xsl:if>
 					          <xsl:apply-templates select="unitid"/>: <xsl:text>  </xsl:text>
@@ -987,9 +976,9 @@ Changes:
 							              <xsl:if test="unitid/@label">
 								                <fo:inline color="#676d38" font-size="85%" text-decoration="none"
                                    text-transform="capitalize">
-									
-									 
-								</fo:inline>
+									                  <xsl:value-of select="unitid/@label"/>
+									                  <xsl:text> </xsl:text>
+								                </fo:inline>
 							              </xsl:if>
 							              <xsl:if test="unitid/@type='counter' or unitid/@type='counternumber'"> Cassette Counter  </xsl:if>
 							              <xsl:value-of select="unitid"/>: <xsl:text>  </xsl:text>
@@ -1007,9 +996,9 @@ Changes:
 						            <xsl:if test="unitid/@label">
 							              <fo:inline color="#676d38" font-size="85%" text-decoration="none"
                                 text-transform="capitalize">
-								
-								 
-							</fo:inline>
+								                <xsl:value-of select="unitid/@label"/>
+								                <xsl:text> </xsl:text>
+							              </fo:inline>
 						            </xsl:if>
 						            <xsl:if test="unitid/@type='counter' or unitid/@type='counternumber'"> Cassette Counter  </xsl:if>
 						            <xsl:value-of select="unitid"/>
@@ -1067,8 +1056,8 @@ Changes:
 			<xsl:when test="arc[2]">
 				
 					       <xsl:if test="arc[2]/@show='new'">
-						         <xsl:attribute name="target">_blank</xsl:attribute>
-					       </xsl:if>
+						
+					</xsl:if>
 
 					       <xsl:for-each select="daoloc">
 						<!-- This selects the <daoloc> element that matches the @label attribute from <daoloc> and the @to attribute
@@ -1086,8 +1075,8 @@ Changes:
 							           <xsl:if test="string(daodesc)">
 								             <fo:block/>
 								             <fo:inline>
-									
-								</fo:inline>
+									               <xsl:apply-templates/>
+								             </fo:inline>
 							           </xsl:if>
 						         </xsl:if>
 					       </xsl:for-each>
@@ -1104,8 +1093,8 @@ Changes:
 								                <xsl:if test="string(daodesc)">
 									                  <fo:block/>
 									                  <fo:inline>
-										
-									</fo:inline>
+										                    <xsl:apply-templates/>
+									                  </fo:inline>
 								                </xsl:if>
 							              </xsl:if>
 						            </xsl:for-each>
@@ -1121,8 +1110,8 @@ Changes:
 												                     <xsl:value-of select="@href"/>
 											                   </xsl:attribute>
 											                   <xsl:if test="following::arc[1]/@show='new'">
-												                     <xsl:attribute name="target">_blank</xsl:attribute>
-											                   </xsl:if>
+												
+											</xsl:if>
 										                 </xsl:if>
 									               </xsl:for-each>
 									               <xsl:apply-templates/>
@@ -1135,8 +1124,8 @@ Changes:
 												                     <xsl:value-of select="@href"/>
 											                   </xsl:attribute>
 											                   <xsl:if test="following::arc[1]/@show='new'">
-												                     <xsl:attribute name="target">_blank</xsl:attribute>
-											                   </xsl:if>
+												
+											</xsl:if>
 										                 </xsl:if>
 										                 <fo:external-graphic src="{$pathToIcon}{$iconFilename}"/>
 									               </xsl:for-each>

@@ -101,8 +101,26 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
                <xsl:value-of select="$titleproper"/>
             </fo:title>
             <fo:static-content flow-name="footer">
-               <fo:block>
-                  <xsl:value-of select="concat($serverURL, '/ark:/', $identifier)"/>
+               <fo:block color="#676D38" font-size="85%" intrusion-displace="line">
+                  <fo:table>
+                     <fo:table-body>
+                        <fo:table-row>
+                           <fo:table-cell>
+                              <fo:block>
+                                 <fo:basic-link show-destination="new"
+                                                external-destination="{concat($serverURL, '/ark:/', $identifier)}">
+                                    <xsl:value-of select="concat($serverURL, '/ark:/', $identifier)"/>
+                                 </fo:basic-link>
+                              </fo:block>
+                           </fo:table-cell>
+                           <fo:table-cell>
+                              <fo:block text-align="right">
+                                 <fo:page-number/>
+                              </fo:block>
+                           </fo:table-cell>
+                        </fo:table-row>
+                     </fo:table-body>
+                  </fo:table>
                </fo:block>
             </fo:static-content>
             <fo:flow flow-name="body">

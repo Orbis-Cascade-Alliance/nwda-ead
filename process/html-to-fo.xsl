@@ -60,13 +60,33 @@
 						</xsl:element>
 					</fo:title>
 					<fo:static-content flow-name="footer">
-						<fo:block>
-							<xsl:element name="xsl:value-of"
-								namespace="http://www.w3.org/1999/XSL/Transform">
-								<xsl:attribute name="select">
-									<xsl:text>concat($serverURL, '/ark:/', $identifier)</xsl:text>
-								</xsl:attribute>
-							</xsl:element>
+						<fo:block color="#676D38" font-size="85%" intrusion-displace="line">
+							<fo:table>
+								<fo:table-body>
+									<fo:table-row>
+										<fo:table-cell>
+											<fo:block>
+												<fo:basic-link show-destination="new">
+												<xsl:attribute name="external-destination">
+												<xsl:text>{concat($serverURL, '/ark:/', $identifier)}</xsl:text>
+												</xsl:attribute>
+												<xsl:element name="xsl:value-of"
+												namespace="http://www.w3.org/1999/XSL/Transform">
+												<xsl:attribute name="select">
+												<xsl:text>concat($serverURL, '/ark:/', $identifier)</xsl:text>
+												</xsl:attribute>
+												</xsl:element>
+												</fo:basic-link>
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>
+											<fo:block text-align="right">
+												<fo:page-number/>
+											</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
 						</fo:block>
 					</fo:static-content>
 					<fo:flow flow-name="body">
@@ -132,8 +152,12 @@
 		</xsl:element>
 	</xsl:template>
 
-	<!-- suppress dynamic class as an attribute -->
+	<!-- specific HTML attributes -->
 	<xsl:template match="xsl:attribute[@name='class']"/>
+	<xsl:template match="xsl:attribute[@name='datatype']"/>
+	<xsl:template match="xsl:attribute[@name='id']"/>
+	<xsl:template match="xsl:attribute[@name='target']"/>
+	
 
 	<!-- ************************ TRANSFORMING HTML ELEMENTS INTO FO ************************** -->
 
@@ -169,7 +193,6 @@
 
 	<xsl:template match="span[string-length(normalize-space(.)) &gt; 0 or child::*]">
 		<fo:inline>
-			<!-- handle styling -->
 			<xsl:choose>
 				<xsl:when test="@class='containerLabel'">
 					<xsl:attribute name="color">#676d38</xsl:attribute>
@@ -182,38 +205,25 @@
 					<xsl:attribute name="font-weight">bold</xsl:attribute>
 				</xsl:when>
 			</xsl:choose>
-			<xsl:value-of select="."/>
+			<xsl:apply-templates/>
 		</fo:inline>
 	</xsl:template>
 
 	<!-- tables -->
 	<xsl:template match="table">
-		<fo:table width="100%" table-layout="fixed">	
-			<xsl:choose>
-				<xsl:when test="descendant::td[@class='c0x_container_large']">
-					<fo:table-column column-width="20%"/>
-					<fo:table-column column-width="70%"/>
-					<fo:table-column column-width="10%"/>
-				</xsl:when>
-				<xsl:when test="descendant::td[@class='c0x_container_small']">
-					<fo:table-column column-width="10%"/>
-					<fo:table-column column-width="10%"/>
-					<fo:table-column column-width="70%"/>
-					<fo:table-column column-width="10%"/>
-				</xsl:when>
-			</xsl:choose>
+		<fo:table width="100%">
 			<xsl:apply-templates/>
 		</fo:table>
 	</xsl:template>
 
 	<xsl:template match="thead">
-		<fo:table-header >
+		<fo:table-header>
 			<xsl:apply-templates/>
 		</fo:table-header>
 	</xsl:template>
 
 	<xsl:template match="tbody">
-		<fo:table-body >
+		<fo:table-body width="100%">
 			<xsl:apply-templates/>
 		</fo:table-body>
 	</xsl:template>
@@ -231,6 +241,9 @@
 				<xsl:attribute name="number-columns-spanned">
 					<xsl:value-of select="@colspan"/>
 				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@class='c0x_content'">
+				<xsl:attribute name="width">60%</xsl:attribute>
 			</xsl:if>
 			<fo:block>
 				<xsl:apply-templates/>
@@ -296,8 +309,8 @@
 
 	<xsl:template match="dt">
 		<fo:table-row>
-			<fo:table-cell text-align="right" font-weight="bold" width="160px" padding-after="10px">
-				<fo:block>
+			<fo:table-cell text-align="right" font-weight="bold" width="160px">
+				<fo:block padding-right="10px">
 					<xsl:apply-templates/>
 				</fo:block>
 			</fo:table-cell>

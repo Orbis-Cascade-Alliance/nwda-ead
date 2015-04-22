@@ -4,7 +4,7 @@
                 version="1.0"
                 exclude-result-prefixes="fo">
 	  <xsl:template match="table">
-		    <fo:table width="100%" table-layout="fixed">
+		    <fo:table width="100%">
 			      <xsl:apply-templates/>
 		    </fo:table>
 	  </xsl:template>
