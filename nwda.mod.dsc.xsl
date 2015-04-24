@@ -345,57 +345,59 @@ Changes:
 			<xsl:variable select="count(../../preceding-sibling::*)+1" name="pppos"/>
 			<xsl:variable select="count(../preceding-sibling::*)+1" name="ppos"/>
 			<xsl:variable select="count(preceding-sibling::*)+1" name="cpos"/>
-			<td class="c0x_content {name()}" id="id{$pppos}_{name(..)}_{$ppos}_{name()}_{$cpos}">
-				<xsl:for-each select=" *[@id] | did/*[@id]">
-					<a id="{@id}"/>
-				</xsl:for-each>
-				<xsl:if test="did/unittitle">
-					<xsl:choose>
-						<!-- series, subseries, etc are bold -->
-						<xsl:when test="(@level='series' or @level='subseries' or @otherlevel='sub-subseries' or @level='otherlevel') and child::node()/did">
-							<b>
-								<xsl:if test="string(did/unitid)">
-									<!--
+			<td class="c0x_content" id="id{$pppos}_{name(..)}_{$ppos}_{name()}_{$cpos}">
+				<div class="{name()}">
+					<xsl:for-each select=" *[@id] | did/*[@id]">
+						<a id="{@id}"/>
+					</xsl:for-each>
+					<xsl:if test="did/unittitle">
+						<xsl:choose>
+							<!-- series, subseries, etc are bold -->
+							<xsl:when test="(@level='series' or @level='subseries' or @otherlevel='sub-subseries' or @level='otherlevel') and child::node()/did">
+								<b>
+									<xsl:if test="string(did/unitid)">
+										<!--
                                          When this was a "value-of", <extref/> elements were
                                          not being turned into URL's.  "apply-templates" makes this
                                          happen, as well as just outputting the value of the <unitid/>
                                          element if it's just text.
                                     -->
-									<!-- <xsl:value-of select="did/unitid"/> -->
-									<xsl:apply-templates select="did/unitid"/>
+										<!-- <xsl:value-of select="did/unitid"/> -->
+										<xsl:apply-templates select="did/unitid"/>
+										<xsl:text>: </xsl:text>
+									</xsl:if>
+									<xsl:apply-templates select="did/unittitle"/>
+								</b>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:if test="string(did/unitid)">
+									<xsl:value-of select="did/unitid"/>
 									<xsl:text>: </xsl:text>
 								</xsl:if>
 								<xsl:apply-templates select="did/unittitle"/>
-							</b>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:if test="string(did/unitid)">
-								<xsl:value-of select="did/unitid"/>
-								<xsl:text>: </xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:if>
+					<!-- if the layout for the date is inline instead of columnar, address that issue -->
+					<xsl:if test="$repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps'">
+						
+						<xsl:for-each select="did/unitdate">
+							<!-- only insert comma if it comes after a unittitle - on occasion there is a unitdate but no unittitle -->
+							<xsl:if test="parent::node()/unittitle">
+								<xsl:text>, </xsl:text>
 							</xsl:if>
-							<xsl:apply-templates select="did/unittitle"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:if>
-				<!-- if the layout for the date is inline instead of columnar, address that issue -->
-				<xsl:if test="$repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps'">
-
-					<xsl:for-each select="did/unitdate">
-						<!-- only insert comma if it comes after a unittitle - on occasion there is a unitdate but no unittitle -->
-						<xsl:if test="parent::node()/unittitle">
-							<xsl:text>, </xsl:text>
-						</xsl:if>
-						<xsl:value-of select="."/>
-						<!-- place a semicolon between multiple unitdates -->
-						<xsl:if test="not(position() = last())">
-							<xsl:text>; </xsl:text>
-						</xsl:if>
-					</xsl:for-each>
-
-				</xsl:if>
-
-				<xsl:call-template name="c0x_children"/>
-
+							<xsl:value-of select="."/>
+							<!-- place a semicolon between multiple unitdates -->
+							<xsl:if test="not(position() = last())">
+								<xsl:text>; </xsl:text>
+							</xsl:if>
+						</xsl:for-each>
+						
+					</xsl:if>
+					
+					<xsl:call-template name="c0x_children"/>
+					
+				</div>				
 			</td>
 			<!-- if the date layout is columnar, then the column is displayed -->
 			<xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
