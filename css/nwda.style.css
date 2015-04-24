@@ -155,30 +155,11 @@ table{
 /* styling related to c0x */
 .c0x_container_large{
 	width:170px;
-	padding-top:2px;
-	padding-bottom:2px;
-	padding-left:16px;
-	vertical-align:top;
 }
 .c0x_container_small{
 	width:85px;
-	padding-top:2px;
-	padding-bottom:2px;
-	vertical-align:top;
-}
-.c0x_container_left{
-	padding-left:16px;
-}
-.c0x_content{
-	padding-top:2px;
-	padding-bottom:2px;
-	vertical-align:top;
 }
 .c0x_date{
-	padding-top:2px;
-	padding-bottom:2px;
-	padding-left:2px;
-	vertical-align:top;
 	width:140px;
 }
 .c0x_header{
@@ -200,7 +181,7 @@ table{
 .top{
 	margin:10px 0;
 	padding:2px;
-	border: 1px solid #ddd;
+	border:1px solid #ddd;
 	background-color:#f9f9f9;
 }
 /* ****** END HTML HEADINGS ****** */
@@ -297,6 +278,6 @@ PLACE IN PRODUCTION AREA WHEN IMPLEMENTED*****/
 	color:blue;
 }
 /* ******CONTACT PAGE ****** */
-.archive-div {
+.archive-div{
 	padding:5px 0;
 }

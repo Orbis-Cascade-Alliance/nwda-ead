@@ -64,6 +64,7 @@ Changes:
 					<xsl:apply-templates select="p"/>
 					<!-- if there are no c02's then all of the c01s are displayed as rows in a table, like an in-depth finding aid -->
 					<table class="table table-striped" summary="A listing of materials in {./did/unittitle}.">
+						<xsl:call-template name="table_label"/>
 						<xsl:call-template name="indepth"/>
 					</table>
 				</xsl:otherwise>
@@ -103,15 +104,16 @@ Changes:
 						<xsl:when test="parent::node()/descendant::container">
 							<xsl:choose>
 								<xsl:when test="not(parent::node()/descendant::did/container[2])">
-									<td class="c0x_container_large">
+									<td>
 										<xsl:value-of select="did/container[1]"/>
 									</td>
+									<td/>
 								</xsl:when>
 								<xsl:otherwise>
-									<td class="c0x_container_small c0x_container_left">
+									<td>
 										<xsl:value-of select="did/container[1]"/>
 									</td>
-									<td class="c0x_container_small">
+									<td>
 										<xsl:value-of select="did/container[2]"/>
 									</td>
 								</xsl:otherwise>
@@ -163,17 +165,6 @@ Changes:
 	<!-- ********************* ANALYTICOVER/COMBINED DSC TYPE *************************** -->
 	<!--columnar dates are the default-->
 	<xsl:template name="dsc_table">
-		<xsl:variable name="c0x_container">
-			<xsl:choose>
-				<xsl:when test="did/container[2]">
-					<xsl:text>c0x_container_small</xsl:text>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:text>c0x_container_large</xsl:text>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
 		<xsl:variable select="count(../../preceding-sibling::*)+1" name="pppos"/>
 		<xsl:variable select="count(../preceding-sibling::*)+1" name="ppos"/>
 		<xsl:variable select="count(preceding-sibling::*)+1" name="cpos"/>
@@ -188,22 +179,22 @@ Changes:
 				<tbody>
 					<xsl:if test="@level='item' or @level='file'">
 						<tr>
-							<td class="c0x_container_small c0x_container_left">
+							<td>
 								<span class="containerLabel">
 									<xsl:value-of select="did/container[1]/@type"/>
 								</span>
 							</td>
-							<td class="c0x_container_small">
+							<td>
 								<span class="containerLabel">
 									<xsl:value-of select="did/container[2]/@type"/>
 								</span>
 							</td>
 						</tr>
 						<tr>
-							<td class="c0x_container_small c0x_container_left">
+							<td>
 								<xsl:value-of select="did/container[1]"/>
 							</td>
-							<td class="c0x_container_small">
+							<td>
 								<xsl:value-of select="did/container[2]"/>
 							</td>
 							<td class="c0x_content"/>
@@ -225,30 +216,31 @@ Changes:
 					<xsl:when test="descendant::container">
 						<xsl:choose>
 							<xsl:when test="not(descendant::container[2]) and not(descendant::container[3])">
-								<th>
+								<th class="c0x_container_small">
 									<span class="c0x_header">Container(s)</span>
 								</th>
 							</xsl:when>
 							<xsl:otherwise>
-								<th colspan="2">
+								<th class="c0x_container_small">
 									<span class="c0x_header">Container(s)</span>
 								</th>
+								<th class="c0x_container_small"/>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:when>
 					<xsl:otherwise>
-						<th class="c0x_container_large"/>
+						<th class="c0x_container_small"/>
 					</xsl:otherwise>
 				</xsl:choose>
 
-				<xsl:if test="string(descendant::unittitle) and string(descendant::c02)">
+				<xsl:if test="string(descendant::unittitle)">
 					<th class="c0x_content">
 						<span class="c0x_header">Description</span>
 					</th>
 				</xsl:if>
 
 				<xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
-					<xsl:if test="string(descendant::c02) and string(descendant::unitdate)">
+					<xsl:if test="string(descendant::unitdate)">
 						<th class="c0x_date">
 							<span class="c0x_header">Dates</span>
 						</th>
@@ -269,17 +261,6 @@ Changes:
 			<a id="{@id}"/>
 		</xsl:if>
 
-		<xsl:variable name="c0x_container">
-			<xsl:choose>
-				<xsl:when test="did/container[2]">
-					<xsl:text>c0x_container_small</xsl:text>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:text>c0x_container_large</xsl:text>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
 		<!-- ********* ROW FOR DISPLAYING CONTAINER TYPES ********* -->
 
 		<xsl:if test="did/container">
@@ -298,23 +279,23 @@ Changes:
 					<xsl:choose>
 						<!-- a colspan of 2 is assigned to a c0x that does not have 2 containers if any descendants of its c01 parent
 							have 2 containers -->
-						<xsl:when test="ancestor-or-self::c01/descendant-or-self::container[2]">
-							<td class="{$c0x_container}" colspan="2">
+						<xsl:when test="ancestor-or-self::c01/*[not(local-name()='did')]/descendant-or-self::container[2]">
+							<td colspan="2">
 								<xsl:value-of select="did/container[1]"/>
 							</td>
 						</xsl:when>
 						<xsl:otherwise>
-							<td class="{$c0x_container}">
+							<td>
 								<xsl:value-of select="did/container[1]"/>
 							</td>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:when>
 				<xsl:when test="did/container[2]">
-					<td class="{$c0x_container} c0x_container_left">
+					<td>
 						<xsl:value-of select="did/container[1]"/>
 					</td>
-					<td class="{$c0x_container}">
+					<td>
 						<xsl:value-of select="did/container[2]"/>
 					</td>
 				</xsl:when>
@@ -458,18 +439,6 @@ Changes:
 	<!-- *** CONTAINER ROW ** -->
 
 	<xsl:template name="container_row">
-
-		<xsl:variable name="c0x_container">
-			<xsl:choose>
-				<xsl:when test="did/container[2]">
-					<xsl:text>c0x_container_small</xsl:text>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:text>c0x_container_large</xsl:text>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
 		<!-- variables are created to grab container type data.
 		this logic basically only creates the row and its table cells if there is firstor second container
 		data returned from the template call.  this logic cuts back on processing time for the server
@@ -491,12 +460,12 @@ Changes:
 				<xsl:choose>
 					<!-- for two containers -->
 					<xsl:when test="did/container[2]">
-						<td class="{$c0x_container} c0x_container_left">
+						<td>
 							<span class="containerLabel">
 								<xsl:value-of select="$first_container"/>
 							</span>
 						</td>
-						<td class="{$c0x_container}">
+						<td>
 							<span class="containerLabel">
 								<xsl:value-of select="$second_container"/>
 							</span>
@@ -523,12 +492,11 @@ Changes:
 								</xsl:otherwise>
 							</xsl:choose>
 						</xsl:variable>
-						<td class="{$c0x_container}" colspan="{$container_colspan}">
+						<td colspan="{$container_colspan}">
 							<span class="containerLabel">
 								<xsl:value-of select="$first_container"/>
 							</span>
 						</td>
-						<td/>
 						<td/>
 					</xsl:otherwise>
 				</xsl:choose>

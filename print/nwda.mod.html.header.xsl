@@ -2,75 +2,60 @@
 <!-- migrated to HTML5/Bootstrap in March 2015, Ethan Gruber --><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 version="1.0">
-	  <xsl:template name="html.header">
-		    <nav class="navbar navbar-default">
-			      <fo:block>
-				        <fo:block>
-					          <button type="button" class="navbar-toggle" data-toggle="collapse"
+   <xsl:template name="html.header">
+      <nav class="navbar navbar-default">
+         <fo:block>
+            <fo:block>
+               <button type="button" class="navbar-toggle" data-toggle="collapse"
                        data-target=".navbar-collapse">
-						            <fo:inline>Toggle navigation</fo:inline>
-						
-						
-						
-					          </button>
-					
-						         <fo:external-graphic src="/images/logos/NWDAlogotype.gif"/>
-					
-				        </fo:block>
-				        <fo:block>
-					          <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
-						            <fo:list-item>
+                  <fo:inline>Toggle navigation</fo:inline>
+               </button>
+               <fo:external-graphic src="/images/logos/NWDAlogotype.gif"/>
+            </fo:block>
+            <fo:block>
+               <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
+                  <fo:list-item>
                      <fo:list-item-label end-indent="label-end()">
                         <fo:block/>
                      </fo:list-item-label>
                      <fo:list-item-body start-indent="body-start()">
-                        <fo:block>
-							home
-						</fo:block>
+                        <fo:block>home</fo:block>
                      </fo:list-item-body>
                   </fo:list-item>
-						            <fo:list-item>
+                  <fo:list-item>
                      <fo:list-item-label end-indent="label-end()">
                         <fo:block/>
                      </fo:list-item-label>
                      <fo:list-item-body start-indent="body-start()">
-                        <fo:block>
-							search
-						</fo:block>
+                        <fo:block>search</fo:block>
                      </fo:list-item-body>
                   </fo:list-item>
-						            <fo:list-item>
+                  <fo:list-item>
                      <fo:list-item-label end-indent="label-end()">
                         <fo:block/>
                      </fo:list-item-label>
                      <fo:list-item-body start-indent="body-start()">
-                        <fo:block>
-							about
-						</fo:block>
+                        <fo:block>about</fo:block>
                      </fo:list-item-body>
                   </fo:list-item>
-						            <fo:list-item>
+                  <fo:list-item>
                      <fo:list-item-label end-indent="label-end()">
                         <fo:block/>
                      </fo:list-item-label>
                      <fo:list-item-body start-indent="body-start()">
-                        <fo:block>
-							contact us
-						</fo:block>
+                        <fo:block>contact us</fo:block>
                      </fo:list-item-body>
                   </fo:list-item>
-						            <fo:list-item>
+                  <fo:list-item>
                      <fo:list-item-label end-indent="label-end()">
                         <fo:block/>
                      </fo:list-item-label>
                      <fo:list-item-body start-indent="body-start()">
-                        <fo:block>
-							member tools
-						</fo:block>
+                        <fo:block>member tools</fo:block>
                      </fo:list-item-body>
                   </fo:list-item>
-					          </fo:list-block>
-					          <!--<div class="col-sm-3 col-md-3 pull-right">
+               </fo:list-block>
+               <!--<div class="col-sm-3 col-md-3 pull-right">
 						<form class="navbar-form" role="search" action="{$display_path}results" method="get">
 							<div class="input-group">
 								<input type="text" class="form-control" placeholder="Search Finding Aid" name="q" id="srch-term"/>
@@ -81,10 +66,8 @@
 								</div>
 							</div>
 						</form>
-					</div>-->
-				</fo:block>
-			      </fo:block>
-		    </nav>
-		    <!--END NWDA HEADER DIV-->
-	</xsl:template>
+					</div>--></fo:block>
+         </fo:block>
+      </nav>
+      <!--END NWDA HEADER DIV--></xsl:template>
 </xsl:stylesheet>

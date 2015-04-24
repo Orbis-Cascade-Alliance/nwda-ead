@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-	xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:nwda="https://github.com/ewg118/nwda-editor#"
+	xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:nwda="https://github.com/Orbis-Cascade-Alliance/nwda-editor#"
 	xmlns:arch="http://purl.org/archival/vocab/arch#" exclude-result-prefixes="arch nwda xsd vcard"
 	version="1.0">
-
+	<xsl:strip-space elements="*"/>
 	<xsl:output encoding="UTF-8" method="xml" indent="yes"/>
 
-	<xsl:template match="@*|*|processing-instruction()|comment()">
+	<xsl:template match="@*|node()">
 		<xsl:copy>
 			<xsl:apply-templates select="*|@*|text()|processing-instruction()|comment()"/>
 		</xsl:copy>
@@ -212,6 +212,26 @@
 	<!-- tables -->
 	<xsl:template match="table">
 		<fo:table width="100%">
+			<!-- create conditional for dsc tables -->
+			<xsl:if test="ancestor::xsl:template[@name='dsc_table'] or ancestor::xsl:template[@name='dsc']">
+				<xsl:attribute name="table-layout">fixed</xsl:attribute>
+				<!-- construct an xsl:if within the XSL:FO to test for container[2] -->
+				<xsl:element name="xsl:choose">
+					<xsl:element name="xsl:when">
+						<xsl:attribute name="test">descendant::did/container[2]</xsl:attribute>
+						<fo:table-column column-width="10%"/>
+						<fo:table-column column-width="10%"/>
+						<fo:table-column column-width="60%"/>
+						<fo:table-column column-width="20%"/>
+					</xsl:element>
+					<xsl:element name="xsl:otherwise">
+						<fo:table-column column-width="10%"/>
+						<fo:table-column column-width="70%"/>
+						<fo:table-column column-width="20%"/>
+					</xsl:element>
+				</xsl:element>
+			</xsl:if>
+			
 			<xsl:apply-templates/>
 		</fo:table>
 	</xsl:template>
@@ -236,16 +256,28 @@
 
 	<xsl:template match="td">
 		<fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
-			border-bottom-style="solid">
+			border-bottom-style="solid" padding="8px">
 			<xsl:if test="@colspan">
 				<xsl:attribute name="number-columns-spanned">
 					<xsl:value-of select="@colspan"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="@class='c0x_content'">
-				<xsl:attribute name="width">60%</xsl:attribute>
-			</xsl:if>
 			<fo:block>
+				<!-- enforce left-indent for c0x -->
+				<xsl:if test="contains(@class, 'c0x_content') and ancestor::xsl:template[contains(@match, 'c02')]">
+					<xsl:element name="xsl:variable">
+						<xsl:attribute name="name">indent</xsl:attribute>
+						<xsl:element name="xsl:value-of">
+							<xsl:attribute name="select">(number(substring-after(local-name(), 'c')) - 2) * 2</xsl:attribute>
+						</xsl:element>
+					</xsl:element>
+					<xsl:element name="xsl:attribute">
+						<xsl:attribute name="name">padding-left</xsl:attribute>
+						<xsl:element name="xsl:value-of">
+							<xsl:attribute name="select">concat($indent, 'em')</xsl:attribute>
+						</xsl:element>
+					</xsl:element>
+				</xsl:if>
 				<xsl:apply-templates/>
 			</fo:block>
 		</fo:table-cell>
@@ -253,7 +285,7 @@
 
 	<xsl:template match="th">
 		<fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
-			border-bottom-style="solid">
+			border-bottom-style="solid" padding="8px">
 			<xsl:if test="@colspan">
 				<xsl:attribute name="number-columns-spanned">
 					<xsl:value-of select="@colspan"/>
@@ -310,7 +342,7 @@
 	<xsl:template match="dt">
 		<fo:table-row>
 			<fo:table-cell text-align="right" font-weight="bold" width="160px">
-				<fo:block padding-right="10px">
+				<fo:block margin-right="10px">
 					<xsl:apply-templates/>
 				</fo:block>
 			</fo:table-cell>
