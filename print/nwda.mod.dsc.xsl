@@ -238,7 +238,7 @@ Changes:
             <xsl:choose>
                <xsl:when test="descendant::container">
                   <xsl:choose>
-                     <xsl:when test="not(descendant::container[2]) and not(descendant::container[3])">
+                     <xsl:when test="not(descendant::did/container[2]) and not(descendant::did/container[3])">
                         <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
                                        border-bottom-style="solid"
                                        padding="8px">
@@ -303,7 +303,7 @@ Changes:
       <!-- *********** ROW FOR DISPLAYING CONTAINER, CONTENT, AND DATE DATA **************--><!--all c0x level items are their own row; indentation created by css only--><fo:table-row width="100%"><!-- if there is only one container, the td is 170 pixels wide, otherwise 85 for two containers --><xsl:choose>
             <xsl:when test="not(did/container[2])">
                <xsl:choose><!-- a colspan of 2 is assigned to a c0x that does not have 2 containers if any descendants of its c01 parent
-							have 2 containers --><xsl:when test="ancestor-or-self::c01/*[not(local-name()='did')]/descendant-or-self::container[2]">
+							have 2 containers --><xsl:when test="ancestor-or-self::c01/descendant::did/container[2]">
                      <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                                     border-bottom-style="solid"
                                     padding="8px"
@@ -391,41 +391,43 @@ Changes:
                <xsl:attribute name="padding-left">
                   <xsl:value-of select="concat($indent, 'em')"/>
                </xsl:attribute>
-               <xsl:for-each select=" *[@id] | did/*[@id]"/>
-               <xsl:if test="did/unittitle">
-                  <xsl:choose><!-- series, subseries, etc are bold --><xsl:when test="(@level='series' or @level='subseries' or @otherlevel='sub-subseries' or @level='otherlevel') and child::node()/did">
-                        <fo:inline font-weight="bold">
-                           <xsl:if test="string(did/unitid)"><!--
+               <fo:block>
+                  <xsl:for-each select=" *[@id] | did/*[@id]"/>
+                  <xsl:if test="did/unittitle">
+                     <xsl:choose><!-- series, subseries, etc are bold --><xsl:when test="(@level='series' or @level='subseries' or @otherlevel='sub-subseries' or @level='otherlevel') and child::node()/did">
+                           <fo:inline font-weight="bold">
+                              <xsl:if test="string(did/unitid)"><!--
                                          When this was a "value-of", <extref/> elements were
                                          not being turned into URL's.  "apply-templates" makes this
                                          happen, as well as just outputting the value of the <unitid/>
                                          element if it's just text.
                                     --><!-- <xsl:value-of select="did/unitid"/> --><xsl:apply-templates select="did/unitid"/>
+                                 <xsl:text>: </xsl:text>
+                              </xsl:if>
+                              <xsl:apply-templates select="did/unittitle"/>
+                           </fo:inline>
+                        </xsl:when>
+                        <xsl:otherwise>
+                           <xsl:if test="string(did/unitid)">
+                              <xsl:value-of select="did/unitid"/>
                               <xsl:text>: </xsl:text>
                            </xsl:if>
                            <xsl:apply-templates select="did/unittitle"/>
-                        </fo:inline>
-                     </xsl:when>
-                     <xsl:otherwise>
-                        <xsl:if test="string(did/unitid)">
-                           <xsl:value-of select="did/unitid"/>
-                           <xsl:text>: </xsl:text>
+                        </xsl:otherwise>
+                     </xsl:choose>
+                  </xsl:if>
+                  <!-- if the layout for the date is inline instead of columnar, address that issue --><xsl:if test="$repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps'">
+                     <xsl:for-each select="did/unitdate"><!-- only insert comma if it comes after a unittitle - on occasion there is a unitdate but no unittitle --><xsl:if test="parent::node()/unittitle">
+                           <xsl:text>, </xsl:text>
                         </xsl:if>
-                        <xsl:apply-templates select="did/unittitle"/>
-                     </xsl:otherwise>
-                  </xsl:choose>
-               </xsl:if>
-               <!-- if the layout for the date is inline instead of columnar, address that issue --><xsl:if test="$repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps'">
-                  <xsl:for-each select="did/unitdate"><!-- only insert comma if it comes after a unittitle - on occasion there is a unitdate but no unittitle --><xsl:if test="parent::node()/unittitle">
-                        <xsl:text>, </xsl:text>
-                     </xsl:if>
-                     <xsl:value-of select="."/>
-                     <!-- place a semicolon between multiple unitdates --><xsl:if test="not(position() = last())">
-                        <xsl:text>; </xsl:text>
-                     </xsl:if>
-                  </xsl:for-each>
-               </xsl:if>
-               <xsl:call-template name="c0x_children"/>
+                        <xsl:value-of select="."/>
+                        <!-- place a semicolon between multiple unitdates --><xsl:if test="not(position() = last())">
+                           <xsl:text>; </xsl:text>
+                        </xsl:if>
+                     </xsl:for-each>
+                  </xsl:if>
+                  <xsl:call-template name="c0x_children"/>
+               </fo:block>
             </fo:block>
          </fo:table-cell>
          <!-- if the date layout is columnar, then the column is displayed --><xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
@@ -532,6 +534,11 @@ Changes:
                            <xsl:value-of select="$first_container"/>
                         </fo:inline>
                      </fo:block>
+                  </fo:table-cell>
+                  <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
+                                 border-bottom-style="solid"
+                                 padding="8px">
+                     <fo:block/>
                   </fo:table-cell>
                   <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                                  border-bottom-style="solid"

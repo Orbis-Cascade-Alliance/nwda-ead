@@ -215,7 +215,7 @@ Changes:
 				<xsl:choose>
 					<xsl:when test="descendant::container">
 						<xsl:choose>
-							<xsl:when test="not(descendant::container[2]) and not(descendant::container[3])">
+							<xsl:when test="not(descendant::did/container[2]) and not(descendant::did/container[3])">
 								<th class="c0x_container_small">
 									<span class="c0x_header">Container(s)</span>
 								</th>
@@ -279,7 +279,7 @@ Changes:
 					<xsl:choose>
 						<!-- a colspan of 2 is assigned to a c0x that does not have 2 containers if any descendants of its c01 parent
 							have 2 containers -->
-						<xsl:when test="ancestor-or-self::c01/*[not(local-name()='did')]/descendant-or-self::container[2]">
+						<xsl:when test="ancestor-or-self::c01/descendant::did/container[2]">
 							<td colspan="2">
 								<xsl:value-of select="did/container[1]"/>
 							</td>
@@ -494,11 +494,12 @@ Changes:
 								</xsl:otherwise>
 							</xsl:choose>
 						</xsl:variable>
-						<td colspan="{$container_colspan}">
-							<span class="containerLabel">
+						<td colspan="{$container_colspan}">							
+							<span class="containerLabel">								
 								<xsl:value-of select="$first_container"/>
 							</span>
 						</td>
+						<td/>
 						<td/>
 					</xsl:otherwise>
 				</xsl:choose>
