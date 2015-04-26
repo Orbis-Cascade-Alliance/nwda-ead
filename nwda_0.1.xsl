@@ -8,7 +8,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 -->
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:fo="http://www.w3.org/1999/XSL/Format"
-	xmlns:nwda="https://github.com/Orbis-Cascade-Alliance/nwda-editor#" xmlns:arch="http://purl.org/archival/vocab/arch#" exclude-result-prefixes="nwda xsd vcard xsl fo">
+	xmlns:nwda="https://github.com/Orbis-Cascade-Alliance/nwda-editor#" xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:ead="urn:isbn:1-931666-22-9" exclude-result-prefixes="nwda xsd vcard xsl fo ead">
 	<xsl:output encoding="UTF-8" method="html" omit-xml-declaration="yes" doctype-public="html"/>
 
 	<xsl:param name="doc"/>
@@ -19,18 +19,18 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 
 
 	<!-- ********************* <XML_VARIABLES> *********************** -->
-	<xsl:variable name="identifier" select="string(normalize-space(/ead/eadheader/eadid/@identifier))"/>
+	<xsl:variable name="identifier" select="string(normalize-space(/*[local-name()='ead']/*[local-name()='eadheader']/*[local-name()='eadid']/@identifier))"/>
 	<xsl:variable name="titleproper">
-		<xsl:value-of select="normalize-space(/ead/archdesc/did/unittitle)"/>
-		<xsl:if test="/ead/archdesc/did/unitdate">
+		<xsl:value-of select="normalize-space(/*[local-name()='ead']/*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unittitle'])"/>
+		<xsl:if test="/*[local-name()='ead']/*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unitdate']">
 			<xsl:text>, </xsl:text>
-			<xsl:value-of select="/ead/archdesc/did/unitdate"/>
+			<xsl:value-of select="/*[local-name()='ead']/*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unitdate']"/>
 		</xsl:if>
 	</xsl:variable>
 	<!--check later for not()altrender-->
-	<xsl:variable name="filingTitleproper" select="string(normalize-space(/ead/eadheader//titlestmt/titleproper[@altrender]))"/>
+	<xsl:variable name="filingTitleproper" select="string(normalize-space(/*[local-name()='ead']/*[local-name()='eadheader']//*[local-name()='titlestmt']/*[local-name()='titleproper'][@altrender]))"/>
 	<xsl:variable name="dateLastRev">
-		<xsl:value-of select="string(//revisiondesc/change[position()=last()]/date/@normal)"/>
+		<xsl:value-of select="string(//*[local-name()='revisiondesc']/*[local-name()='change'][position()=last()]/*[local-name()='date']/@normal)"/>
 	</xsl:variable>
 
 	<!-- ********************* </XML_VARIABLES> *********************** -->
@@ -68,9 +68,9 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 	<xsl:template match="*[@altrender='nodisplay']"/>
 	<xsl:template match="*[@audience='internal']"/>
 	<!-- Hide elements not matched in-toto elsewhere-->
-	<xsl:template match="profiledesc"/>
-	<xsl:template match="eadheader/eadid | eadheader/revisiondesc | archdesc/did"/>
-	<xsl:template match="ead">
+	<xsl:template match="*[local-name()='profiledesc']"/>
+	<xsl:template match="*[local-name()='eadheader']/*[local-name()='eadid'] | *[local-name()='eadheader']/*[local-name()='revisiondesc'] | *[local-name()='archdesc']/*[local-name()='did']"/>
+	<xsl:template match="*[local-name()='ead']">
 		<xsl:call-template name="html_base"/>
 	</xsl:template>
 
@@ -147,10 +147,10 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 					<div class="row">
 						<div class="col-md-12 text-center">
 							<h1>
-								<xsl:value-of select="normalize-space(/ead/archdesc/did/unittitle)"/>
-								<xsl:if test="/ead/archdesc/did/unitdate">
+								<xsl:value-of select="normalize-space(/*[local-name()='ead']/*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unittitle'])"/>
+								<xsl:if test="/*[local-name()='ead']/*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unitdate']">
 									<xsl:text>, </xsl:text>
-									<xsl:value-of select="/ead/archdesc/did/unitdate"/>
+									<xsl:value-of select="/*[local-name()='ead']/*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unitdate']"/>
 								</xsl:if>
 							</h1>
 						</div>
@@ -158,7 +158,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 					<div class="row">
 						<!-- March 2015: Moved TOC under the archdesc template to accommodate responsive framework.
 						On extra small (phones) and small devices, (< 992 px wide), the TOC will be moved under Collection Overview -->
-						<xsl:apply-templates select="archdesc"/>						
+						<xsl:apply-templates select="*[local-name()='archdesc']"/>						
 					</div>
 				</div>				
 			</body>

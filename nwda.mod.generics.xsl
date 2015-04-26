@@ -10,20 +10,21 @@ Major or significant revision history:
 2004-11-30 add code to process <eventgrp>.  See OSU SC "Pauling" in <bioghist> or OSU Archives "Board of Regents" in <odd>
 2004-12-07 put chronlist into a table format instead of a def list
 -->
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:fo="http://www.w3.org/1999/XSL/Format" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:fo="http://www.w3.org/1999/XSL/Format"
+	xmlns:ead="urn:isbn:1-931666-22-9" exclude-result-prefixes="ead xs xlink fo" version="1.0">
 	<!--links-->
-	<xsl:template match="ref">
+	<xsl:template match="*[local-name()='ref']">
 		<a class="xref">
 			<xsl:attribute name="href">#<xsl:value-of select="@target"/>
 			</xsl:attribute>
-			<xsl:value-of select="parent::p/text()"/>
+			<xsl:value-of select="parent::*[local-name()='p']/text()"/>
 			<xsl:value-of select="."/>
 		</a>
-		<xsl:if test="following-sibling::ref">
+		<xsl:if test="following-sibling::*[local-name()='ref']">
 			<br/>
 		</xsl:if>
 	</xsl:template>
-	<xsl:template match="extref">
+	<xsl:template match="*[local-name()='extref']">
 		<a class="extptr">
 			<xsl:attribute name="href">
 				<xsl:value-of select="@href"/>
@@ -31,7 +32,7 @@ Major or significant revision history:
 			<xsl:apply-templates/>
 		</a>
 	</xsl:template>
-	<xsl:template match="extref[@xlink:href]">
+	<xsl:template match="*[local-name()='extref'][@xlink:href]">
 		<a class="extptr">
 			<xsl:attribute name="href">
 				<xsl:value-of select="@xlink:href"/>
@@ -39,22 +40,22 @@ Major or significant revision history:
 			<xsl:apply-templates/>
 		</a>
 	</xsl:template>
-	<xsl:template match="daogrp">
+	<xsl:template match="*[local-name()='daogrp']">
 		<!--    <div class="daogrp"> -->
-		<xsl:apply-templates select="daoloc"/>
+		<xsl:apply-templates select="*[local-name()='daoloc']"/>
 		<!--   </div> -->
 	</xsl:template>
-	<xsl:template match="dao">
+	<xsl:template match="*[local-name()='dao']">
 		<a target="new">
 			<xsl:attribute name="href">
 				<xsl:value-of select="@href"/>. <xsl:value-of select="@content-role"/>
 			</xsl:attribute>
-			<xsl:value-of select="daodesc"/>
+			<xsl:value-of select="*[local-name()='daodesc']"/>
 			<span class="glyphicon glyphicon-camera"/>
 		</a>
 	</xsl:template>
 	<!-- 2004-07-14 carlson mod to fix daoloc display -->
-	<xsl:template match="daoloc">
+	<xsl:template match="*[local-name()='daoloc']">
 		<a target="new">
 			<xsl:attribute name="href">
 				<!--<xsl:value-of disable-output-escaping="yes" select="@href"/> removed 7/23/07 by Ethan Gruber-->
@@ -63,7 +64,7 @@ Major or significant revision history:
 		</a>
 	</xsl:template>
 	<!--expan/abbr-->
-	<xsl:template match="abbr">
+	<xsl:template match="*[local-name()='abbr']">
 		<xsl:choose>
 			<xsl:when test="$expandAbbr='true'">
 				<xsl:value-of select="./@expan"/>&#160;( <xsl:value-of select="."/>) </xsl:when>
@@ -72,7 +73,7 @@ Major or significant revision history:
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	<xsl:template match="expan">
+	<xsl:template match="*[local-name()='expan']">
 		<xsl:choose>
 			<xsl:when test="$expandAbbr='true'">
 				<xsl:value-of select="."/>&#160;( <xsl:value-of select="./@abbr"/>) </xsl:when>
@@ -82,74 +83,74 @@ Major or significant revision history:
 		</xsl:choose>
 	</xsl:template>
 	<!--lists-->
-	<xsl:template match="bibliography/p[bibref]">
+	<xsl:template match="*[local-name()='bibliography']/*[local-name()='p'][*[local-name()='bibref']]">
 		<xsl:apply-templates/>
 	</xsl:template>
-	<xsl:template match="item | indexentry | bibref">
+	<xsl:template match="*[local-name()='item'] | *[local-name()='indexentry'] | *[local-name()='bibref']">
 		<li class="{name()}">
 			<xsl:apply-templates/>
 		</li>
 	</xsl:template>
 	<!-- 2004-07-14 carlsonm mod to treat <chronitem> separately -->
-	<xsl:template match="chronitem">
+	<xsl:template match="*[local-name()='chronitem']">
 		<tr valign="top">
 			<td valign="top">
-				<xsl:apply-templates select="date"/>
+				<xsl:apply-templates select="*[local-name()='date']"/>
 			</td>
 			<!-- 2004-11-30 Carlson mod add code to process <eventgrp>.  See OSU SC "Pauling" in <bioghist> or OSU Archives "Board of Regents" in <odd> -->
 			<td valign="top">
 				<xsl:choose>
-					<xsl:when test="event">
+					<xsl:when test="*[local-name()='event']">
 						<span class="{name()}">
-							<xsl:apply-templates select="event"/>
+							<xsl:apply-templates select="*[local-name()='event']"/>
 						</span>
 						<br/>
 					</xsl:when>
-					<xsl:when test="eventgrp">
-						<xsl:apply-templates select="eventgrp" mode="chronlist"/>
+					<xsl:when test="*[local-name()='eventgrp']">
+						<xsl:apply-templates select="*[local-name()='eventgrp']" mode="chronlist"/>
 					</xsl:when>
 				</xsl:choose>
 			</td>
 		</tr>
 	</xsl:template>
-	<xsl:template match="eventgrp" mode="chronlist">
-		<xsl:for-each select="event">
+	<xsl:template match="*[local-name()='eventgrp']" mode="chronlist">
+		<xsl:for-each select="*[local-name()='event']">
 			<span class="{name()}">
 				<xsl:apply-templates/>
 			</span>
 			<br/>
 		</xsl:for-each>
 	</xsl:template>
-	<xsl:template match="defitem">
+	<xsl:template match="*[local-name()='defitem']">
 		<li class="{name()}">
-			<xsl:if test="./label">
+			<xsl:if test="./*[local-name()='label']">
 				<b>
-					<xsl:value-of select="label"/>
+					<xsl:value-of select="*[local-name()='label']"/>
 				</b>: </xsl:if>
-			<xsl:value-of select="item"/>
+			<xsl:value-of select="*[local-name()='item']"/>
 		</li>
 	</xsl:template>
 	<!-- 2004-07-14 carlsonm mod to treat chronlist differently -->
 	<!-- 2004-12-07 carlsonm: put chronlist into a table format instead of a def list -->
-	<xsl:template match="chronlist">
+	<xsl:template match="*[local-name()='chronlist']">
 		<span class="tableHead">
-			<xsl:apply-templates select="head"/>
+			<xsl:apply-templates select="*[local-name()='head']"/>
 		</span>
 		<table class="{name()}" border="0" cellspacing="10">
-			<xsl:apply-templates select="./*[not(self::head)]"/>
+			<xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
 		</table>
 	</xsl:template>
-	<xsl:template match="list | index | fileplan | bibliography">
+	<xsl:template match="*[local-name()='list'] | *[local-name()='index'] | *[local-name()='fileplan'] | *[local-name()='bibliography']">
 		<span class="tableHead">
-			<xsl:apply-templates select="head"/>
+			<xsl:apply-templates select="*[local-name()='head']"/>
 		</span>
 		<ul>
-			<xsl:apply-templates select="./*[not(self::head)]"/>
+			<xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
 		</ul>
 	</xsl:template>
 	<!-- where would an archivist be without... "misc"-->
-	<xsl:template match="change">
-		<xsl:apply-templates select="./item"/>&#160;( <xsl:apply-templates select="./date"/>) </xsl:template>
+	<xsl:template match="*[local-name()='change']">
+		<xsl:apply-templates select="./*[local-name()='item']"/>&#160;( <xsl:apply-templates select="./*[local-name()='date']"/>) </xsl:template>
 	<xsl:template match="*[@altrender='nodisplay']"/>
 	<!--
 	<xsl:template match="*[@role][not(parent::origination)][not(self::daogrp)]">
@@ -166,7 +167,7 @@ Major or significant revision history:
 		<xsl:apply-templates/>
 	</xsl:template>
 	<!--ultra generics-->
-	<xsl:template match="emph">
+	<xsl:template match="*[local-name()='emph']">
 		<xsl:choose>
 			<xsl:when test="@render">
 				<xsl:apply-templates select="*[@render]"/>
@@ -178,20 +179,20 @@ Major or significant revision history:
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	<xsl:template match="lb">
+	<xsl:template match="*[local-name()='lb']">
 		<br/>
 	</xsl:template>
-	<xsl:template match="unitdate">
+	<xsl:template match="*[local-name()='unitdate']">
 		<xsl:apply-templates/>
 		<xsl:text> </xsl:text>
 		<!-- original SY code
     <xsl:if test="@type">&#160;<xsl:text></xsl:text>(<xsl:value-of select="@type"/>)</xsl:if>	 
 	 -->
 		<!-- 2004-07-16 carlsonm mod Do not display @type if c02+ -->
-		<xsl:if test="@type and not(ancestor::c01)">&#160; <xsl:text/>( <xsl:value-of select="@type"/>) </xsl:if>
+		<xsl:if test="@type and not(ancestor::*[local-name()='c01'])">&#160; <xsl:text/>( <xsl:value-of select="@type"/>) </xsl:if>
 	</xsl:template>
 
-	<xsl:template match="unitid" mode="archdesc">
+	<xsl:template match="*[local-name()='unitid']" mode="archdesc">
 		<span property="dcterms:identifier" content="{.}">
 			<xsl:value-of select="."/>
 			<xsl:if test="@type">
@@ -205,7 +206,7 @@ Major or significant revision history:
 		</span>
 	</xsl:template>
 
-	<xsl:template match="unitdate" mode="archdesc">
+	<xsl:template match="*[local-name()='unitdate']" mode="archdesc">
 		<xsl:value-of select="."/>
 		<xsl:if test="@type">
 			<xsl:text> (</xsl:text>
@@ -218,8 +219,8 @@ Major or significant revision history:
 					<xsl:when test="contains(@normal, '/')">
 						<xsl:variable name="start" select="substring-before(@normal, '/')"/>
 						<xsl:variable name="end" select="substring-after(@normal, '/')"/>
-						
-						
+
+
 						<xsl:choose>
 							<xsl:when test="@type='bulk'">
 								<span content="{$start}" property="arch:bulkStart">
@@ -245,8 +246,8 @@ Major or significant revision history:
 										<xsl:call-template name="unitdate-datatype">
 											<xsl:with-param name="date" select="$start"/>
 										</xsl:call-template>
-									</xsl:attribute>								
-									
+									</xsl:attribute>
+
 									<xsl:value-of select="$start"/>
 								</span>
 								<span content="{$end}" property="arch:inclusiveEnd">
@@ -299,17 +300,17 @@ Major or significant revision history:
 								</span>
 							</xsl:otherwise>
 						</xsl:choose>
-						
+
 					</xsl:otherwise>
 				</xsl:choose>
 			</div>
-			
+
 		</xsl:if>
 		<xsl:if test="not(position() = last())">
 			<br/>
 		</xsl:if>
 	</xsl:template>
-	
+
 	<xsl:template name="unitdate-datatype">
 		<xsl:param name="date"/>
 		<xsl:attribute name="datatype">xsd:gYear</xsl:attribute>
@@ -325,9 +326,9 @@ Major or significant revision history:
 			</xsl:when>
 		</xsl:choose>-->
 	</xsl:template>
-	
+
 	<!-- March 2015: For displaying the container within c01/did. Revision specification 7.1.2 -->
-	<xsl:template match="container" mode="c01">
+	<xsl:template match="*[local-name()='container']" mode="c01">
 		<xsl:if test="@type">
 			<xsl:value-of select="concat(translate(substring(@type, 1, 1), 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'), substring(@type, 2))"/>
 			<xsl:text> </xsl:text>
@@ -338,7 +339,7 @@ Major or significant revision history:
 		</xsl:if>
 	</xsl:template>
 
-	<xsl:template match="extent">
+	<xsl:template match="*[local-name()='extent']">
 		<xsl:choose>
 			<xsl:when test="position() = 1">
 				<span property="dcterms:extent">
@@ -358,26 +359,26 @@ Major or significant revision history:
 		</xsl:choose>
 	</xsl:template>
 
-	<xsl:template match="p">
+	<xsl:template match="*[local-name()='p']">
 		<!-- 2004-09-27 carlsonm: adding test to remove excess space if <p> is in <dsc> 
 Tracking # 4.20
 -->
 		<xsl:choose>
-			<xsl:when test="not(ancestor::dsc) or parent::dsc">
+			<xsl:when test="not(ancestor::*[local-name()='dsc']) or parent::*[local-name()='dsc']">
 				<p>
 					<xsl:apply-templates/>
 				</p>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:apply-templates/>
-				<xsl:if test="not(position()=last()) and c01">
+				<xsl:if test="not(position()=last()) and *[local-name()='c01']">
 					<br/>
 					<br/>
 				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	<xsl:template match="controlaccess[@type='lower']">
+	<xsl:template match="*[local-name()='controlaccess'][@type='lower']">
 		<xsl:value-of select="name()"/>
 		<xsl:apply-templates>
 			<xsl:sort order="ascending" data-type="text"/>
@@ -389,10 +390,10 @@ Tracking # 4.20
 						ddd<xsl:sort order="ascending" data-type="text"/>ddd
 					</xsl:apply-templates><br />	-->
 	</xsl:template>
-	<xsl:template match="address">
+	<xsl:template match="*[local-name()='address']">
 		<p class="address">
 			<!-- the following code distinguishes between a text-only address line and a url or email address -->
-			<xsl:for-each select="addressline">
+			<xsl:for-each select="*[local-name()='addressline']">
 				<xsl:choose>
 					<!-- if the addressline contains http://, a href is created -->
 					<xsl:when test="contains(normalize-space(.), 'http://')">
@@ -453,7 +454,7 @@ Tracking # 4.20
 			</xsl:for-each>
 		</p>
 	</xsl:template>
-	<xsl:template match="div">
+	<xsl:template match="*[local-name()='div']">
 		<p class="div">
 			<xsl:apply-templates/>
 		</p>
@@ -465,7 +466,7 @@ Tracking # 4.20
     </b>
   </xsl:template>
 -->
-	<xsl:template match="title">
+	<xsl:template match="*[local-name()='title']">
 		<i>
 			<xsl:apply-templates/>
 		</i>

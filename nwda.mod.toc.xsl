@@ -4,25 +4,25 @@
 	Edited September 2007 by Ethan Gruber, 
 	Rewritten into HTML5/Bootstrap in 2015 by Ethan Gruber -->
 
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" exclude-result-prefixes="fo">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:ead="urn:isbn:1-931666-22-9" exclude-result-prefixes="fo ead">
 	<!-- ********************* <TABLE OF CONTENTS> *********************** -->
 	<!-- TOC TEMPLATE - creates Table of Contents -->
 	<xsl:template name="toc">
 
 		<h3 id="toc">Table of Contents</h3>
 		<ul class="list-unstyled">
-			<xsl:if test="did">
+			<xsl:if test="*[local-name()='did']">
 				<li>
 					<a href="#overview" id="showoverview">
 						<xsl:value-of select="$overview_head"/>
 					</a>
 				</li>
 			</xsl:if>
-			<xsl:if test="string(bioghist)">
+			<xsl:if test="string(*[local-name()='bioghist'])">
 				<li>
-					<xsl:for-each select="bioghist">
+					<xsl:for-each select="*[local-name()='bioghist']">
 						<xsl:choose>
-							<xsl:when test="./head/text()='Biographical Note'">
+							<xsl:when test="./*[local-name()='head']/text()='Biographical Note'">
 								<a href="#{$bioghist_id}" class="showbioghist">
 									<xsl:value-of select="$bioghist_head"/>
 								</a>
@@ -44,8 +44,8 @@
 					</xsl:for-each>
 				</li>
 			</xsl:if>
-			<xsl:if test="string(odd/*)">
-				<xsl:for-each select="odd[not(@audience='internal')]">
+			<xsl:if test="string(*[local-name()='odd']/*)">
+				<xsl:for-each select="*[local-name()='odd'][not(@audience='internal')]">
 					<li>
 						<a href="#{$odd_id}" class="ltoc1">
 							<xsl:choose>
@@ -60,14 +60,14 @@
 					</li>
 				</xsl:for-each>
 			</xsl:if>
-			<xsl:if test="string(scopecontent)">
+			<xsl:if test="string(*[local-name()='scopecontent'])">
 				<li>
 					<a href="#{$scopecontent_id}" class="showscopecontent">
 						<xsl:value-of select="$scopecontent_head"/>
 					</a>
 				</li>
 			</xsl:if>
-			<xsl:if test="(string(accessrestrict)) or (string(userestrict)) or (string(altformavail))">
+			<xsl:if test="(string(*[local-name()='accessrestrict'])) or (string(*[local-name()='userestrict'])) or (string(*[local-name()='altformavail']))">
 				<li>
 					<a href="#" class="toggle-button" id="toggle-use">
 						<span class="glyphicon glyphicon-plus"> </span>
@@ -76,28 +76,28 @@
 						<xsl:value-of select="$useinfo_head"/>
 					</a>
 					<ul style="display:none" class="list-unstyled use-content">
-						<xsl:if test="string(altformavail)">
+						<xsl:if test="string(*[local-name()='altformavail'])">
 							<li>
 								<a href="#{$altformavail_id}" class="showuseinfo">
 									<xsl:value-of select="$altformavail_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(accessrestrict)">
+						<xsl:if test="string(*[local-name()='accessrestrict'])">
 							<li>
 								<a href="#{$accessrestrict_id}" class="showuseinfo">
 									<xsl:value-of select="$accessrestrict_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(userestrict)">
+						<xsl:if test="string(*[local-name()='userestrict'])">
 							<li>
 								<a href="#{$userestrict_id}" class="showuseinfo">
 									<xsl:value-of select="$userestrict_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(prefercite)">
+						<xsl:if test="string(*[local-name()='prefercite'])">
 							<li>
 								<a href="#{$prefercite_id}" class="showuseinfo">
 									<xsl:value-of select="$prefercite_label"/>
@@ -109,8 +109,9 @@
 			</xsl:if>
 
 			<!-- ADMINISTRATIVE INFO -->
-			<xsl:if test="string(arrangement) or string(custodhist) or string(acqinfo)       or string(processinfo) or string(accruals) or      string(separatedmaterial) or string(originalsloc)
-				or string(bibliography) or string(otherfindaid) or string(relatedmaterial) or      string(index)">
+			<xsl:if test="string(*[local-name()='arrangement']) or string(*[local-name()='custodhist']) or string(*[local-name()='acqinfo'])       or string(*[local-name()='processinfo']) or
+				string(*[local-name()='accruals']) or      string(*[local-name()='separatedmaterial']) or string(*[local-name()='originalsloc'])     or string(*[local-name()='bibliography']) or
+				string(*[local-name()='otherfindaid']) or string(*[local-name()='relatedmaterial']) or      string(*[local-name()='index'])">
 				<li>
 					<a href="#" class="toggle-button" id="toggle-admin">
 						<span class="glyphicon glyphicon-plus"> </span>
@@ -119,77 +120,77 @@
 						<xsl:text>Administrative Information</xsl:text>
 					</a>
 					<ul style="display:none" class="list-unstyled admin-content">
-						<xsl:if test="string(arrangement)">
+						<xsl:if test="string(*[local-name()='arrangement'])">
 							<li>
 								<a href="#{$arrangement_id}" class="showai">
 									<xsl:value-of select="$arrangement_head"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(custodhist)">
+						<xsl:if test="string(*[local-name()='custodhist'])">
 							<li>
 								<a href="#{$custodhist_id}" class="showai">
 									<xsl:value-of select="$custodhist_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(acqinfo)">
+						<xsl:if test="string(*[local-name()='acqinfo'])">
 							<li>
 								<a href="#{$acqinfo_id}" class="showai">
 									<xsl:value-of select="$acqinfo_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(accruals)">
+						<xsl:if test="string(*[local-name()='accruals'])">
 							<li>
 								<a href="#{$accruals_id}" class="showai">
 									<xsl:value-of select="$accruals_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(processinfo)">
+						<xsl:if test="string(*[local-name()='processinfo'])">
 							<li>
 								<a href="#{$processinfo_id}" class="showai">
 									<xsl:value-of select="$processinfo_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(separatedmaterial)">
+						<xsl:if test="string(*[local-name()='separatedmaterial'])">
 							<li>
 								<a href="#{$separatedmaterial_id}" class="showai">
 									<xsl:value-of select="$separatedmaterial_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(bibliography)">
+						<xsl:if test="string(*[local-name()='bibliography'])">
 							<li>
 								<a href="#{$bibliography_id}" class="showai">
 									<xsl:value-of select="$bibliography_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(otherfindaid)">
+						<xsl:if test="string(*[local-name()='otherfindaid'])">
 							<li>
 								<a href="#{$otherfindaid_id}" class="showai">
 									<xsl:value-of select="$otherfindaid_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(relatedmaterial)">
+						<xsl:if test="string(*[local-name()='relatedmaterial'])">
 							<li>
 								<a href="#{$relatedmaterial_id}" class="showai">
 									<xsl:value-of select="$relatedmaterial_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(appraisal)">
+						<xsl:if test="string(*[local-name()='appraisal'])">
 							<li>
-								<a href="#{appraisal_id}" class="showai">
+								<a href="#{$appraisal_id}" class="showai">
 									<xsl:value-of select="$appraisal_label"/>
 								</a>
 							</li>
 						</xsl:if>
-						<xsl:if test="string(originalsloc)">
+						<xsl:if test="string(*[local-name()='originalsloc'])">
 							<li>
 								<a href="#{$originalsloc_id}" class="showai">
 									<xsl:value-of select="$originalsloc_label"/>
@@ -199,9 +200,9 @@
 					</ul>
 				</li>
 			</xsl:if>
-			<xsl:if test="string(dsc)">
+			<xsl:if test="string(*[local-name()='dsc'])">
 				<li>
-					<xsl:if test="//c02">
+					<xsl:if test="//*[local-name()='c02']">
 						<a href="#" class="toggle-button" id="toggle-dsc">
 							<span class="glyphicon glyphicon-minus"> </span>
 						</a>
@@ -209,12 +210,12 @@
 					<a href="#{$dsc_id}" class="showdsc">
 						<xsl:value-of select="$dsc_head"/>
 					</a>
-					<xsl:if test="//dsc[not(@type='in-depth')]">
+					<xsl:if test="//*[local-name()='dsc'][not(@type='in-depth')]">
 						<xsl:call-template name="dsc_links"/>
 					</xsl:if>
 				</li>
 			</xsl:if>
-			<xsl:if test="string(controlaccess/*/subject) or string(controlaccess/subject)">
+			<xsl:if test="string(*[local-name()='controlaccess']/*/*[local-name()='subject']) or string(*[local-name()='controlaccess']/*[local-name()='subject'])">
 				<li>
 					<a href="#{$controlaccess_id}" class="showcontrolaccess">
 						<xsl:value-of select="$controlaccess_head"/>
@@ -227,9 +228,9 @@
 	<xsl:template name="dsc_links">
 		<!-- if there are c02's anywhere in the dsc, then display the c01 headings
 			if there are no c02's, all of the c01's are an in-depth type of dsc -->
-		<xsl:if test="//c02">
+		<xsl:if test="//*[local-name()='c02']">
 			<ul class="list-unstyled dsc-content">
-				<xsl:for-each select="//c01">
+				<xsl:for-each select="//*[local-name()='c01']">
 					<li>
 						<a>
 							<xsl:attribute name="href">
@@ -244,14 +245,14 @@
 							</xsl:attribute>
 							<!-- what if no unitititle-->
 							<xsl:choose>
-								<xsl:when test="./did/unittitle">
+								<xsl:when test="./*[local-name()='did']/*[local-name()='unittitle']">
 									<!--<xsl:value-of select="position()"/>.&#160;-->
-									<xsl:value-of select="./did/unittitle"/>
+									<xsl:value-of select="./*[local-name()='did']/*[local-name()='unittitle']"/>
 								</xsl:when>
 								<!-- 2004-07-14 carlsonm mod: select unitid no matter encodinganalog if no unittitle -->
-								<xsl:when test="./did/unitid/text() and not(./did/unittitle)">
-									<xsl:if test="did/unitid/@type='accession'"> Accession No.&#160; </xsl:if>
-									<xsl:value-of select="./did/unitid"/>
+								<xsl:when test="./*[local-name()='did']/*[local-name()='unitid']/text() and not(./*[local-name()='did']/*[local-name()='unittitle'])">
+									<xsl:if test="*[local-name()='did']/*[local-name()='unitid']/@type='accession'"> Accession No.&#160; </xsl:if>
+									<xsl:value-of select="./*[local-name()='did']/*[local-name()='unitid']"/>
 								</xsl:when>
 								<xsl:otherwise>
 									<!--<xsl:value-of select="position()"/>.&#160;-->Subordinate Component # <xsl:value-of select="position()"/>

@@ -2,7 +2,7 @@
 
 <!-- migrated to HTML5/Bootstrap in March 2015, Ethan Gruber -->
 
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"  xmlns:ead="urn:isbn:1-931666-22-9" xmlns:fo="http://www.w3.org/1999/XSL/Format" exclude-result-prefixes="fo ead">
 	<xsl:template name="html.header">
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">

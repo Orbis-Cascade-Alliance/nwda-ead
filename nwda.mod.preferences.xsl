@@ -2,7 +2,8 @@
 <!--
 
 -->
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:fo="http://www.w3.org/1999/XSL/Format" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:ead="urn:isbn:1-931666-22-9"
+	exclude-result-prefixes="ead fo rdf" version="1.0">
 	<!-- ********************* <PREFERENCES.USAGE> *********************** -->
 	<!-- usage prefeerences to go here -->
 	<!--USER definided-->
@@ -35,12 +36,12 @@
 	<!-- March 2015: RDF and hasCHOs variables moved to this stylesheet -->
 	<xsl:variable name="rdf">
 		<xsl:if test="$editor-active = 'true'">
-			<xsl:copy-of select="document(concat($pathToRdf, //eadid/@mainagencycode, '.xml'))/rdf:RDF"/>
+			<xsl:copy-of select="document(concat($pathToRdf, //*[local-name()='eadid']/@mainagencycode, '.xml'))/rdf:RDF"/>
 		</xsl:if>
 	</xsl:variable>
 	<xsl:variable name="hasCHOs">
 		<xsl:if test="$harvester-active = 'true'">
-			<xsl:if test="string(//eadid/@identifier) and descendant::dao[@role='harvest-all' and string(@href)]">
+			<xsl:if test="string(//*[local-name()='eadid']/@identifier) and descendant::*[local-name()='dao'][@role='harvest-all' and string(@href)]">
 				<!-- if there is an ARK in eadid/@identifier and at least one dao with a 'harvest-all' @role, then assume CHOs is true: ASP.NET seems not use allow URIs in xsl document() function -->
 				<xsl:text>true</xsl:text>
 			</xsl:if>
@@ -62,7 +63,7 @@
 	<xsl:variable name="repository">Your Repositiory</xsl:variable>
 	<xsl:variable name="repositoryParent">Your Repositiory Parent Body</xsl:variable>
 	<xsl:variable name="styleFileName">nwda.style.css</xsl:variable>
-	<xsl:variable name="file" select="translate(//ead/@id, ' ', '')"/>
+	<xsl:variable name="file" select="translate(//*[local-name()='ead']/@id, ' ', '')"/>
 	<xsl:variable name="dscOrder">bfu</xsl:variable>
 	<!--defunct-->
 	<!-- ********************* </PREFERENCES.USAGE> *********************** -->
