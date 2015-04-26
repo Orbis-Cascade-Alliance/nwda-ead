@@ -161,7 +161,7 @@ Changes:
                   </fo:block>
                </fo:table-cell>
                <xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
-                  <xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+                  <xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='unitdate']">
                      <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                                     border-bottom-style="solid"
                                     padding="8px">
@@ -442,7 +442,7 @@ Changes:
             </fo:block>
          </fo:table-cell>
          <!-- if the date layout is columnar, then the column is displayed --><xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
-            <xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+            <xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
                <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                               border-bottom-style="solid"
                               padding="8px">
@@ -514,7 +514,7 @@ Changes:
                                  padding="8px">
                      <fo:block/>
                   </fo:table-cell>
-                  <xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+                  <xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
                      <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                                     border-bottom-style="solid"
                                     padding="8px">
@@ -555,7 +555,7 @@ Changes:
                                  padding="8px">
                      <fo:block/>
                   </fo:table-cell>
-                  <xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+                  <xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
                      <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                                     border-bottom-style="solid"
                                     padding="8px">
