@@ -158,7 +158,9 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 					<div class="row">
 						<!-- March 2015: Moved TOC under the archdesc template to accommodate responsive framework.
 						On extra small (phones) and small devices, (< 992 px wide), the TOC will be moved under Collection Overview -->
-						<xsl:apply-templates select="*[local-name()='archdesc']"/>						
+						
+						<!-- April 2015: flag mode has been added to facilitate cleaner linking in the XSL:FO -->
+						<xsl:apply-templates select="*[local-name()='archdesc']" mode="flag"/>						
 					</div>
 				</div>				
 			</body>

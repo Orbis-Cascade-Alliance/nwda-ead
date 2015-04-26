@@ -90,27 +90,28 @@
 						</fo:block>
 					</fo:static-content>
 					<fo:flow flow-name="body">
-						<fo:block font-size="36px" color="#676D38">
+						<fo:block font-size="24px" color="#676D38">
 							<xsl:element name="xsl:value-of"
 								namespace="http://www.w3.org/1999/XSL/Transform">
 								<xsl:attribute name="select"
-									>normalize-space(archdesc/did/unittitle)</xsl:attribute>
+									>normalize-space(*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unittitle'])</xsl:attribute>
 							</xsl:element>
 							<xsl:element name="xsl:if"
 								namespace="http://www.w3.org/1999/XSL/Transform">
-								<xsl:attribute name="test">archdesc/did/unitdate</xsl:attribute>
+								<xsl:attribute name="test">*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unitdate']</xsl:attribute>
 								<xsl:element name="xsl:text"
 									namespace="http://www.w3.org/1999/XSL/Transform">, </xsl:element>
 								<xsl:element name="xsl:value-of"
 									namespace="http://www.w3.org/1999/XSL/Transform">
 									<xsl:attribute name="select"
-										>archdesc/did/unitdate</xsl:attribute>
+										>*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unitdate']</xsl:attribute>
 								</xsl:element>
 							</xsl:element>
 						</fo:block>
 						<fo:block>
 							<xsl:element name="xsl:apply-templates">
-								<xsl:attribute name="select">archdesc</xsl:attribute>
+								<xsl:attribute name="select">*[local-name()='archdesc']</xsl:attribute>
+								<xsl:attribute name="mode">flag</xsl:attribute>
 							</xsl:element>
 						</fo:block>
 					</fo:flow>
@@ -120,9 +121,10 @@
 	</xsl:template>
 
 	<!-- restructure archdesc template to eliminate TOC -->
-	<xsl:template match="xsl:template[@match='archdesc']">
+	<xsl:template match="xsl:template[contains(@match, 'archdesc')][@mode='flag']">
 		<xsl:element name="xsl:template">
-			<xsl:attribute name="match">archdesc</xsl:attribute>
+			<xsl:attribute name="match">*[local-name()='archdesc']</xsl:attribute>
+			<xsl:attribute name="mode">flag</xsl:attribute>
 
 			<xsl:element name="xsl:call-template">
 				<xsl:attribute name="name">collection_overview</xsl:attribute>
@@ -131,7 +133,7 @@
 			<fo:block border-top-style="solid"/>
 
 			<xsl:element name="xsl:apply-templates">
-				<xsl:attribute name="select">bioghist | scopecontent | odd</xsl:attribute>
+				<xsl:attribute name="select">*[local-name()='bioghist'] | *[local-name()='scopecontent'] | *[local-name()='odd']</xsl:attribute>
 			</xsl:element>
 
 			<xsl:element name="xsl:call-template">
@@ -144,10 +146,10 @@
 			<fo:block border-top-style="solid"/>
 
 			<xsl:element name="xsl:apply-templates">
-				<xsl:attribute name="select">dsc</xsl:attribute>
+				<xsl:attribute name="select">*[local-name()='dsc']</xsl:attribute>
 			</xsl:element>
 			<xsl:element name="xsl:apply-templates">
-				<xsl:attribute name="select">controlaccess</xsl:attribute>
+				<xsl:attribute name="select">*[local-name()='controlaccess']</xsl:attribute>
 			</xsl:element>
 		</xsl:element>
 	</xsl:template>
@@ -167,13 +169,13 @@
 
 	<!-- headings -->
 	<xsl:template match="h3">
-		<fo:block font-size="24px" color="#676D38" margin-bottom="10px" margin-top="20px">
+		<fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
 			<xsl:apply-templates/>
 		</fo:block>
 	</xsl:template>
 
 	<xsl:template match="h4">
-		<fo:block font-size="18px" color="#6b6b6b" margin-bottom="10px" margin-top="10px">
+		<fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px">
 			<xsl:apply-templates/>
 		</fo:block>
 	</xsl:template>
@@ -218,16 +220,37 @@
 				<!-- construct an xsl:if within the XSL:FO to test for container[2] -->
 				<xsl:element name="xsl:choose">
 					<xsl:element name="xsl:when">
-						<xsl:attribute name="test">descendant::did/container[2]</xsl:attribute>
-						<fo:table-column column-width="10%"/>
-						<fo:table-column column-width="10%"/>
-						<fo:table-column column-width="60%"/>
-						<fo:table-column column-width="20%"/>
+						<xsl:attribute name="test">descendant::*[local-name()='did']/*[local-name()='container'][2]</xsl:attribute>
+						<!-- when there is a unitdate, include column for unitdate -->
+						<xsl:element name="xsl:choose">
+							<xsl:element name="xsl:when">
+								<xsl:attribute name="test">descendant::*[local-name()='did']/*[local-name()='unitdate']</xsl:attribute>
+								<fo:table-column column-width="10%"/>
+								<fo:table-column column-width="10%"/>
+								<fo:table-column column-width="60%"/>
+								<fo:table-column column-width="20%"/>
+							</xsl:element>
+							<xsl:element name="xsl:otherwise">
+								<fo:table-column column-width="10%"/>
+								<fo:table-column column-width="10%"/>
+								<fo:table-column column-width="80%"/>
+							</xsl:element>
+						</xsl:element>						
 					</xsl:element>
 					<xsl:element name="xsl:otherwise">
-						<fo:table-column column-width="10%"/>
-						<fo:table-column column-width="70%"/>
-						<fo:table-column column-width="20%"/>
+						<!-- when there is a unitdate, include column for unitdate -->
+						<xsl:element name="xsl:choose">
+							<xsl:element name="xsl:when">
+								<xsl:attribute name="test">descendant::*[local-name()='did']/*[local-name()='unitdate']</xsl:attribute>
+								<fo:table-column column-width="15%"/>
+								<fo:table-column column-width="65%"/>
+								<fo:table-column column-width="20%"/>
+							</xsl:element>
+							<xsl:element name="xsl:otherwise">
+								<fo:table-column column-width="15%"/>
+								<fo:table-column column-width="85%"/>
+							</xsl:element>
+						</xsl:element>						
 					</xsl:element>
 				</xsl:element>
 			</xsl:if>

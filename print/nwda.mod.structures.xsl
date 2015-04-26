@@ -16,48 +16,50 @@ Mark Carlson
                 xmlns:arch="http://purl.org/archival/vocab/arch#"
                 xmlns:dcterms="http://purl.org/dc/terms/"
                 xmlns:foaf="http://xmlns.com/foaf/0.1/"
+                xmlns:ead="urn:isbn:1-931666-22-9"
                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                 xmlns:msxsl="urn:schemas-microsoft-com:xslt"
                 xmlns:exsl="http://exslt.org/common"
                 version="1.0"
-                exclude-result-prefixes="nwda xsd vcard xsl msxsl exsl">
-   <xsl:template match="profiledesc | revisiondesc | filedesc | eadheader | frontmatter"/>
-   <!-- ********************* <FOOTER> *********************** --><xsl:template match="publicationstmt">
-      <fo:block font-size="18px" color="#6b6b6b" margin-bottom="10px" margin-top="10px">
-         <xsl:value-of select="/ead/eadheader//titlestmt/author"/>
+                exclude-result-prefixes="nwda xsd vcard xsl msxsl exsl ead">
+   <xsl:template match="*[local-name()='profiledesc'] | *[local-name()='revisiondesc'] | *[local-name()='filedesc'] | *[local-name()='eadheader'] | *[local-name()='frontmatter']"/>
+   <!-- ********************* <FOOTER> *********************** --><xsl:template match="*[local-name()='publicationstmt']">
+      <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px">
+         <xsl:value-of select="/*[local-name()='ead']/*[local-name()='eadheader']//*[local-name()='titlestmt']/*[local-name()='author']"/>
          <fo:block/>
-         <xsl:value-of select="./date"/>
+         <xsl:value-of select="./*[local-name()='date']"/>
       </fo:block>
       <!--<xsl:if test="$editor-active = 'true'">
 			<xsl:if test="string($rdf//foaf:thumbnail/@rdf:resource)">
 				<img alt="institutional logo" style="max-height:100px" src="{$rdf//foaf:thumbnail/@rdf:resource}"/>
 			</xsl:if>
 		</xsl:if>--></xsl:template>
-   <!-- ********************* <END FOOTER> *********************** --><!-- ********************* <OVERVIEW> *********************** --><xsl:template match="archdesc">
+   <!-- ********************* <END FOOTER> *********************** --><!-- ********************* <OVERVIEW> *********************** --><xsl:template match="*[local-name()='archdesc']" mode="flag">
       <xsl:call-template name="collection_overview"/>
       <fo:block border-top-style="solid"/>
-      <xsl:apply-templates select="bioghist | scopecontent | odd"/>
+      <xsl:apply-templates select="*[local-name()='bioghist'] | *[local-name()='scopecontent'] | *[local-name()='odd']"/>
       <xsl:call-template name="useinfo"/>
       <xsl:call-template name="administrative_info"/>
       <fo:block border-top-style="solid"/>
-      <xsl:apply-templates select="dsc"/>
-      <xsl:apply-templates select="controlaccess"/>
+      <xsl:apply-templates select="*[local-name()='dsc']"/>
+      <xsl:apply-templates select="*[local-name()='controlaccess']"/>
    </xsl:template>
    <!-- ********************* COLLECTION OVERVIEW *********************** --><xsl:template name="collection_overview">
-      <fo:block font-size="24px" color="#676D38" margin-bottom="10px" margin-top="20px">
+      <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
          <xsl:value-of select="$overview_head"/>
       </fo:block>
       <fo:block>
          <fo:table>
-            <fo:table-body><!--origination--><xsl:if test="string(did/origination)">
+            <fo:table-body><!--origination--><xsl:if test="string(*[local-name()='did']/*[local-name()='origination'])">
                   <fo:table-row>
                      <fo:table-cell text-align="right" font-weight="bold" width="160px">
                         <fo:block margin-right="10px">
                            <xsl:choose>
-                              <xsl:when test="did/origination/*/@role">
-                                 <xsl:variable name="orig1" select="substring(did/origination/*/@role, 1, 1)"/>
+                              <xsl:when test="*[local-name()='did']/*[local-name()='origination']/*/@role">
+                                 <xsl:variable name="orig1"
+                                               select="substring(*[local-name()='did']/*[local-name()='origination']/*/@role, 1, 1)"/>
                                  <xsl:value-of select="translate($orig1, 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ')"/>
-                                 <xsl:value-of select="substring(did/origination/*/@role, 2)"/>
+                                 <xsl:value-of select="substring(*[local-name()='did']/*[local-name()='origination']/*/@role, 2)"/>
                               </xsl:when>
                               <xsl:otherwise>
                                  <xsl:value-of select="$origination_label"/>
@@ -67,12 +69,12 @@ Mark Carlson
                      </fo:table-cell>
                      <fo:table-cell>
                         <fo:block>
-                           <xsl:apply-templates select="did/origination"/>
+                           <xsl:apply-templates select="*[local-name()='did']/*[local-name()='origination']"/>
                         </fo:block>
                      </fo:table-cell>
                   </fo:table-row>
                </xsl:if>
-               <!--collection title--><xsl:if test="did/unittitle">
+               <!--collection title--><xsl:if test="*[local-name()='did']/*[local-name()='unittitle']">
                   <fo:table-row>
                      <fo:table-cell text-align="right" font-weight="bold" width="160px">
                         <fo:block margin-right="10px">
@@ -81,12 +83,12 @@ Mark Carlson
                      </fo:table-cell>
                      <fo:table-cell>
                         <fo:block>
-                           <xsl:apply-templates select="did/unittitle[1]"/>
+                           <xsl:apply-templates select="*[local-name()='did']/*[local-name()='unittitle'][1]"/>
                         </fo:block>
                      </fo:table-cell>
                   </fo:table-row>
                </xsl:if>
-               <!--collection dates--><xsl:if test="did/unitdate">
+               <!--collection dates--><xsl:if test="*[local-name()='did']/*[local-name()='unitdate']">
                   <fo:table-row>
                      <fo:table-cell text-align="right" font-weight="bold" width="160px">
                         <fo:block margin-right="10px">
@@ -95,12 +97,12 @@ Mark Carlson
                      </fo:table-cell>
                      <fo:table-cell>
                         <fo:block>
-                           <xsl:apply-templates select="did/unitdate" mode="archdesc"/>
+                           <xsl:apply-templates select="*[local-name()='did']/*[local-name()='unitdate']" mode="archdesc"/>
                         </fo:block>
                      </fo:table-cell>
                   </fo:table-row>
                </xsl:if>
-               <!--collection physdesc--><xsl:if test="did/physdesc">
+               <!--collection physdesc--><xsl:if test="*[local-name()='did']/*[local-name()='physdesc']">
                   <fo:table-row>
                      <fo:table-cell text-align="right" font-weight="bold" width="160px">
                         <fo:block margin-right="10px">
@@ -109,12 +111,12 @@ Mark Carlson
                      </fo:table-cell>
                      <fo:table-cell>
                         <fo:block>
-                           <xsl:for-each select="did/physdesc">
-                              <xsl:apply-templates select="extent"/>
-                              <!-- multiple extents contained in parantheses --><xsl:if test="string(physfacet) and string(extent)">  :  </xsl:if>
-                              <xsl:apply-templates select="physfacet"/>
-                              <xsl:if test="string(dimensions) and string(physfacet)">  ;  </xsl:if>
-                              <xsl:apply-templates select="dimensions"/>
+                           <xsl:for-each select="*[local-name()='did']/*[local-name()='physdesc']">
+                              <xsl:apply-templates select="*[local-name()='extent']"/>
+                              <!-- multiple extents contained in parantheses --><xsl:if test="string(*[local-name()='physfacet']) and string(*[local-name()='extent'])">  :  </xsl:if>
+                              <xsl:apply-templates select="*[local-name()='physfacet']"/>
+                              <xsl:if test="string(*[local-name()='dimensions']) and string(*[local-name()='physfacet'])">  ;  </xsl:if>
+                              <xsl:apply-templates select="*[local-name()='dimensions']"/>
                               <xsl:if test="not(position()=last())">
                                  <fo:block/>
                               </xsl:if>
@@ -123,7 +125,7 @@ Mark Carlson
                      </fo:table-cell>
                   </fo:table-row>
                </xsl:if>
-               <!--collection physloc--><xsl:if test="did/physloc">
+               <!--collection physloc--><xsl:if test="*[local-name()='did']/*[local-name()='physloc']">
                   <fo:table-row>
                      <fo:table-cell text-align="right" font-weight="bold" width="160px">
                         <fo:block margin-right="10px">
@@ -132,7 +134,7 @@ Mark Carlson
                      </fo:table-cell>
                      <fo:table-cell>
                         <fo:block>
-                           <xsl:for-each select="did/physloc">
+                           <xsl:for-each select="*[local-name()='did']/*[local-name()='physloc']">
                               <xsl:apply-templates/>
                               <xsl:if test="not(position()=last())">
                                  <fo:block/>
@@ -142,7 +144,7 @@ Mark Carlson
                      </fo:table-cell>
                   </fo:table-row>
                </xsl:if>
-               <!--collection #--><xsl:if test="did/unitid">
+               <!--collection #--><xsl:if test="*[local-name()='did']/*[local-name()='unitid']">
                   <fo:table-row>
                      <fo:table-cell text-align="right" font-weight="bold" width="160px">
                         <fo:block margin-right="10px">
@@ -151,12 +153,12 @@ Mark Carlson
                      </fo:table-cell>
                      <fo:table-cell>
                         <fo:block>
-                           <xsl:apply-templates select="did/unitid" mode="archdesc"/>
+                           <xsl:apply-templates select="*[local-name()='did']/*[local-name()='unitid']" mode="archdesc"/>
                         </fo:block>
                      </fo:table-cell>
                   </fo:table-row>
                </xsl:if>
-               <!--collection abstract/summary--><xsl:if test="did/abstract">
+               <!--collection abstract/summary--><xsl:if test="*[local-name()='did']/*[local-name()='abstract']">
                   <fo:table-row>
                      <fo:table-cell text-align="right" font-weight="bold" width="160px">
                         <fo:block margin-right="10px">
@@ -165,7 +167,7 @@ Mark Carlson
                      </fo:table-cell>
                      <fo:table-cell>
                         <fo:block>
-                           <xsl:apply-templates select="did/abstract"/>
+                           <xsl:apply-templates select="*[local-name()='did']/*[local-name()='abstract']"/>
                         </fo:block>
                      </fo:table-cell>
                   </fo:table-row>
@@ -195,7 +197,7 @@ Mark Carlson
                      </fo:table-row>
                   </xsl:when>
                   <xsl:otherwise>
-                     <xsl:if test="did/repository">
+                     <xsl:if test="*[local-name()='did']/*[local-name()='repository']">
                         <fo:table-row>
                            <fo:table-cell text-align="right" font-weight="bold" width="160px">
                               <fo:block margin-right="10px">
@@ -204,7 +206,7 @@ Mark Carlson
                            </fo:table-cell>
                            <fo:table-cell>
                               <fo:block>
-                                 <xsl:for-each select="did/repository">
+                                 <xsl:for-each select="*[local-name()='did']/*[local-name()='repository']">
                                     <xsl:variable name="selfRepos">
                                        <xsl:value-of select="normalize-space(text())"/>
                                     </xsl:variable>
@@ -214,28 +216,28 @@ Mark Carlson
                                        </fo:inline>
                                        <fo:block/>
                                     </xsl:if>
-                                    <xsl:if test="string(corpname)">
-                                       <xsl:for-each select="corpname">
-                                          <xsl:if test="string-length(.)&gt;string-length(subarea)">
+                                    <xsl:if test="string(*[local-name()='corpname'])">
+                                       <xsl:for-each select="*[local-name()='corpname']">
+                                          <xsl:if test="string-length(.)&gt;string-length(*[local-name()='subarea'])">
                                              <fo:inline>
-                                                <xsl:apply-templates select="text()|*[not(self::subarea)]"/>
+                                                <xsl:apply-templates select="text()|*[not(self::*[local-name()='subarea'])]"/>
                                              </fo:inline>
                                              <fo:block/>
                                           </xsl:if>
                                        </xsl:for-each>
-                                       <xsl:if test="string(corpname/subarea)">
-                                          <xsl:for-each select="corpname/subarea">
+                                       <xsl:if test="string(*[local-name()='corpname']/*[local-name()='subarea'])">
+                                          <xsl:for-each select="*[local-name()='corpname']/*[local-name()='subarea']">
                                              <xsl:apply-templates/>
                                              <fo:block/>
                                           </xsl:for-each>
                                        </xsl:if>
                                     </xsl:if>
-                                    <xsl:if test="string(subarea)">
-                                       <xsl:apply-templates select="subarea"/>
+                                    <xsl:if test="string(*[local-name()='subarea'])">
+                                       <xsl:apply-templates select="*[local-name()='subarea']"/>
                                        <fo:block/>
                                     </xsl:if>
-                                    <xsl:if test="string(address)">
-                                       <xsl:apply-templates select="address"/>
+                                    <xsl:if test="string(*[local-name()='address'])">
+                                       <xsl:apply-templates select="*[local-name()='address']"/>
                                     </xsl:if>
                                  </xsl:for-each>
                               </fo:block>
@@ -244,7 +246,7 @@ Mark Carlson
                      </xsl:if>
                   </xsl:otherwise>
                </xsl:choose>
-               <!-- inserted accessrestrict as per March 2015 revision specifications --><xsl:if test="accessrestrict">
+               <!-- inserted accessrestrict as per March 2015 revision specifications --><xsl:if test="*[local-name()='accessrestrict']">
                   <fo:table-row>
                      <fo:table-cell text-align="right" font-weight="bold" width="160px">
                         <fo:block margin-right="10px">
@@ -253,7 +255,7 @@ Mark Carlson
                      </fo:table-cell>
                      <fo:table-cell>
                         <fo:block>
-                           <xsl:for-each select="accessrestrict/p">
+                           <xsl:for-each select="*[local-name()='accessrestrict']/*[local-name()='p']">
                               <xsl:value-of select="."/>
                               <xsl:if test="not(position()=last())">
                                  <xsl:text/>
@@ -263,7 +265,7 @@ Mark Carlson
                      </fo:table-cell>
                   </fo:table-row>
                </xsl:if>
-               <!-- inserted accessrestrict as per March 2015 revision specifications --><xsl:if test="otherfindaid">
+               <!-- inserted accessrestrict as per March 2015 revision specifications --><xsl:if test="*[local-name()='otherfindaid']">
                   <fo:table-row>
                      <fo:table-cell text-align="right" font-weight="bold" width="160px">
                         <fo:block margin-right="10px">
@@ -272,7 +274,7 @@ Mark Carlson
                      </fo:table-cell>
                      <fo:table-cell>
                         <fo:block>
-                           <xsl:for-each select="otherfindaid/p">
+                           <xsl:for-each select="*[local-name()='otherfindaid']/*[local-name()='p']">
                               <xsl:value-of select="."/>
                               <xsl:if test="not(position()=last())">
                                  <xsl:text/>
@@ -282,7 +284,7 @@ Mark Carlson
                      </fo:table-cell>
                   </fo:table-row>
                </xsl:if>
-               <!--finding aid creation information--><xsl:if test="/ead/eadheader/profiledesc/creation and $showCreation='true'">
+               <!--finding aid creation information--><xsl:if test="/*[local-name()='ead']/*[local-name()='eadheader']/*[local-name()='profiledesc']/*[local-name()='creation'] and $showCreation='true'">
                   <fo:table-row>
                      <fo:table-cell text-align="right" font-weight="bold" width="160px">
                         <fo:block margin-right="10px">
@@ -291,12 +293,12 @@ Mark Carlson
                      </fo:table-cell>
                      <fo:table-cell>
                         <fo:block>
-                           <xsl:apply-templates select="/ead/eadheader/profiledesc/creation"/>
+                           <xsl:apply-templates select="/*[local-name()='ead']/*[local-name()='eadheader']/*[local-name()='profiledesc']/*[local-name()='creation']"/>
                         </fo:block>
                      </fo:table-cell>
                   </fo:table-row>
                </xsl:if>
-               <!--finding aid revision information--><xsl:if test="/ead/eadheader/profiledesc/creation and $showRevision='true'">
+               <!--finding aid revision information--><xsl:if test="/*[local-name()='ead']/*[local-name()='eadheader']/*[local-name()='profiledesc']/*[local-name()='creation'] and $showRevision='true'">
                   <fo:table-row>
                      <fo:table-cell text-align="right" font-weight="bold" width="160px">
                         <fo:block margin-right="10px">
@@ -305,12 +307,12 @@ Mark Carlson
                      </fo:table-cell>
                      <fo:table-cell>
                         <fo:block>
-                           <xsl:apply-templates select="/ead/eadheader/revisiondesc/change"/>
+                           <xsl:apply-templates select="/*[local-name()='ead']/*[local-name()='eadheader']/*[local-name()='revisiondesc']/*[local-name()='change']"/>
                         </fo:block>
                      </fo:table-cell>
                   </fo:table-row>
                </xsl:if>
-               <!--language note--><xsl:if test="did/langmaterial">
+               <!--language note--><xsl:if test="*[local-name()='did']/*[local-name()='langmaterial']">
                   <fo:table-row>
                      <fo:table-cell text-align="right" font-weight="bold" width="160px">
                         <fo:block margin-right="10px">
@@ -320,13 +322,13 @@ Mark Carlson
                      <fo:table-cell>
                         <fo:block>
                            <xsl:choose>
-                              <xsl:when test="langmaterial/text()">
+                              <xsl:when test="*[local-name()='langmaterial']/text()">
                                  <fo:inline>
-                                    <xsl:apply-templates select="did/langmaterial"/>
+                                    <xsl:apply-templates select="*[local-name()='did']/*[local-name()='langmaterial']"/>
                                  </fo:inline>
                               </xsl:when>
                               <xsl:otherwise>
-                                 <xsl:for-each select="did/langmaterial/language">
+                                 <xsl:for-each select="*[local-name()='did']/*[local-name()='langmaterial']/*[local-name()='language']">
                                     <fo:inline>
                                        <xsl:apply-templates select="."/>
                                     </fo:inline>
@@ -354,7 +356,7 @@ Mark Carlson
                      </fo:table-cell>
                      <fo:table-cell>
                         <fo:block>
-                           <fo:basic-link external-destination="{concat('http://harvester.orbiscascade.org/apis/get?ark=ark:/', //eadid/@identifier)}">yes</fo:basic-link>
+                           <fo:basic-link external-destination="{concat('http://harvester.orbiscascade.org/apis/get?ark=ark:/', //*[local-name()='eadid']/@identifier)}">yes</fo:basic-link>
                         </fo:block>
                      </fo:table-cell>
                   </fo:table-row>
@@ -371,14 +373,14 @@ Mark Carlson
             <fo:external-graphic src=""/>
          </fo:block>
          <fo:block>
-            <xsl:apply-templates select="did/daogrp/daodesc | daogrp/daodesc"/>
+            <xsl:apply-templates select="*[local-name()='did']/*[local-name()='daogrp']/*[local-name()='daodesc'] | *[local-name()='daogrp']/*[local-name()='daodesc']"/>
          </fo:block>
       </fo:block>
    </xsl:template>
    <!-- ********************* END COLLECTION IMAGE *********************** --><!-- ********************* <ARCHDESC_MINOR_CHILDREN> *********************** --><!--this template generically called by arbitrary groupings: see per eg. relatedinfo template --><xsl:template name="archdesc_minor_children">
       <xsl:param name="withLabel"/>
       <xsl:if test="$withLabel='true'">
-         <fo:block font-size="18px" color="#6b6b6b" margin-bottom="10px" margin-top="10px">
+         <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px">
             <xsl:if test="@id"/>
             <xsl:choose><!--pull in correct label, depending on what is actually matched--><xsl:when test="name()='altformavail'">
                   <xsl:value-of select="$altformavail_label"/>
@@ -463,29 +465,29 @@ Mark Carlson
          </fo:block>
       </xsl:if>
       <!-- 2004-11-30 Suppress the display of all <head> elements (with exceptions).  Example, Pauling finding aid of OSU SC --><!-- 2004-12-06 Process physdesc separately --><xsl:choose>
-         <xsl:when test="self::physdesc">
+         <xsl:when test="self::*[local-name()='physdesc']">
             <fo:block>
-               <xsl:apply-templates select="extent"/>
-               <xsl:if test="string(physfacet) and string(extent)">
+               <xsl:apply-templates select="*[local-name()='extent']"/>
+               <xsl:if test="string(*[local-name()='physfacet']) and string(*[local-name()='extent'])">
                   <xsl:text> : </xsl:text>
                </xsl:if>
-               <xsl:apply-templates select="physfacet"/>
-               <xsl:if test="string(dimensions) and string(physfacet)">
+               <xsl:apply-templates select="*[local-name()='physfacet']"/>
+               <xsl:if test="string(*[local-name()='dimensions']) and string(*[local-name()='physfacet'])">
                   <xsl:text> ; </xsl:text>
                </xsl:if>
-               <xsl:apply-templates select="dimensions"/>
+               <xsl:apply-templates select="*[local-name()='dimensions']"/>
             </fo:block>
          </xsl:when>
          <xsl:otherwise>
             <xsl:apply-templates select="self::node()"/>
          </xsl:otherwise>
       </xsl:choose>
-      <xsl:if test="self::origination and child::*/@role">  ( <xsl:value-of select="child::*/@role"/>) </xsl:if>
+      <xsl:if test="self::*[local-name()='origination'] and child::*/@role">  ( <xsl:value-of select="child::*/@role"/>) </xsl:if>
    </xsl:template>
-   <!-- ********************* </ARCHDESC_MINOR_CHILDREN> *********************** --><!-- ********************* <BIOGHIST> *********************** --><xsl:template name="bioghist" match="//bioghist">
+   <!-- ********************* </ARCHDESC_MINOR_CHILDREN> *********************** --><!-- ********************* <BIOGHIST> *********************** --><xsl:template name="bioghist" match="//*[local-name()='bioghist']">
       <xsl:variable name="class">
          <xsl:choose>
-            <xsl:when test="parent::archdesc">
+            <xsl:when test="parent::*[local-name()='archdesc']">
                <xsl:text>top_bioghist</xsl:text>
             </xsl:when>
             <xsl:otherwise>
@@ -494,36 +496,36 @@ Mark Carlson
          </xsl:choose>
       </xsl:variable>
       <xsl:choose>
-         <xsl:when test="head/text()='Biographical Note' and not(ancestor::dsc)">
-            <fo:block font-size="24px" color="#676D38" margin-bottom="10px" margin-top="20px">
+         <xsl:when test="*[local-name()='head']/text()='Biographical Note' and not(ancestor::*[local-name()='dsc'])">
+            <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
                <xsl:value-of select="$bioghist_head"/>
             </fo:block>
          </xsl:when>
-         <!-- SY Original	<xsl:when test="starts-with(@encodinganalog, '545')"> --><!-- carlson mod 2004-07-09 only use Bioghist head if encodinganalog starts with 5450 as opposed to 5451 --><xsl:when test="starts-with(@encodinganalog, '5450') and not(ancestor::dsc)">
-            <fo:block font-size="24px" color="#676D38" margin-bottom="10px" margin-top="20px">
+         <!-- SY Original	<xsl:when test="starts-with(@encodinganalog, '545')"> --><!-- carlson mod 2004-07-09 only use Bioghist head if encodinganalog starts with 5450 as opposed to 5451 --><xsl:when test="starts-with(@encodinganalog, '5450') and not(ancestor::*[local-name()='dsc'])">
+            <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
                <xsl:value-of select="$bioghist_head"/>
             </fo:block>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:if test="not(ancestor::dsc)">
-               <fo:block font-size="24px" color="#676D38" margin-bottom="10px" margin-top="20px">
+            <xsl:if test="not(ancestor::*[local-name()='dsc'])">
+               <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
                   <xsl:value-of select="$historical_head"/>
                </fo:block>
             </xsl:if>
          </xsl:otherwise>
       </xsl:choose>
       <fo:block>
-         <xsl:for-each select="p">
+         <xsl:for-each select="*[local-name()='p']">
             <fo:block margin-bottom="10px">
                <xsl:apply-templates/>
             </fo:block>
          </xsl:for-each>
       </fo:block>
    </xsl:template>
-   <!-- ********************* </BIOGHIST> *********************** --><!-- ********************* <SCOPECONTENT> *********************** --><xsl:template name="scopecontent" match="scopecontent[1]">
+   <!-- ********************* </BIOGHIST> *********************** --><!-- ********************* <SCOPECONTENT> *********************** --><xsl:template name="scopecontent" match="*[local-name()='scopecontent'][1]">
       <xsl:variable name="class">
          <xsl:choose>
-            <xsl:when test="parent::archdesc">
+            <xsl:when test="parent::*[local-name()='archdesc']">
                <xsl:text>top_scopecontent</xsl:text>
             </xsl:when>
             <xsl:otherwise>
@@ -531,23 +533,23 @@ Mark Carlson
             </xsl:otherwise>
          </xsl:choose>
       </xsl:variable>
-      <xsl:if test="not(ancestor::dsc)">
-         <fo:block font-size="24px" color="#676D38" margin-bottom="10px" margin-top="20px">
+      <xsl:if test="not(ancestor::*[local-name()='dsc'])">
+         <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
             <xsl:value-of select="$scopecontent_head"/>
          </fo:block>
       </xsl:if>
       <fo:block>
-         <xsl:for-each select="p">
+         <xsl:for-each select="*[local-name()='p']">
             <fo:block margin-bottom="10px">
                <xsl:apply-templates/>
             </fo:block>
          </xsl:for-each>
          <!--<xsl:apply-templates select="./*[not(self::head)]"/>--></fo:block>
       <!--<xsl:call-template name="sect_separator" />--></xsl:template>
-   <!-- ********************* </SCOPECONTENT> *********************** --><!-- ********************* <ODD> *********************** --><xsl:template name="odd" match="//odd">
+   <!-- ********************* </SCOPECONTENT> *********************** --><!-- ********************* <ODD> *********************** --><xsl:template name="odd" match="//*[local-name()='odd']">
       <xsl:variable name="class">
          <xsl:choose>
-            <xsl:when test="parent::archdesc">
+            <xsl:when test="parent::*[local-name()='archdesc']">
                <xsl:text>top_odd</xsl:text>
             </xsl:when>
             <xsl:otherwise>
@@ -556,32 +558,32 @@ Mark Carlson
          </xsl:choose>
       </xsl:variable>
       <xsl:choose>
-         <xsl:when test="@type='hist'  and not(ancestor::dsc)">
-            <fo:block font-size="24px" color="#676D38" margin-bottom="10px" margin-top="20px">
+         <xsl:when test="@type='hist'  and not(ancestor::*[local-name()='dsc'])">
+            <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
                <xsl:value-of select="$odd_head_histbck"/>
             </fo:block>
          </xsl:when>
          <xsl:otherwise>
-            <fo:block font-size="24px" color="#676D38" margin-bottom="10px" margin-top="20px">
+            <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
                <xsl:value-of select="$odd_head"/>
             </fo:block>
          </xsl:otherwise>
       </xsl:choose>
       <fo:block>
-         <xsl:for-each select="p">
+         <xsl:for-each select="*[local-name()='p']">
             <fo:block margin-bottom="10px">
                <xsl:apply-templates/>
             </fo:block>
          </xsl:for-each>
       </fo:block>
    </xsl:template>
-   <!-- ********************* </ODD> *********************** --><!-- ********************* <USEINFO> *********************** --><xsl:template name="useinfo"><!-- removed accessrestrict from this section, moved to Collection Overview, as per March 2015 spec --><xsl:if test="altformavail | userestrict | prefercite">
-         <fo:block font-size="24px" color="#676D38" margin-bottom="10px" margin-top="20px">
+   <!-- ********************* </ODD> *********************** --><!-- ********************* <USEINFO> *********************** --><xsl:template name="useinfo"><!-- removed accessrestrict from this section, moved to Collection Overview, as per March 2015 spec --><xsl:if test="*[local-name()='altformavail'] | *[local-name()='userestrict'] | *[local-name()='prefercite']">
+         <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
             <xsl:if test="@id"/>
             <xsl:value-of select="$useinfo_head"/>
          </fo:block>
          <fo:block>
-            <xsl:for-each select="altformavail | userestrict | prefercite">
+            <xsl:for-each select="*[local-name()='altformavail'] | *[local-name()='userestrict'] | *[local-name()='prefercite']">
                <xsl:call-template name="archdesc_minor_children">
                   <xsl:with-param name="withLabel">true</xsl:with-param>
                </xsl:call-template>
@@ -591,21 +593,21 @@ Mark Carlson
       <!--<xsl:call-template name="sect_separator" />--></xsl:template>
    <!-- ********************* </USEINFO> *********************** --><!-- ************************* ADMINISTRATIVE INFO - COLLAPSED BY DEFAULT ******************** --><xsl:template name="administrative_info">
       <xsl:if test="@id"/>
-      <fo:block font-size="24px" color="#676D38" margin-bottom="10px" margin-top="20px">
+      <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
          <xsl:text>Administrative Information</xsl:text>
       </fo:block>
       <fo:block>
-         <xsl:apply-templates select="arrangement"/>
+         <xsl:apply-templates select="*[local-name()='arrangement']"/>
          <xsl:call-template name="admininfo"/>
-         <xsl:if test="string(index[not(ancestor::dsc)])">
-            <xsl:apply-templates select="index"/>
+         <xsl:if test="string(*[local-name()='index'][not(ancestor::*[local-name()='dsc'])])">
+            <xsl:apply-templates select="*[local-name()='index']"/>
          </xsl:if>
       </fo:block>
    </xsl:template>
-   <!-- ******************** END ADMINISTRATIVE INFO ******************** --><!-- ********************* <ARRANGEMENT> *********************** --><xsl:template name="arrangement" match="//arrangement">
+   <!-- ******************** END ADMINISTRATIVE INFO ******************** --><!-- ********************* <ARRANGEMENT> *********************** --><xsl:template name="arrangement" match="//*[local-name()='arrangement']">
       <xsl:variable name="class">
          <xsl:choose>
-            <xsl:when test="parent::archdesc">
+            <xsl:when test="parent::*[local-name()='archdesc']">
                <xsl:text>top_arrangement</xsl:text>
             </xsl:when>
             <xsl:otherwise>
@@ -613,24 +615,24 @@ Mark Carlson
             </xsl:otherwise>
          </xsl:choose>
       </xsl:variable>
-      <xsl:if test="not(ancestor::dsc)">
+      <xsl:if test="not(ancestor::*[local-name()='dsc'])">
          <xsl:if test="@id"/>
-         <fo:block font-size="18px" color="#6b6b6b" margin-bottom="10px" margin-top="10px">Arrangement</fo:block>
+         <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px">Arrangement</fo:block>
       </xsl:if>
       <fo:block>
-         <xsl:apply-templates select="./*[not(self::head)]"/>
+         <xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
       </fo:block>
    </xsl:template>
    <!-- ********************* </ARRANGEMENT> *********************** --><!-- ********************* <ADMININFO> *********************** --><xsl:template name="admininfo">
-      <xsl:if test="acqinfo | accruals | custodhist | processinfo | separatedmaterial | bibliography | otherfindaid | relatedmaterial | originalsloc | appraisal | //sponsor">
-         <xsl:if test="not(ancestor::dsc)">
+      <xsl:if test="*[local-name()='acqinfo'] | *[local-name()='accruals'] | *[local-name()='custodhist'] | *[local-name()='processinfo'] | *[local-name()='separatedmaterial'] |    *[local-name()='bibliography'] | *[local-name()='otherfindaid'] | *[local-name()='relatedmaterial'] | *[local-name()='originalsloc'] | *[local-name()='appraisal'] |    //*[local-name()='sponsor']">
+         <xsl:if test="not(ancestor::*[local-name()='dsc'])">
             <xsl:choose>
                <xsl:when test="@id"/>
                <xsl:otherwise/>
             </xsl:choose>
          </xsl:if>
          <fo:block>
-            <xsl:for-each select="custodhist | acqinfo | accruals | processinfo | separatedmaterial | bibliography | otherfindaid | relatedmaterial | appraisal | originalsloc | //sponsor">
+            <xsl:for-each select="*[local-name()='custodhist'] | *[local-name()='acqinfo'] | *[local-name()='accruals'] | *[local-name()='processinfo'] | *[local-name()='separatedmaterial'] |      *[local-name()='bibliography'] | *[local-name()='otherfindaid'] | *[local-name()='relatedmaterial'] | *[local-name()='appraisal'] | *[local-name()='originalsloc'] |      //*[local-name()='sponsor']">
                <xsl:call-template name="archdesc_minor_children">
                   <xsl:with-param name="withLabel">true</xsl:with-param>
                </xsl:call-template>
@@ -638,10 +640,10 @@ Mark Carlson
          </fo:block>
       </xsl:if>
       <!--<xsl:call-template name="sect_separator" />--></xsl:template>
-   <!-- ********************* </ADMININFO> *********************** --><!-- ********************* <INDEX> *********************** --><xsl:template match="index" name="index">
+   <!-- ********************* </ADMININFO> *********************** --><!-- ********************* <INDEX> *********************** --><xsl:template match="*[local-name()='index']" name="index">
       <xsl:variable name="class">
          <xsl:choose>
-            <xsl:when test="parent::archdesc">
+            <xsl:when test="parent::*[local-name()='archdesc']">
                <xsl:text>top_index</xsl:text>
             </xsl:when>
             <xsl:otherwise>
@@ -649,54 +651,54 @@ Mark Carlson
             </xsl:otherwise>
          </xsl:choose>
       </xsl:variable>
-      <xsl:if test="not(ancestor::dsc)">
+      <xsl:if test="not(ancestor::*[local-name()='dsc'])">
          <xsl:if test="@id"/>
       </xsl:if>
       <fo:block>
          <fo:table width="100%">
-            <xsl:apply-templates select="p"/>
-            <xsl:apply-templates select="listhead"/>
+            <xsl:apply-templates select="*[local-name()='p']"/>
+            <xsl:apply-templates select="*[local-name()='listhead']"/>
             <fo:table-body width="100%">
-               <xsl:apply-templates select="indexentry"/>
+               <xsl:apply-templates select="*[local-name()='indexentry']"/>
             </fo:table-body>
          </fo:table>
       </fo:block>
       <xsl:call-template name="sect_separator"/>
    </xsl:template>
-   <xsl:template match="listhead">
+   <xsl:template match="*[local-name()='listhead']">
       <fo:table-header>
          <fo:table-row width="100%">
             <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
                            border-bottom-style="solid"
                            padding="8px">
                <fo:block>
-                  <xsl:apply-templates select="head01"/>
+                  <xsl:apply-templates select="*[local-name()='head01']"/>
                </fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
                            border-bottom-style="solid"
                            padding="8px">
                <fo:block>
-                  <xsl:apply-templates select="head02"/>
+                  <xsl:apply-templates select="*[local-name()='head02']"/>
                </fo:block>
             </fo:table-cell>
          </fo:table-row>
       </fo:table-header>
    </xsl:template>
-   <xsl:template match="indexentry">
+   <xsl:template match="*[local-name()='indexentry']">
       <fo:table-row width="100%">
          <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                         border-bottom-style="solid"
                         padding="8px">
             <fo:block>
-               <xsl:apply-templates select="corpname | famname | function | genreform | geogname | name | occupation | persname | subject | title"/>
+               <xsl:apply-templates select="*[local-name()='corpname'] | *[local-name()='famname'] | *[local-name()='function'] | *[local-name()='genreform'] | *[local-name()='geogname'] |      *[local-name()='name'] | *[local-name()='occupation'] | *[local-name()='persname'] | *[local-name()='subject'] | *[local-name()='title']"/>
             </fo:block>
          </fo:table-cell>
          <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                         border-bottom-style="solid"
                         padding="8px">
             <fo:block>
-               <xsl:for-each select="ref | ptrgrp/ref">
+               <xsl:for-each select="*[local-name()='ref'] | *[local-name()='ptrgrp']/*[local-name()='ref']">
                   <xsl:choose>
                      <xsl:when test="@target">
                         <xsl:apply-templates/>
@@ -713,27 +715,27 @@ Mark Carlson
          </fo:table-cell>
       </fo:table-row>
    </xsl:template>
-   <!-- ********************* </INDEX> *********************** --><!-- ********************* <physloc> ********************** --><xsl:template match="c01/did/physloc">
+   <!-- ********************* </INDEX> *********************** --><!-- ********************* <physloc> ********************** --><xsl:template match="*[local-name()='c01']/*[local-name()='did']/*[local-name()='physloc']">
       <fo:block>
          <xsl:apply-templates/>
       </fo:block>
    </xsl:template>
-   <!-- ********************* </physloc> ********************* --><xsl:template match="c01//accessrestrict | c01//userestrict | c01//note">
+   <!-- ********************* </physloc> ********************* --><xsl:template match="*[local-name()='c01']//*[local-name()='accessrestrict'] | *[local-name()='c01']//*[local-name()='userestrict'] | *[local-name()='c01']//*[local-name()='note']">
       <xsl:variable name="class">
          <xsl:choose>
-            <xsl:when test="self::accessrestrict">
+            <xsl:when test="local-name()='accessrestrict'">
                <xsl:text>accessrestrict</xsl:text>
             </xsl:when>
-            <xsl:when test="self::userestrict">
+            <xsl:when test="local-name()='userestrict'">
                <xsl:text>userestrict</xsl:text>
             </xsl:when>
-            <xsl:when test="self::note">
+            <xsl:when test="local-name()='note'">
                <xsl:text>note</xsl:text>
             </xsl:when>
          </xsl:choose>
       </xsl:variable>
       <fo:block>
-         <xsl:for-each select="p">
+         <xsl:for-each select="*[local-name()='p']">
             <fo:block margin-bottom="10px">
                <xsl:apply-templates/>
             </fo:block>

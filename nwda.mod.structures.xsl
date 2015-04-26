@@ -33,7 +33,7 @@ Mark Carlson
 
 	<!-- ********************* <END FOOTER> *********************** -->
 	<!-- ********************* <OVERVIEW> *********************** -->
-	<xsl:template match="*[local-name()='archdesc']">
+	<xsl:template match="*[local-name()='archdesc']" mode="flag">
 		<div class="col-md-3 navBody hidden-xs hidden-sm">
 			<div class="toc-fixed">
 				<xsl:call-template name="toc"/>

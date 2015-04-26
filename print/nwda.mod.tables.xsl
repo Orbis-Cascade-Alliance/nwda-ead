@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:fo="http://www.w3.org/1999/XSL/Format"
+                xmlns:ead="urn:isbn:1-931666-22-9"
                 version="1.0"
-                exclude-result-prefixes="fo">
-   <xsl:template match="table">
+                exclude-result-prefixes="fo ead">
+   <xsl:template match="*[local-name()='table']">
       <fo:table width="100%">
          <xsl:apply-templates/>
       </fo:table>
    </xsl:template>
-   <xsl:template match="thead">
+   <xsl:template match="*[local-name()='thead']">
       <fo:table-header>
          <fo:table-row width="100%">
-            <xsl:for-each select=".//entry">
+            <xsl:for-each select=".//*[local-name()='entry']">
                <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
                               border-bottom-style="solid"
                               padding="8px">
@@ -23,9 +24,9 @@
          </fo:table-row>
       </fo:table-header>
    </xsl:template>
-   <xsl:template match="row">
+   <xsl:template match="*[local-name()='row']">
       <fo:table-row width="100%">
-         <xsl:for-each select="./entry">
+         <xsl:for-each select="./*[local-name()='entry']">
             <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                            border-bottom-style="solid"
                            padding="8px">

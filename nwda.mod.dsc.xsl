@@ -147,15 +147,16 @@ Changes:
 					</td>
 
 					<xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
-
-						<td class="c0x_date">
-							<xsl:for-each select="*[local-name()='did']/*[local-name()='unitdate']">
-								<xsl:value-of select="."/>
-								<xsl:if test="not(position() = last())">
-									<xsl:text>, </xsl:text>
-								</xsl:if>
-							</xsl:for-each>
-						</td>
+						<xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+							<td class="c0x_date">
+								<xsl:for-each select="*[local-name()='did']/*[local-name()='unitdate']">
+									<xsl:value-of select="."/>
+									<xsl:if test="not(position() = last())">
+										<xsl:text>, </xsl:text>
+									</xsl:if>
+								</xsl:for-each>
+							</td>
+						</xsl:if>
 					</xsl:if>
 				</tr>
 			</xsl:for-each>
@@ -184,19 +185,24 @@ Changes:
 									<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]/@type"/>
 								</span>
 							</td>
-							<td>
-								<span class="containerLabel">
-									<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][2]/@type"/>
-								</span>
-							</td>
+							<xsl:if test="*[local-name()='did']/*[local-name()='container'][2]">
+								<td>
+									<span class="containerLabel">
+										<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][2]/@type"/>
+									</span>
+								</td>
+							</xsl:if>
+							<td class="c0x_content"/>
 						</tr>
 						<tr>
 							<td>
 								<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
 							</td>
-							<td>
-								<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][2]"/>
-							</td>
+							<xsl:if test="*[local-name()='did']/*[local-name()='container'][2]">
+								<td>
+									<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][2]"/>
+								</td>
+							</xsl:if>
 							<td class="c0x_content"/>
 						</tr>
 					</xsl:if>
@@ -303,7 +309,7 @@ Changes:
 					</td>
 				</xsl:when>
 			</xsl:choose>
-			
+
 			<xsl:variable select="count(../../preceding-sibling::*)+1" name="pppos"/>
 			<xsl:variable select="count(../preceding-sibling::*)+1" name="ppos"/>
 			<xsl:variable select="count(preceding-sibling::*)+1" name="cpos"/>
@@ -363,25 +369,27 @@ Changes:
 			</td>
 			<!-- if the date layout is columnar, then the column is displayed -->
 			<xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
-				<td class="c0x_date">
-					<xsl:for-each select="*[local-name()='did']/*[local-name()='unitdate']">
-						<xsl:choose>
-							<xsl:when test="(parent::node()/parent::node()[@level='series'] or parent::node()/parent::node()[@level='subseries']         or
-								parent::node()/parent::node()[@otherlevel='sub-subseries'] or parent::node()/parent::node()[@level='otherlevel'])">
-								<b>
+				<xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+					<td class="c0x_date">
+						<xsl:for-each select="*[local-name()='did']/*[local-name()='unitdate']">
+							<xsl:choose>
+								<xsl:when test="(parent::node()/parent::node()[@level='series'] or parent::node()/parent::node()[@level='subseries']         or
+									parent::node()/parent::node()[@otherlevel='sub-subseries'] or parent::node()/parent::node()[@level='otherlevel'])">
+									<b>
+										<xsl:value-of select="."/>
+									</b>
+								</xsl:when>
+								<xsl:otherwise>
 									<xsl:value-of select="."/>
-								</b>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="."/>
-							</xsl:otherwise>
-						</xsl:choose>
-						<!-- place a semicolon and a space between dates -->
-						<xsl:if test="not(position() = last())">
-							<xsl:text>; </xsl:text>
-						</xsl:if>
-					</xsl:for-each>
-				</td>
+								</xsl:otherwise>
+							</xsl:choose>
+							<!-- place a semicolon and a space between dates -->
+							<xsl:if test="not(position() = last())">
+								<xsl:text>; </xsl:text>
+							</xsl:if>
+						</xsl:for-each>
+					</td>
+				</xsl:if>
 			</xsl:if>
 		</tr>
 
@@ -437,7 +445,9 @@ Changes:
 							</span>
 						</td>
 						<td/>
-						<td/>
+						<xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+							<td class="c0x_date"/>
+						</xsl:if>
 					</xsl:when>
 
 					<!-- for one container -->
@@ -465,7 +475,9 @@ Changes:
 							</span>
 						</td>
 						<td/>
-						<td/>
+						<xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+							<td class="c0x_date"/>
+						</xsl:if>
 					</xsl:otherwise>
 				</xsl:choose>
 			</tr>
