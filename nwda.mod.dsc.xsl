@@ -147,7 +147,7 @@ Changes:
 					</td>
 
 					<xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
-						<xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+						<xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='unitdate']">
 							<td class="c0x_date">
 								<xsl:for-each select="*[local-name()='did']/*[local-name()='unitdate']">
 									<xsl:value-of select="."/>
@@ -369,7 +369,7 @@ Changes:
 			</td>
 			<!-- if the date layout is columnar, then the column is displayed -->
 			<xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
-				<xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+				<xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
 					<td class="c0x_date">
 						<xsl:for-each select="*[local-name()='did']/*[local-name()='unitdate']">
 							<xsl:choose>
@@ -445,7 +445,7 @@ Changes:
 							</span>
 						</td>
 						<td/>
-						<xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+						<xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
 							<td class="c0x_date"/>
 						</xsl:if>
 					</xsl:when>
@@ -475,7 +475,7 @@ Changes:
 							</span>
 						</td>
 						<td/>
-						<xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+						<xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
 							<td class="c0x_date"/>
 						</xsl:if>
 					</xsl:otherwise>
