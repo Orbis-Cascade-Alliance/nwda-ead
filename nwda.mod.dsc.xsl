@@ -107,7 +107,6 @@ Changes:
 									<td>
 										<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
 									</td>
-									<td/>
 								</xsl:when>
 								<xsl:otherwise>
 									<td>

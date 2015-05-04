@@ -94,10 +94,10 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 				<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 				<!-- jquery -->
 				<meta name="viewport" content="width=device-width, initial-scale=1"/>
-				<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">//</script>
+				<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">//</script>
 				<!-- bootstrap -->
-				<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
-				<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">//</script>
+				<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
+				<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">//</script>
 
 				<!-- local styling -->
 				<link href="{$pathToCss}{$styleFileName}" rel="stylesheet"/>

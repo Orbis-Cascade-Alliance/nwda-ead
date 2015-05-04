@@ -111,11 +111,6 @@ Changes:
                                  <xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
                               </fo:block>
                            </fo:table-cell>
-                           <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
-                                          border-bottom-style="solid"
-                                          padding="8px">
-                              <fo:block/>
-                           </fo:table-cell>
                         </xsl:when>
                         <xsl:otherwise>
                            <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"

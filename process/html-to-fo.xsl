@@ -34,6 +34,18 @@
 			<xsl:attribute name="href">../nwda.mod.preferences.xsl</xsl:attribute>
 		</xsl:element>
 	</xsl:template>
+	
+	<!-- replace the xsl:choose with the @xml:id='process-rdf' with templates that execute exsl:node-set only (supressing msxsl:node-set) -->
+	<xsl:template match="xsl:choose[@xml:id='process-rdf']">
+		<xsl:element name="xsl:apply-templates">
+			<xsl:attribute name="select">exsl:node-set($rdf)//arch:Archive</xsl:attribute>
+			<xsl:attribute name="mode">repository</xsl:attribute>
+		</xsl:element>
+		<xsl:element name="xsl:apply-templates">
+			<xsl:attribute name="select">exsl:node-set($rdf)//arch:Archive</xsl:attribute>
+			<xsl:attribute name="mode">contact</xsl:attribute>
+		</xsl:element>
+	</xsl:template>
 
 	<!-- suppress highlighting template -->
 	<xsl:template match="xsl:template[@name='highlight']"/>
