@@ -27,15 +27,7 @@ Major or significant revision history:
 	<xsl:template match="*[local-name()='extref']">
 		<a class="extptr">
 			<xsl:attribute name="href">
-				<xsl:value-of select="@href"/>
-			</xsl:attribute>
-			<xsl:apply-templates/>
-		</a>
-	</xsl:template>
-	<xsl:template match="*[local-name()='extref'][@xlink:href]">
-		<a class="extptr">
-			<xsl:attribute name="href">
-				<xsl:value-of select="@xlink:href"/>
+				<xsl:value-of select="@*[local-name()='href']"/>
 			</xsl:attribute>
 			<xsl:apply-templates/>
 		</a>
@@ -48,7 +40,7 @@ Major or significant revision history:
 	<xsl:template match="*[local-name()='dao']">
 		<a target="new">
 			<xsl:attribute name="href">
-				<xsl:value-of select="@href"/>. <xsl:value-of select="@content-role"/>
+				<xsl:value-of select="@*[local-name()='href']"/>. <xsl:value-of select="@content-role"/>
 			</xsl:attribute>
 			<xsl:value-of select="*[local-name()='daodesc']"/>
 			<span class="glyphicon glyphicon-camera"/>
@@ -58,8 +50,8 @@ Major or significant revision history:
 	<xsl:template match="*[local-name()='daoloc']">
 		<a target="new">
 			<xsl:attribute name="href">
-				<!--<xsl:value-of disable-output-escaping="yes" select="@href"/> removed 7/23/07 by Ethan Gruber-->
-				<xsl:value-of select="@href"/>
+				<!--<xsl:value-of disable-output-escaping="yes" select="@*[local-name()='href']"/> removed 7/23/07 by Ethan Gruber-->
+				<xsl:value-of select="@*[local-name()='href']"/>
 			</xsl:attribute> &#160; <span class="glyphicon glyphicon-camera"/>
 		</a>
 	</xsl:template>
@@ -167,18 +159,13 @@ Major or significant revision history:
 		<xsl:apply-templates/>
 	</xsl:template>
 	<!--ultra generics-->
-	<xsl:template match="*[local-name()='emph']">
-		<xsl:choose>
-			<xsl:when test="@render">
-				<xsl:apply-templates select="*[@render]"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<u>
-					<xsl:apply-templates/>
-				</u>
-			</xsl:otherwise>
-		</xsl:choose>
+	
+	<xsl:template match="*[local-name()='emph'][not(@render)]">
+		<u>
+			<xsl:apply-templates/>
+		</u>
 	</xsl:template>
+	
 	<xsl:template match="*[local-name()='lb']">
 		<br/>
 	</xsl:template>

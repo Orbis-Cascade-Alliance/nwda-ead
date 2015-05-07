@@ -117,7 +117,9 @@ Other FA's to check: James F. Bishop (OSU Archives)
                </xsl:variable>
                <xsl:choose>
                   <xsl:when test="string-length($facet) &gt; 0">
-                     <xsl:value-of select="."/>
+                     <fo:basic-link external-destination="/search/results.aspx?t=i&amp;{$facet}={translate(., ' ', '+')}">
+                        <xsl:value-of select="."/>
+                     </fo:basic-link>
                   </xsl:when>
                   <xsl:otherwise>
                      <xsl:value-of select="."/>

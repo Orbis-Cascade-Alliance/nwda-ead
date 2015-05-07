@@ -355,9 +355,7 @@ Mark Carlson
                         <fo:block margin-right="10px">Digital Objects</fo:block>
                      </fo:table-cell>
                      <fo:table-cell>
-                        <fo:block>
-                           <fo:basic-link external-destination="{concat('http://harvester.orbiscascade.org/apis/get?ark=ark:/', //*[local-name()='eadid']/@identifier)}">yes</fo:basic-link>
-                        </fo:block>
+                        <fo:block/>
                      </fo:table-cell>
                   </fo:table-row>
                </xsl:if>
@@ -366,11 +364,15 @@ Mark Carlson
       </fo:block>
    </xsl:template>
    <!-- ********************* </OVERVIEW> *********************** --><xsl:template name="sect_separator">
-      <fo:block margin-bottom="10px">^ Return to Top</fo:block>
+      <fo:block margin-bottom="10px"/>
    </xsl:template>
    <!-- ********************* START COLLECTION IMAGE *********************** --><xsl:template name="collection_image"><!-- the call for this template has been commented out so that only logos and not collection images display, EG 2007-08-27 --><!-- margin-top is 100% to force collection image to be bottom-aligned while the institutional logo is top-aligned. --><fo:block>
          <fo:block>
-            <fo:external-graphic src=""/>
+            <fo:external-graphic>
+               <xsl:attribute name="src">
+                  <xsl:value-of select="*[local-name()='did']/*[local-name()='daogrp']/*[local-name()='daoloc']/@href | *[local-name()='daogrp']/*[local-name()='daoloc']/@href"/>
+               </xsl:attribute>
+            </fo:external-graphic>
          </fo:block>
          <fo:block>
             <xsl:apply-templates select="*[local-name()='did']/*[local-name()='daogrp']/*[local-name()='daodesc'] | *[local-name()='daogrp']/*[local-name()='daodesc']"/>
@@ -701,7 +703,9 @@ Mark Carlson
                <xsl:for-each select="*[local-name()='ref'] | *[local-name()='ptrgrp']/*[local-name()='ref']">
                   <xsl:choose>
                      <xsl:when test="@target">
-                        <xsl:apply-templates/>
+                        <fo:basic-link external-destination="#{@target}">
+                           <xsl:apply-templates/>
+                        </fo:basic-link>
                      </xsl:when>
                      <xsl:otherwise>
                         <xsl:apply-templates/>
@@ -745,7 +749,9 @@ Mark Carlson
    <!-- 2014 September: templates for rendering repository metadata from RDF/XML --><xsl:template match="arch:Archive" mode="repository">
       <xsl:choose>
          <xsl:when test="foaf:homepage/@rdf:resource">
-            <xsl:value-of select="foaf:name"/>
+            <fo:basic-link external-destination="{foaf:homepage/@rdf:resource}">
+               <xsl:value-of select="foaf:name"/>
+            </fo:basic-link>
          </xsl:when>
          <xsl:otherwise>
             <fo:inline>
@@ -781,7 +787,9 @@ Mark Carlson
          <fo:block/>
       </xsl:if>
       <xsl:if test="string(vcard:hasEmail/@rdf:resource)">
-         <xsl:value-of select="substring-after(vcard:hasEmail/@rdf:resource, ':')"/>
+         <fo:basic-link external-destination="{vcard:hasEmail/@rdf:resource}">
+            <xsl:value-of select="substring-after(vcard:hasEmail/@rdf:resource, ':')"/>
+         </fo:basic-link>
          <fo:block/>
       </xsl:if>
    </xsl:template>

@@ -11,7 +11,9 @@
                        data-target=".navbar-collapse">
                   <fo:inline>Toggle navigation</fo:inline>
                </button>
-               <fo:external-graphic src="/images/logos/NWDAlogotype.gif"/>
+               <fo:basic-link external-destination="/index.shtml">
+                  <fo:external-graphic src="/images/logos/NWDAlogotype.gif"/>
+               </fo:basic-link>
             </fo:block>
             <fo:block>
                <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
@@ -20,7 +22,7 @@
                         <fo:block/>
                      </fo:list-item-label>
                      <fo:list-item-body start-indent="body-start()">
-                        <fo:block>home</fo:block>
+                        <fo:block/>
                      </fo:list-item-body>
                   </fo:list-item>
                   <fo:list-item>
@@ -28,7 +30,7 @@
                         <fo:block/>
                      </fo:list-item-label>
                      <fo:list-item-body start-indent="body-start()">
-                        <fo:block>search</fo:block>
+                        <fo:block/>
                      </fo:list-item-body>
                   </fo:list-item>
                   <fo:list-item>
@@ -36,7 +38,7 @@
                         <fo:block/>
                      </fo:list-item-label>
                      <fo:list-item-body start-indent="body-start()">
-                        <fo:block>about</fo:block>
+                        <fo:block/>
                      </fo:list-item-body>
                   </fo:list-item>
                   <fo:list-item>
@@ -44,7 +46,7 @@
                         <fo:block/>
                      </fo:list-item-label>
                      <fo:list-item-body start-indent="body-start()">
-                        <fo:block>contact us</fo:block>
+                        <fo:block/>
                      </fo:list-item-body>
                   </fo:list-item>
                   <fo:list-item>
@@ -52,7 +54,7 @@
                         <fo:block/>
                      </fo:list-item-label>
                      <fo:list-item-body start-indent="body-start()">
-                        <fo:block>member tools</fo:block>
+                        <fo:block/>
                      </fo:list-item-body>
                   </fo:list-item>
                </fo:list-block>

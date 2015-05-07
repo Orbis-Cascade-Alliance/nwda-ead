@@ -34,6 +34,9 @@
 			<xsl:attribute name="href">../nwda.mod.preferences.xsl</xsl:attribute>
 		</xsl:element>
 	</xsl:template>
+	
+	<!-- suppress empty for-each -->
+	<xsl:template match="xsl:for-each[contains(@select, '*[@id]')]"/>
 
 	<!-- suppress highlighting template -->
 	<xsl:template match="xsl:template[@name='highlight']"/>
@@ -328,20 +331,22 @@
 	<!-- links -->
 	<xsl:template match="a">
 		<!-- ignore a tags which are not for anchor positioning -->
-		<xsl:if test="not(@id) and not(@name)">
-			<xsl:choose>
-				<xsl:when test="contains(@href, 'http://')">
-					<fo:basic-link>
+		<xsl:if test="child::*">
+			<fo:basic-link>
+				<xsl:choose>
+					<xsl:when test="@href">
 						<xsl:attribute name="external-destination">
 							<xsl:value-of select="@href"/>
 						</xsl:attribute>
 						<xsl:apply-templates/>
-					</fo:basic-link>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:apply-templates/>
-				</xsl:otherwise>
-			</xsl:choose>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:apply-templates/>
+					</xsl:otherwise>
+				</xsl:choose>
+
+			</fo:basic-link>
+
 		</xsl:if>
 	</xsl:template>
 
@@ -440,9 +445,22 @@
 	</xsl:template>
 
 
-	<!-- temporarily suppress images -->
-	<xsl:template match="img|xsl:element[@name='img']">
+	<!-- handle images -->
+	<xsl:template match="img">
 		<fo:external-graphic src="{@src}"/>
+	</xsl:template>
+	
+	<xsl:template match="xsl:element[@name='img']">
+		<fo:external-graphic>
+			<xsl:apply-templates/>
+		</fo:external-graphic>
+	</xsl:template>
+	
+	<xsl:template match="xsl:attribute[@name='src']">
+		<xsl:element name="xsl:attribute">
+			<xsl:attribute name="name">src</xsl:attribute>
+			<xsl:apply-templates/>
+		</xsl:element>
 	</xsl:template>
 
 </xsl:stylesheet>
