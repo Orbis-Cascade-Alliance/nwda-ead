@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-	xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:nwda="https://github.com/Orbis-Cascade-Alliance/nwda-editor#"
-	xmlns:arch="http://purl.org/archival/vocab/arch#" exclude-result-prefixes="arch nwda xsd vcard"
-	version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:nwda="https://github.com/Orbis-Cascade-Alliance/nwda-editor#" xmlns:arch="http://purl.org/archival/vocab/arch#" exclude-result-prefixes="arch
+	nwda xsd vcard" version="1.0">
 	<xsl:strip-space elements="*"/>
 	<xsl:output encoding="UTF-8" method="xml" indent="yes"/>
 
@@ -34,9 +32,21 @@
 			<xsl:attribute name="href">../nwda.mod.preferences.xsl</xsl:attribute>
 		</xsl:element>
 	</xsl:template>
-	
+
 	<!-- suppress empty for-each -->
 	<xsl:template match="xsl:for-each[contains(@select, '*[@id]')]"/>
+
+	<!-- replace the xsl:choose with the @xml:id='process-rdf' with templates that execute exsl:node-set only (supressing msxsl:node-set) -->
+	<xsl:template match="xsl:choose[@xml:id='process-rdf']">
+		<xsl:element name="xsl:apply-templates">
+			<xsl:attribute name="select">exsl:node-set($rdf)//arch:Archive</xsl:attribute>
+			<xsl:attribute name="mode">repository</xsl:attribute>
+		</xsl:element>
+		<xsl:element name="xsl:apply-templates">
+			<xsl:attribute name="select">exsl:node-set($rdf)//arch:Archive</xsl:attribute>
+			<xsl:attribute name="mode">contact</xsl:attribute>
+		</xsl:element>
+	</xsl:template>
 
 	<!-- suppress highlighting template -->
 	<xsl:template match="xsl:template[@name='highlight']"/>
@@ -45,20 +55,17 @@
 	<xsl:template match="xsl:template[@name='html_base']">
 		<xsl:element name="xsl:template">
 			<xsl:attribute name="name">html_base</xsl:attribute>
-			<fo:root font-size="12px" color="#6b6b6b"
-				font-family="georgia, 'times new roman', times, serif">
+			<fo:root font-size="12px" color="#6b6b6b" font-family="georgia, 'times new roman', times, serif">
 				<!--  -->
 				<fo:layout-master-set>
-					<fo:simple-page-master margin-right="1in" margin-left="1in" margin-bottom="1in"
-						margin-top="1in" page-width="8in" page-height="11in" master-name="content">
+					<fo:simple-page-master margin-right="1in" margin-left="1in" margin-bottom="1in" margin-top="1in" page-width="8in" page-height="11in" master-name="content">
 						<fo:region-body region-name="body" margin-bottom=".5in"/>
 						<fo:region-after region-name="footer" extent=".5in"/>
 					</fo:simple-page-master>
 				</fo:layout-master-set>
 				<fo:page-sequence master-reference="content">
 					<fo:title>
-						<xsl:element name="xsl:value-of"
-							namespace="http://www.w3.org/1999/XSL/Transform">
+						<xsl:element name="xsl:value-of" namespace="http://www.w3.org/1999/XSL/Transform">
 							<xsl:attribute name="select">$titleproper</xsl:attribute>
 						</xsl:element>
 					</fo:title>
@@ -70,15 +77,14 @@
 										<fo:table-cell>
 											<fo:block>
 												<fo:basic-link show-destination="new">
-												<xsl:attribute name="external-destination">
-												<xsl:text>{concat($serverURL, '/ark:/', $identifier)}</xsl:text>
-												</xsl:attribute>
-												<xsl:element name="xsl:value-of"
-												namespace="http://www.w3.org/1999/XSL/Transform">
-												<xsl:attribute name="select">
-												<xsl:text>concat($serverURL, '/ark:/', $identifier)</xsl:text>
-												</xsl:attribute>
-												</xsl:element>
+													<xsl:attribute name="external-destination">
+														<xsl:text>{concat($serverURL, '/ark:/', $identifier)}</xsl:text>
+													</xsl:attribute>
+													<xsl:element name="xsl:value-of" namespace="http://www.w3.org/1999/XSL/Transform">
+														<xsl:attribute name="select">
+															<xsl:text>concat($serverURL, '/ark:/', $identifier)</xsl:text>
+														</xsl:attribute>
+													</xsl:element>
 												</fo:basic-link>
 											</fo:block>
 										</fo:table-cell>
@@ -94,20 +100,14 @@
 					</fo:static-content>
 					<fo:flow flow-name="body">
 						<fo:block font-size="24px" color="#676D38">
-							<xsl:element name="xsl:value-of"
-								namespace="http://www.w3.org/1999/XSL/Transform">
-								<xsl:attribute name="select"
-									>normalize-space(*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unittitle'])</xsl:attribute>
+							<xsl:element name="xsl:value-of" namespace="http://www.w3.org/1999/XSL/Transform">
+								<xsl:attribute name="select">normalize-space(*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unittitle'])</xsl:attribute>
 							</xsl:element>
-							<xsl:element name="xsl:if"
-								namespace="http://www.w3.org/1999/XSL/Transform">
+							<xsl:element name="xsl:if" namespace="http://www.w3.org/1999/XSL/Transform">
 								<xsl:attribute name="test">*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unitdate']</xsl:attribute>
-								<xsl:element name="xsl:text"
-									namespace="http://www.w3.org/1999/XSL/Transform">, </xsl:element>
-								<xsl:element name="xsl:value-of"
-									namespace="http://www.w3.org/1999/XSL/Transform">
-									<xsl:attribute name="select"
-										>*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unitdate']</xsl:attribute>
+								<xsl:element name="xsl:text" namespace="http://www.w3.org/1999/XSL/Transform">, </xsl:element>
+								<xsl:element name="xsl:value-of" namespace="http://www.w3.org/1999/XSL/Transform">
+									<xsl:attribute name="select">*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unitdate']</xsl:attribute>
 								</xsl:element>
 							</xsl:element>
 						</fo:block>
@@ -162,7 +162,7 @@
 	<xsl:template match="xsl:attribute[@name='datatype']"/>
 	<xsl:template match="xsl:attribute[@name='id']"/>
 	<xsl:template match="xsl:attribute[@name='target']"/>
-	
+
 
 	<!-- ************************ TRANSFORMING HTML ELEMENTS INTO FO ************************** -->
 
@@ -238,7 +238,7 @@
 								<fo:table-column column-width="10%"/>
 								<fo:table-column column-width="80%"/>
 							</xsl:element>
-						</xsl:element>						
+						</xsl:element>
 					</xsl:element>
 					<xsl:element name="xsl:otherwise">
 						<!-- when there is a unitdate, include column for unitdate -->
@@ -253,11 +253,11 @@
 								<fo:table-column column-width="15%"/>
 								<fo:table-column column-width="85%"/>
 							</xsl:element>
-						</xsl:element>						
+						</xsl:element>
 					</xsl:element>
 				</xsl:element>
 			</xsl:if>
-			
+
 			<xsl:apply-templates/>
 		</fo:table>
 	</xsl:template>
@@ -280,9 +280,10 @@
 		</fo:table-row>
 	</xsl:template>
 
+
+
 	<xsl:template match="td">
-		<fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
-			border-bottom-style="solid" padding="8px">
+		<fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px" border-bottom-style="solid" padding="8px">
 			<xsl:if test="@colspan">
 				<xsl:attribute name="number-columns-spanned">
 					<xsl:value-of select="@colspan"/>
@@ -310,8 +311,7 @@
 	</xsl:template>
 
 	<xsl:template match="th">
-		<fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
-			border-bottom-style="solid" padding="8px">
+		<fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px" border-bottom-style="solid" padding="8px">
 			<xsl:if test="@colspan">
 				<xsl:attribute name="number-columns-spanned">
 					<xsl:value-of select="@colspan"/>
@@ -449,13 +449,13 @@
 	<xsl:template match="img">
 		<fo:external-graphic src="{@src}"/>
 	</xsl:template>
-	
+
 	<xsl:template match="xsl:element[@name='img']">
 		<fo:external-graphic>
 			<xsl:apply-templates/>
 		</fo:external-graphic>
 	</xsl:template>
-	
+
 	<xsl:template match="xsl:attribute[@name='src']">
 		<xsl:element name="xsl:attribute">
 			<xsl:attribute name="name">src</xsl:attribute>

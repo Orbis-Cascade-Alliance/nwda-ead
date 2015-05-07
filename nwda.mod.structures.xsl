@@ -170,7 +170,7 @@ Mark Carlson
 							<xsl:value-of select="$contactinformation_label"/>
 						</dt>
 						<dd>
-							<xsl:choose>
+							<xsl:choose xml:id="process-rdf">
 								<xsl:when test="$platform='linux'">
 									<xsl:apply-templates select="exsl:node-set($rdf)//arch:Archive" mode="repository"/>
 									<xsl:apply-templates select="exsl:node-set($rdf)//arch:Archive" mode="contact"/>

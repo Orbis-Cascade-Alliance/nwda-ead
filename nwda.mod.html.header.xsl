@@ -32,7 +32,7 @@
 							<a href="/dynamicpages/contact.aspx" class="nav-contact">contact us</a>
 						</li>
 						<li>
-							<a href="https://www.orbiscascade.org/northwest-digital-archives-program/" class="nav-tools">member tools</a>
+							<a href="https://www.orbiscascade.org/archives-and-manuscript-collections" class="nav-tools" target="_blank">member tools</a>
 						</li>
 					</ul>
 					<!--<div class="col-sm-3 col-md-3 pull-right">

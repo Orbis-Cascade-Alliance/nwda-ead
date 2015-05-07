@@ -118,6 +118,28 @@ Changes:
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:if>
+					<xsl:choose>
+						<xsl:when test="parent::node()/descendant::*[local-name()='container']">
+							<xsl:choose>
+								<xsl:when test="not(parent::node()/descendant::*[local-name()='did']/*[local-name()='container'][2])">
+									<td>
+										<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
+									</td>
+								</xsl:when>
+								<xsl:otherwise>
+									<td>
+										<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
+									</td>
+									<td>
+										<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][2]"/>
+									</td>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:when>
+						<xsl:otherwise>
+							<!-- no table cell -->
+						</xsl:otherwise>
+					</xsl:choose>
 
 					<td class="c0x_content">
 						<xsl:if test="string(*[local-name()='did']/*[local-name()='unitid'])">
@@ -991,7 +1013,8 @@ Changes:
 							</xsl:if>
 						</xsl:for-each>
 					</xsl:when>
-					<xsl:when test="(*[local-name()='arc'][1][@*[local-name()='show']='replace'] or *[local-name()='arc'][1][@*[local-name()='show']='new']) and *[local-name()='arc'][1][@actuate='onrequest']">
+					<xsl:when test="(*[local-name()='arc'][1][@*[local-name()='show']='replace'] or *[local-name()='arc'][1][@*[local-name()='show']='new']) and
+						*[local-name()='arc'][1][@actuate='onrequest']">
 						<a>
 							<xsl:choose>
 								<!-- when a textual hyperlink is desired, i.e. <resource> element contains data -->
@@ -1012,8 +1035,7 @@ Changes:
 									<!-- if <resource> element is empty, produce an icon that can be used to traverse the link -->
 									<xsl:for-each select="*[local-name()='daoloc']">
 										<xsl:if test="@*[local-name()='label'] = following::*[local-name()='arc'][1]/@*[local-name()='to']">
-											<xsl:attribute name="href">
-											</xsl:attribute>
+											<xsl:attribute name="href"> </xsl:attribute>
 											<xsl:if test="following::*[local-name()='arc'][1]/@*[local-name()='show']='new'">
 												<xsl:attribute name="target">_blank</xsl:attribute>
 											</xsl:if>
