@@ -11,7 +11,7 @@
                        data-target=".navbar-collapse">
                   <fo:inline>Toggle navigation</fo:inline>
                </button>
-               <fo:basic-link external-destination="/index.shtml">
+               <fo:basic-link text-decoration="underline" color="#47371f" external-destination="/index.shtml">
                   <fo:external-graphic src="/images/logos/NWDAlogotype.gif"/>
                </fo:basic-link>
             </fo:block>

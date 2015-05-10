@@ -118,28 +118,6 @@ Changes:
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:if>
-					<xsl:choose>
-						<xsl:when test="parent::node()/descendant::*[local-name()='container']">
-							<xsl:choose>
-								<xsl:when test="not(parent::node()/descendant::*[local-name()='did']/*[local-name()='container'][2])">
-									<td>
-										<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
-									</td>
-								</xsl:when>
-								<xsl:otherwise>
-									<td>
-										<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
-									</td>
-									<td>
-										<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][2]"/>
-									</td>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:when>
-						<xsl:otherwise>
-							<!-- no table cell -->
-						</xsl:otherwise>
-					</xsl:choose>
 
 					<td class="c0x_content">
 						<xsl:if test="string(*[local-name()='did']/*[local-name()='unitid'])">
@@ -237,26 +215,21 @@ Changes:
 	<xsl:template name="table_label">
 		<thead>
 			<tr>
-				<xsl:choose>
-					<xsl:when test="descendant::*[local-name()='container']">
-						<xsl:choose>
-							<xsl:when test="not(descendant::*[local-name()='did']/*[local-name()='container'][2])">
-								<th class="c0x_container_small">
-									<span class="c0x_header">Container(s)</span>
-								</th>
-							</xsl:when>
-							<xsl:otherwise>
-								<th class="c0x_container_small">
-									<span class="c0x_header">Container(s)</span>
-								</th>
-								<th class="c0x_container_small"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:when>
-					<xsl:otherwise>
-						<th class="c0x_container_small"/>
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:if test="descendant::*[local-name()='container']">
+					<xsl:choose>
+						<xsl:when test="descendant::*[local-name()='did'][count(*[local-name()='container']) = 2]">
+							<th class="c0x_container_small">
+								<span class="c0x_header">Container(s)</span>
+							</th>
+							<th class="c0x_container_small"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<th class="c0x_container_small">
+								<span class="c0x_header">Container(s)</span>
+							</th>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:if>
 
 				<xsl:if test="string(descendant::*[local-name()='unittitle'])">
 					<th class="c0x_content">
@@ -1016,6 +989,11 @@ Changes:
 					<xsl:when test="(*[local-name()='arc'][1][@*[local-name()='show']='replace'] or *[local-name()='arc'][1][@*[local-name()='show']='new']) and
 						*[local-name()='arc'][1][@actuate='onrequest']">
 						<a>
+							<xsl:if test="following::*[local-name()='arc'][1]/@*[local-name()='title']">
+								<xsl:attribute name="title">
+									<xsl:value-of select="following::*[local-name()='arc'][1]/@*[local-name()='title']"/>
+								</xsl:attribute>
+							</xsl:if>
 							<xsl:choose>
 								<!-- when a textual hyperlink is desired, i.e. <resource> element contains data -->
 								<xsl:when test="string(*[local-name()='resource'])">
@@ -1035,21 +1013,14 @@ Changes:
 									<!-- if <resource> element is empty, produce an icon that can be used to traverse the link -->
 									<xsl:for-each select="*[local-name()='daoloc']">
 										<xsl:if test="@*[local-name()='label'] = following::*[local-name()='arc'][1]/@*[local-name()='to']">
-											<xsl:attribute name="href"> </xsl:attribute>
+											<xsl:attribute name="href">
+												<xsl:value-of select="@*[local-name()='href']"/>
+											</xsl:attribute>
 											<xsl:if test="following::*[local-name()='arc'][1]/@*[local-name()='show']='new'">
 												<xsl:attribute name="target">_blank</xsl:attribute>
 											</xsl:if>
 										</xsl:if>
-										<img src="{$pathToIcon}{$iconFilename}" border="0">
-											<xsl:if test="following::*[local-name()='arc'][1]/@*[local-name()='title']">
-												<xsl:attribute name="title">
-													<xsl:value-of select="following::*[local-name()='arc'][1]/@*[local-name()='title']"/>
-												</xsl:attribute>
-												<xsl:attribute name="alt">
-													<xsl:value-of select="following::*[local-name()='arc'][1]/@*[local-name()='title']"/>
-												</xsl:attribute>
-											</xsl:if>
-										</img>
+										<span class="glyphicon glyphicon-camera"/>
 									</xsl:for-each>
 								</xsl:otherwise>
 							</xsl:choose>

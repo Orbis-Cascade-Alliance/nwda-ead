@@ -15,7 +15,7 @@
                </fo:list-item-label>
                <fo:list-item-body start-indent="body-start()">
                   <fo:block>
-                     <fo:basic-link external-destination="#overview">
+                     <fo:basic-link text-decoration="underline" color="#47371f" external-destination="#overview">
                         <xsl:value-of select="$overview_head"/>
                      </fo:basic-link>
                   </fo:block>
@@ -32,17 +32,20 @@
                      <xsl:for-each select="*[local-name()='bioghist']">
                         <xsl:choose>
                            <xsl:when test="./*[local-name()='head']/text()='Biographical Note'">
-                              <fo:basic-link external-destination="#{$bioghist_id}">
+                              <fo:basic-link text-decoration="underline" color="#47371f"
+                                             external-destination="#{$bioghist_id}">
                                  <xsl:value-of select="$bioghist_head"/>
                               </fo:basic-link>
                            </xsl:when>
                            <!--SY original code	<xsl:when test="starts-with(@encodinganalog, '545')"> --><!--carlsonm mod 2004-07-09 only use bio head when encodinganalog is 5450 as opposed to 5451 --><xsl:when test="starts-with(@encodinganalog, '5450')">
-                              <fo:basic-link external-destination="#{$bioghist_id}">
+                              <fo:basic-link text-decoration="underline" color="#47371f"
+                                             external-destination="#{$bioghist_id}">
                                  <xsl:value-of select="$bioghist_head"/>
                               </fo:basic-link>
                            </xsl:when>
                            <xsl:otherwise>
-                              <fo:basic-link external-destination="#{$historical_id}">
+                              <fo:basic-link text-decoration="underline" color="#47371f"
+                                             external-destination="#{$historical_id}">
                                  <xsl:value-of select="$historical_head"/>
                               </fo:basic-link>
                            </xsl:otherwise>
@@ -61,7 +64,7 @@
                   </fo:list-item-label>
                   <fo:list-item-body start-indent="body-start()">
                      <fo:block>
-                        <fo:basic-link external-destination="#{$odd_id}">
+                        <fo:basic-link text-decoration="underline" color="#47371f" external-destination="#{$odd_id}">
                            <xsl:choose>
                               <xsl:when test="@type='hist'">
                                  <xsl:value-of select="$odd_head_histbck"/>
@@ -83,7 +86,8 @@
                </fo:list-item-label>
                <fo:list-item-body start-indent="body-start()">
                   <fo:block>
-                     <fo:basic-link external-destination="#{$scopecontent_id}">
+                     <fo:basic-link text-decoration="underline" color="#47371f"
+                                    external-destination="#{$scopecontent_id}">
                         <xsl:value-of select="$scopecontent_head"/>
                      </fo:basic-link>
                   </fo:block>
@@ -97,8 +101,9 @@
                </fo:list-item-label>
                <fo:list-item-body start-indent="body-start()">
                   <fo:block>
-                     <fo:basic-link external-destination="#"/>
-                     <fo:basic-link external-destination="#{$useinfo_id}">
+                     <fo:basic-link text-decoration="underline" color="#47371f" external-destination="#"/>
+                     <fo:basic-link text-decoration="underline" color="#47371f"
+                                    external-destination="#{$useinfo_id}">
                         <xsl:value-of select="$useinfo_head"/>
                      </fo:basic-link>
                      <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
@@ -109,7 +114,8 @@
                               </fo:list-item-label>
                               <fo:list-item-body start-indent="body-start()">
                                  <fo:block>
-                                    <fo:basic-link external-destination="#{$altformavail_id}">
+                                    <fo:basic-link text-decoration="underline" color="#47371f"
+                                                   external-destination="#{$altformavail_id}">
                                        <xsl:value-of select="$altformavail_label"/>
                                     </fo:basic-link>
                                  </fo:block>
@@ -123,7 +129,8 @@
                               </fo:list-item-label>
                               <fo:list-item-body start-indent="body-start()">
                                  <fo:block>
-                                    <fo:basic-link external-destination="#{$accessrestrict_id}">
+                                    <fo:basic-link text-decoration="underline" color="#47371f"
+                                                   external-destination="#{$accessrestrict_id}">
                                        <xsl:value-of select="$accessrestrict_label"/>
                                     </fo:basic-link>
                                  </fo:block>
@@ -137,7 +144,8 @@
                               </fo:list-item-label>
                               <fo:list-item-body start-indent="body-start()">
                                  <fo:block>
-                                    <fo:basic-link external-destination="#{$userestrict_id}">
+                                    <fo:basic-link text-decoration="underline" color="#47371f"
+                                                   external-destination="#{$userestrict_id}">
                                        <xsl:value-of select="$userestrict_label"/>
                                     </fo:basic-link>
                                  </fo:block>
@@ -151,7 +159,8 @@
                               </fo:list-item-label>
                               <fo:list-item-body start-indent="body-start()">
                                  <fo:block>
-                                    <fo:basic-link external-destination="#{$prefercite_id}">
+                                    <fo:basic-link text-decoration="underline" color="#47371f"
+                                                   external-destination="#{$prefercite_id}">
                                        <xsl:value-of select="$prefercite_label"/>
                                     </fo:basic-link>
                                  </fo:block>
@@ -170,8 +179,9 @@
                </fo:list-item-label>
                <fo:list-item-body start-indent="body-start()">
                   <fo:block>
-                     <fo:basic-link external-destination="#"/>
-                     <fo:basic-link external-destination="#administrative_info">
+                     <fo:basic-link text-decoration="underline" color="#47371f" external-destination="#"/>
+                     <fo:basic-link text-decoration="underline" color="#47371f"
+                                    external-destination="#administrative_info">
                         <xsl:text>Administrative Information</xsl:text>
                      </fo:basic-link>
                      <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
@@ -182,7 +192,8 @@
                               </fo:list-item-label>
                               <fo:list-item-body start-indent="body-start()">
                                  <fo:block>
-                                    <fo:basic-link external-destination="#{$arrangement_id}">
+                                    <fo:basic-link text-decoration="underline" color="#47371f"
+                                                   external-destination="#{$arrangement_id}">
                                        <xsl:value-of select="$arrangement_head"/>
                                     </fo:basic-link>
                                  </fo:block>
@@ -196,7 +207,8 @@
                               </fo:list-item-label>
                               <fo:list-item-body start-indent="body-start()">
                                  <fo:block>
-                                    <fo:basic-link external-destination="#{$custodhist_id}">
+                                    <fo:basic-link text-decoration="underline" color="#47371f"
+                                                   external-destination="#{$custodhist_id}">
                                        <xsl:value-of select="$custodhist_label"/>
                                     </fo:basic-link>
                                  </fo:block>
@@ -210,7 +222,8 @@
                               </fo:list-item-label>
                               <fo:list-item-body start-indent="body-start()">
                                  <fo:block>
-                                    <fo:basic-link external-destination="#{$acqinfo_id}">
+                                    <fo:basic-link text-decoration="underline" color="#47371f"
+                                                   external-destination="#{$acqinfo_id}">
                                        <xsl:value-of select="$acqinfo_label"/>
                                     </fo:basic-link>
                                  </fo:block>
@@ -224,7 +237,8 @@
                               </fo:list-item-label>
                               <fo:list-item-body start-indent="body-start()">
                                  <fo:block>
-                                    <fo:basic-link external-destination="#{$accruals_id}">
+                                    <fo:basic-link text-decoration="underline" color="#47371f"
+                                                   external-destination="#{$accruals_id}">
                                        <xsl:value-of select="$accruals_label"/>
                                     </fo:basic-link>
                                  </fo:block>
@@ -238,7 +252,8 @@
                               </fo:list-item-label>
                               <fo:list-item-body start-indent="body-start()">
                                  <fo:block>
-                                    <fo:basic-link external-destination="#{$processinfo_id}">
+                                    <fo:basic-link text-decoration="underline" color="#47371f"
+                                                   external-destination="#{$processinfo_id}">
                                        <xsl:value-of select="$processinfo_label"/>
                                     </fo:basic-link>
                                  </fo:block>
@@ -252,7 +267,8 @@
                               </fo:list-item-label>
                               <fo:list-item-body start-indent="body-start()">
                                  <fo:block>
-                                    <fo:basic-link external-destination="#{$separatedmaterial_id}">
+                                    <fo:basic-link text-decoration="underline" color="#47371f"
+                                                   external-destination="#{$separatedmaterial_id}">
                                        <xsl:value-of select="$separatedmaterial_label"/>
                                     </fo:basic-link>
                                  </fo:block>
@@ -266,7 +282,8 @@
                               </fo:list-item-label>
                               <fo:list-item-body start-indent="body-start()">
                                  <fo:block>
-                                    <fo:basic-link external-destination="#{$bibliography_id}">
+                                    <fo:basic-link text-decoration="underline" color="#47371f"
+                                                   external-destination="#{$bibliography_id}">
                                        <xsl:value-of select="$bibliography_label"/>
                                     </fo:basic-link>
                                  </fo:block>
@@ -280,7 +297,8 @@
                               </fo:list-item-label>
                               <fo:list-item-body start-indent="body-start()">
                                  <fo:block>
-                                    <fo:basic-link external-destination="#{$otherfindaid_id}">
+                                    <fo:basic-link text-decoration="underline" color="#47371f"
+                                                   external-destination="#{$otherfindaid_id}">
                                        <xsl:value-of select="$otherfindaid_label"/>
                                     </fo:basic-link>
                                  </fo:block>
@@ -294,7 +312,8 @@
                               </fo:list-item-label>
                               <fo:list-item-body start-indent="body-start()">
                                  <fo:block>
-                                    <fo:basic-link external-destination="#{$relatedmaterial_id}">
+                                    <fo:basic-link text-decoration="underline" color="#47371f"
+                                                   external-destination="#{$relatedmaterial_id}">
                                        <xsl:value-of select="$relatedmaterial_label"/>
                                     </fo:basic-link>
                                  </fo:block>
@@ -308,7 +327,8 @@
                               </fo:list-item-label>
                               <fo:list-item-body start-indent="body-start()">
                                  <fo:block>
-                                    <fo:basic-link external-destination="#{$appraisal_id}">
+                                    <fo:basic-link text-decoration="underline" color="#47371f"
+                                                   external-destination="#{$appraisal_id}">
                                        <xsl:value-of select="$appraisal_label"/>
                                     </fo:basic-link>
                                  </fo:block>
@@ -322,7 +342,8 @@
                               </fo:list-item-label>
                               <fo:list-item-body start-indent="body-start()">
                                  <fo:block>
-                                    <fo:basic-link external-destination="#{$originalsloc_id}">
+                                    <fo:basic-link text-decoration="underline" color="#47371f"
+                                                   external-destination="#{$originalsloc_id}">
                                        <xsl:value-of select="$originalsloc_label"/>
                                     </fo:basic-link>
                                  </fo:block>
@@ -342,9 +363,9 @@
                <fo:list-item-body start-indent="body-start()">
                   <fo:block>
                      <xsl:if test="//*[local-name()='c02']">
-                        <fo:basic-link external-destination="#"/>
+                        <fo:basic-link text-decoration="underline" color="#47371f" external-destination="#"/>
                      </xsl:if>
-                     <fo:basic-link external-destination="#{$dsc_id}">
+                     <fo:basic-link text-decoration="underline" color="#47371f" external-destination="#{$dsc_id}">
                         <xsl:value-of select="$dsc_head"/>
                      </fo:basic-link>
                      <xsl:if test="//*[local-name()='dsc'][not(@type='in-depth')]">
@@ -361,7 +382,8 @@
                </fo:list-item-label>
                <fo:list-item-body start-indent="body-start()">
                   <fo:block>
-                     <fo:basic-link external-destination="#{$controlaccess_id}">
+                     <fo:basic-link text-decoration="underline" color="#47371f"
+                                    external-destination="#{$controlaccess_id}">
                         <xsl:value-of select="$controlaccess_head"/>
                      </fo:basic-link>
                   </fo:block>
@@ -380,7 +402,7 @@
                   </fo:list-item-label>
                   <fo:list-item-body start-indent="body-start()">
                      <fo:block>
-                        <fo:basic-link>
+                        <fo:basic-link text-decoration="underline" color="#47371f">
                            <xsl:attribute name="external-destination">
                               <xsl:choose>
                                  <xsl:when test="@id">

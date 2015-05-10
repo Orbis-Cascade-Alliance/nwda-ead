@@ -127,38 +127,6 @@ Changes:
                      </xsl:otherwise>
                   </xsl:choose>
                </xsl:if>
-               <xsl:choose>
-                  <xsl:when test="parent::node()/descendant::*[local-name()='container']">
-                     <xsl:choose>
-                        <xsl:when test="not(parent::node()/descendant::*[local-name()='did']/*[local-name()='container'][2])">
-                           <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
-                                          border-bottom-style="solid"
-                                          padding="8px">
-                              <fo:block>
-                                 <xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
-                              </fo:block>
-                           </fo:table-cell>
-                        </xsl:when>
-                        <xsl:otherwise>
-                           <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
-                                          border-bottom-style="solid"
-                                          padding="8px">
-                              <fo:block>
-                                 <xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
-                              </fo:block>
-                           </fo:table-cell>
-                           <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
-                                          border-bottom-style="solid"
-                                          padding="8px">
-                              <fo:block>
-                                 <xsl:value-of select="*[local-name()='did']/*[local-name()='container'][2]"/>
-                              </fo:block>
-                           </fo:table-cell>
-                        </xsl:otherwise>
-                     </xsl:choose>
-                  </xsl:when>
-                  <xsl:otherwise><!-- no table cell --></xsl:otherwise>
-               </xsl:choose>
                <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                               border-bottom-style="solid"
                               padding="8px">
@@ -305,42 +273,33 @@ Changes:
    <!-- ********************* </DSC TABLE> *************************** --><!-- ********************* LABELS FOR TABLE ********************* --><xsl:template name="table_label">
       <fo:table-header>
          <fo:table-row width="100%">
-            <xsl:choose>
-               <xsl:when test="descendant::*[local-name()='container']">
-                  <xsl:choose>
-                     <xsl:when test="not(descendant::*[local-name()='did']/*[local-name()='container'][2])">
-                        <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
-                                       border-bottom-style="solid"
-                                       padding="8px">
-                           <fo:block>
-                              <fo:inline font-size="85%" font-weight="bold">Container(s)</fo:inline>
-                           </fo:block>
-                        </fo:table-cell>
-                     </xsl:when>
-                     <xsl:otherwise>
-                        <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
-                                       border-bottom-style="solid"
-                                       padding="8px">
-                           <fo:block>
-                              <fo:inline font-size="85%" font-weight="bold">Container(s)</fo:inline>
-                           </fo:block>
-                        </fo:table-cell>
-                        <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
-                                       border-bottom-style="solid"
-                                       padding="8px">
-                           <fo:block/>
-                        </fo:table-cell>
-                     </xsl:otherwise>
-                  </xsl:choose>
-               </xsl:when>
-               <xsl:otherwise>
-                  <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
-                                 border-bottom-style="solid"
-                                 padding="8px">
-                     <fo:block/>
-                  </fo:table-cell>
-               </xsl:otherwise>
-            </xsl:choose>
+            <xsl:if test="descendant::*[local-name()='container']">
+               <xsl:choose>
+                  <xsl:when test="descendant::*[local-name()='did'][count(*[local-name()='container']) = 2]">
+                     <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
+                                    border-bottom-style="solid"
+                                    padding="8px">
+                        <fo:block>
+                           <fo:inline font-size="85%" font-weight="bold">Container(s)</fo:inline>
+                        </fo:block>
+                     </fo:table-cell>
+                     <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
+                                    border-bottom-style="solid"
+                                    padding="8px">
+                        <fo:block/>
+                     </fo:table-cell>
+                  </xsl:when>
+                  <xsl:otherwise>
+                     <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
+                                    border-bottom-style="solid"
+                                    padding="8px">
+                        <fo:block>
+                           <fo:inline font-size="85%" font-weight="bold">Container(s)</fo:inline>
+                        </fo:block>
+                     </fo:table-cell>
+                  </xsl:otherwise>
+               </xsl:choose>
+            </xsl:if>
             <xsl:if test="string(descendant::*[local-name()='unittitle'])">
                <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
                               border-bottom-style="solid"
@@ -936,7 +895,7 @@ Changes:
    </xsl:template>
    <xsl:template match="*[local-name()='daogrp']">
       <xsl:choose><!-- First, check whether we are dealing with one or two <arc> elements --><xsl:when test="*[local-name()='arc'][2]">
-            <fo:basic-link>
+            <fo:basic-link text-decoration="underline" color="#47371f">
                <xsl:if test="*[local-name()='arc'][2]/@*[local-name()='show']='new'"/>
                <xsl:for-each select="*[local-name()='daoloc']"><!-- This selects the <daoloc> element that matches the @*[local-name()='label'] attribute from <daoloc> and the @*[local-name()='to'] attribute
 							from the second <arc> element --><xsl:if test="@*[local-name()='label'] = following::*[local-name()='arc'][2]/@*[local-name()='to']">
@@ -974,7 +933,8 @@ Changes:
                   </xsl:for-each>
                </xsl:when>
                <xsl:when test="(*[local-name()='arc'][1][@*[local-name()='show']='replace'] or *[local-name()='arc'][1][@*[local-name()='show']='new']) and       *[local-name()='arc'][1][@actuate='onrequest']">
-                  <fo:basic-link>
+                  <fo:basic-link text-decoration="underline" color="#47371f">
+                     <xsl:if test="following::*[local-name()='arc'][1]/@*[local-name()='title']"/>
                      <xsl:choose><!-- when a textual hyperlink is desired, i.e. <resource> element contains data --><xsl:when test="string(*[local-name()='resource'])">
                            <xsl:for-each select="*[local-name()='daoloc']">
                               <xsl:if test="@*[local-name()='label'] = following::*[local-name()='arc'][1]/@*[local-name()='to']">
@@ -988,11 +948,11 @@ Changes:
                         </xsl:when>
                         <xsl:otherwise><!-- if <resource> element is empty, produce an icon that can be used to traverse the link --><xsl:for-each select="*[local-name()='daoloc']">
                               <xsl:if test="@*[local-name()='label'] = following::*[local-name()='arc'][1]/@*[local-name()='to']">
-                                 <xsl:attribute name="external-destination"/>
+                                 <xsl:attribute name="external-destination">
+                                    <xsl:value-of select="@*[local-name()='href']"/>
+                                 </xsl:attribute>
                                  <xsl:if test="following::*[local-name()='arc'][1]/@*[local-name()='show']='new'"/>
-                              </xsl:if>
-                              <fo:external-graphic src="{$pathToIcon}{$iconFilename}"/>
-                           </xsl:for-each>
+                              </xsl:if>[view]</xsl:for-each>
                         </xsl:otherwise>
                      </xsl:choose>
                   </fo:basic-link>

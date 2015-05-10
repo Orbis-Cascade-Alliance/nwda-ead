@@ -695,7 +695,7 @@ Mark Carlson
                <xsl:for-each select="*[local-name()='ref'] | *[local-name()='ptrgrp']/*[local-name()='ref']">
                   <xsl:choose>
                      <xsl:when test="@target">
-                        <fo:basic-link external-destination="#{@target}">
+                        <fo:basic-link text-decoration="underline" color="#47371f" external-destination="#{@target}">
                            <xsl:apply-templates/>
                         </fo:basic-link>
                      </xsl:when>
@@ -741,7 +741,8 @@ Mark Carlson
    <!-- 2014 September: templates for rendering repository metadata from RDF/XML --><xsl:template match="arch:Archive" mode="repository">
       <xsl:choose>
          <xsl:when test="foaf:homepage/@rdf:resource">
-            <fo:basic-link external-destination="{foaf:homepage/@rdf:resource}">
+            <fo:basic-link text-decoration="underline" color="#47371f"
+                           external-destination="{foaf:homepage/@rdf:resource}">
                <xsl:value-of select="foaf:name"/>
             </fo:basic-link>
          </xsl:when>
@@ -779,7 +780,8 @@ Mark Carlson
          <fo:block/>
       </xsl:if>
       <xsl:if test="string(vcard:hasEmail/@rdf:resource)">
-         <fo:basic-link external-destination="{vcard:hasEmail/@rdf:resource}">
+         <fo:basic-link text-decoration="underline" color="#47371f"
+                        external-destination="{vcard:hasEmail/@rdf:resource}">
             <xsl:value-of select="substring-after(vcard:hasEmail/@rdf:resource, ':')"/>
          </fo:basic-link>
          <fo:block/>

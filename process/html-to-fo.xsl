@@ -162,13 +162,40 @@
 	<xsl:template match="xsl:attribute[@name='datatype']"/>
 	<xsl:template match="xsl:attribute[@name='id']"/>
 	<xsl:template match="xsl:attribute[@name='target']"/>
+	<xsl:template match="xsl:attribute[@name='title']"/>
+	<xsl:template match="xsl:attribute[@name='alt']"/>
 
 
 	<!-- ************************ TRANSFORMING HTML ELEMENTS INTO FO ************************** -->
 
 	<!-- suppress the following conditions -->
 	<xsl:template match="small"/>
-	<xsl:template match="span[string-length(normalize-space(.)) = 0 and not(child::*)]"/>
+	<xsl:template match="span">
+		<xsl:choose>
+			<xsl:when test="@class='glyphicon glyphicon-camera'">
+				<xsl:text>[view]</xsl:text>
+			</xsl:when>
+			<xsl:when test="string-length(normalize-space(.)) = 0 and not(child::*)"/>
+			<xsl:otherwise>
+				<fo:inline>
+					<xsl:choose>
+						<xsl:when test="@class='containerLabel'">
+							<xsl:attribute name="color">#676d38</xsl:attribute>
+							<xsl:attribute name="font-size">85%</xsl:attribute>
+							<xsl:attribute name="text-decoration">none</xsl:attribute>
+							<xsl:attribute name="text-transform">capitalize</xsl:attribute>
+						</xsl:when>
+						<xsl:when test="@class='c0x_header'">
+							<xsl:attribute name="font-size">85%</xsl:attribute>
+							<xsl:attribute name="font-weight">bold</xsl:attribute>
+						</xsl:when>
+					</xsl:choose>
+					<xsl:apply-templates/>
+				</fo:inline>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	
 
 	<!-- headings -->
 	<xsl:template match="h3">
@@ -194,24 +221,6 @@
 		<fo:block margin-bottom="10px">
 			<xsl:apply-templates/>
 		</fo:block>
-	</xsl:template>
-
-	<xsl:template match="span[string-length(normalize-space(.)) &gt; 0 or child::*]">
-		<fo:inline>
-			<xsl:choose>
-				<xsl:when test="@class='containerLabel'">
-					<xsl:attribute name="color">#676d38</xsl:attribute>
-					<xsl:attribute name="font-size">85%</xsl:attribute>
-					<xsl:attribute name="text-decoration">none</xsl:attribute>
-					<xsl:attribute name="text-transform">capitalize</xsl:attribute>
-				</xsl:when>
-				<xsl:when test="@class='c0x_header'">
-					<xsl:attribute name="font-size">85%</xsl:attribute>
-					<xsl:attribute name="font-weight">bold</xsl:attribute>
-				</xsl:when>
-			</xsl:choose>
-			<xsl:apply-templates/>
-		</fo:inline>
 	</xsl:template>
 
 	<!-- tables -->
@@ -332,7 +341,7 @@
 	<xsl:template match="a">
 		<!-- ignore a tags which are not for anchor positioning -->
 		<xsl:if test="child::*">
-			<fo:basic-link>
+			<fo:basic-link text-decoration="underline" color="#47371f">
 				<xsl:choose>
 					<xsl:when test="@href">
 						<xsl:attribute name="external-destination">
@@ -443,8 +452,7 @@
 	<xsl:template match="font">
 		<xsl:apply-templates/>
 	</xsl:template>
-
-
+	
 	<!-- handle images -->
 	<xsl:template match="img">
 		<fo:external-graphic src="{@src}"/>
