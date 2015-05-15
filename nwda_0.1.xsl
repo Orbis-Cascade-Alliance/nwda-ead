@@ -104,6 +104,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 				<link href="{$serverURL}/ark:/{$identifier}" rel="canonical"/>
 				<link href="{$serverURL}/ark:/{$identifier}/pdf" rel="alternate" type="application/pdf"/>
 				<script language="javascript" type="text/javascript" src="{$pathToJavascript}jqs.js">//</script>
+				<!--<script language="javascript" type="text/javascript" src="{$pathToJavascript}2doc_search.js">//</script>-->
 				
 				<!-- google analytics -->
 				<script type="text/javascript">

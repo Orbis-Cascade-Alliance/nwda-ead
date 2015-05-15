@@ -40,7 +40,7 @@ Mark Carlson
 			</div>
 		</div>
 		<div class="col-md-9">
-			<div class="archdesc">
+			<div class="archdesc" id="docBody">
 				<xsl:call-template name="collection_overview"/>
 				<hr/>
 				<div class="navBody visible-xs visible-sm hidden-md">

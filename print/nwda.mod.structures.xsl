@@ -182,8 +182,16 @@ Mark Carlson
                         </fo:table-cell>
                         <fo:table-cell>
                            <fo:block>
-                              <xsl:apply-templates select="exsl:node-set($rdf)//arch:Archive" mode="repository"/>
-                              <xsl:apply-templates select="exsl:node-set($rdf)//arch:Archive" mode="contact"/>
+                              <xsl:choose xml:id="process-rdf">
+                                 <xsl:when test="$platform='linux'">
+                                    <xsl:apply-templates select="exsl:node-set($rdf)//arch:Archive" mode="repository"/>
+                                    <xsl:apply-templates select="exsl:node-set($rdf)//arch:Archive" mode="contact"/>
+                                 </xsl:when>
+                                 <xsl:otherwise>
+                                    <xsl:apply-templates select="msxsl:node-set($rdf)//arch:Archive" mode="repository"/>
+                                    <xsl:apply-templates select="msxsl:node-set($rdf)//arch:Archive" mode="contact"/>
+                                 </xsl:otherwise>
+                              </xsl:choose>
                            </fo:block>
                         </fo:table-cell>
                      </fo:table-row>

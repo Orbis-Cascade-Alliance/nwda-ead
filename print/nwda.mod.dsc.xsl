@@ -138,33 +138,22 @@ Changes:
                         </xsl:if>
                      </xsl:if>
                      <xsl:apply-templates select="*[local-name()='did']/*[local-name()='unittitle']"/>
-                     <xsl:if test="($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')      and        string(descendant::*[local-name()='unitdate'])">
-                        <xsl:text>, </xsl:text>
+                     <xsl:call-template name="c0x_children"/>
+                  </fo:block>
+               </fo:table-cell>
+               <xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='unitdate']">
+                  <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
+                                 border-bottom-style="solid"
+                                 padding="8px">
+                     <fo:block>
                         <xsl:for-each select="*[local-name()='did']/*[local-name()='unitdate']">
                            <xsl:value-of select="."/>
                            <xsl:if test="not(position() = last())">
                               <xsl:text>, </xsl:text>
                            </xsl:if>
                         </xsl:for-each>
-                     </xsl:if>
-                     <xsl:call-template name="c0x_children"/>
-                  </fo:block>
-               </fo:table-cell>
-               <xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
-                  <xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='unitdate']">
-                     <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
-                                    border-bottom-style="solid"
-                                    padding="8px">
-                        <fo:block>
-                           <xsl:for-each select="*[local-name()='did']/*[local-name()='unitdate']">
-                              <xsl:value-of select="."/>
-                              <xsl:if test="not(position() = last())">
-                                 <xsl:text>, </xsl:text>
-                              </xsl:if>
-                           </xsl:for-each>
-                        </fo:block>
-                     </fo:table-cell>
-                  </xsl:if>
+                     </fo:block>
+                  </fo:table-cell>
                </xsl:if>
             </fo:table-row>
          </xsl:for-each>
@@ -309,16 +298,14 @@ Changes:
                   </fo:block>
                </fo:table-cell>
             </xsl:if>
-            <xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
-               <xsl:if test="string(descendant::*[local-name()='unitdate'])">
-                  <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
-                                 border-bottom-style="solid"
-                                 padding="8px">
-                     <fo:block>
-                        <fo:inline font-size="85%" font-weight="bold">Dates</fo:inline>
-                     </fo:block>
-                  </fo:table-cell>
-               </xsl:if>
+            <xsl:if test="string(descendant::*[local-name()='unitdate'])">
+               <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
+                              border-bottom-style="solid"
+                              padding="8px">
+                  <fo:block>
+                     <fo:inline font-size="85%" font-weight="bold">Dates</fo:inline>
+                  </fo:block>
+               </fo:table-cell>
             </xsl:if>
          </fo:table-row>
       </fo:table-header>
@@ -407,44 +394,32 @@ Changes:
                         </xsl:otherwise>
                      </xsl:choose>
                   </xsl:if>
-                  <!-- if the layout for the date is inline instead of columnar, address that issue --><xsl:if test="$repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps'">
-                     <xsl:for-each select="*[local-name()='did']/*[local-name()='unitdate']"><!-- only insert comma if it comes after a unittitle - on occasion there is a unitdate but no unittitle --><xsl:if test="parent::node()/*[local-name()='unittitle']">
-                           <xsl:text>, </xsl:text>
-                        </xsl:if>
-                        <xsl:value-of select="."/>
-                        <!-- place a semicolon between multiple unitdates --><xsl:if test="not(position() = last())">
-                           <xsl:text>; </xsl:text>
-                        </xsl:if>
-                     </xsl:for-each>
-                  </xsl:if>
                   <xsl:call-template name="c0x_children"/>
                </fo:block>
             </fo:block>
          </fo:table-cell>
-         <!-- if the date layout is columnar, then the column is displayed --><xsl:if test="not($repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps')">
-            <xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
-               <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
-                              border-bottom-style="solid"
-                              padding="8px">
-                  <fo:block>
-                     <xsl:for-each select="*[local-name()='did']/*[local-name()='unitdate']">
-                        <xsl:choose>
-                           <xsl:when test="(parent::node()/parent::node()[@level='series'] or parent::node()/parent::node()[@level='subseries']         or          parent::node()/parent::node()[@otherlevel='sub-subseries'] or parent::node()/parent::node()[@level='otherlevel'])">
-                              <fo:inline font-weight="bold">
-                                 <xsl:value-of select="."/>
-                              </fo:inline>
-                           </xsl:when>
-                           <xsl:otherwise>
+         <!-- if the date layout is columnar, then the column is displayed --><xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+            <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
+                           border-bottom-style="solid"
+                           padding="8px">
+               <fo:block>
+                  <xsl:for-each select="*[local-name()='did']/*[local-name()='unitdate']">
+                     <xsl:choose>
+                        <xsl:when test="(parent::node()/parent::node()[@level='series'] or parent::node()/parent::node()[@level='subseries']         or         parent::node()/parent::node()[@otherlevel='sub-subseries'] or parent::node()/parent::node()[@level='otherlevel'])">
+                           <fo:inline font-weight="bold">
                               <xsl:value-of select="."/>
-                           </xsl:otherwise>
-                        </xsl:choose>
-                        <!-- place a semicolon and a space between dates --><xsl:if test="not(position() = last())">
-                           <xsl:text>; </xsl:text>
-                        </xsl:if>
-                     </xsl:for-each>
-                  </fo:block>
-               </fo:table-cell>
-            </xsl:if>
+                           </fo:inline>
+                        </xsl:when>
+                        <xsl:otherwise>
+                           <xsl:value-of select="."/>
+                        </xsl:otherwise>
+                     </xsl:choose>
+                     <!-- place a semicolon and a space between dates --><xsl:if test="not(position() = last())">
+                        <xsl:text>; </xsl:text>
+                     </xsl:if>
+                  </xsl:for-each>
+               </fo:block>
+            </fo:table-cell>
          </xsl:if>
       </fo:table-row>
       <xsl:apply-templates select="*[local-name()='c02']|*[local-name()='c03']|*[local-name()='c04']|*[local-name()='c05']|*[local-name()='c06']|*[local-name()='c07']|*[local-name()='c08']|*[local-name()='c09']|*[local-name()='c10']|*[local-name()='c11']|*[local-name()='c12']"/>
@@ -786,49 +761,7 @@ Changes:
                </fo:block>
             </xsl:if>
          </xsl:when>
-         <xsl:when test="$repCode='idu' or $repCode='ohy' or $repCode='orcsar' or $repCode='orcs' or $repCode='opvt' or $repCode='mtg' or $repCode='waps'"><!-- 2004-09-26 carlsonm mod to add display for <unitid> --><!-- Tracking # 4.10 Collins Land Company display --><xsl:if test="string(*[local-name()='unitid'])">
-               <xsl:if test="*[local-name()='unitid']/@*[local-name()='label']">
-                  <fo:inline color="#676d38" font-size="85%" text-decoration="none"
-                             text-transform="capitalize">
-                     <xsl:value-of select="*[local-name()='unitid']/@*[local-name()='label']"/>
-                     <xsl:text> </xsl:text>
-                  </fo:inline>
-               </xsl:if>
-               <xsl:if test="*[local-name()='unitid']/@type='counter' or *[local-name()='unitid']/@type='counternumber'"> Cassette Counter  </xsl:if>
-               <xsl:apply-templates select="*[local-name()='unitid']"/>: <xsl:text>  </xsl:text>
-            </xsl:if>
-            <xsl:apply-templates select="*[local-name()='unittitle']"/>
-            <!-- carlsonm 2004-09-26 not sure what the original intent was for this.  The <unitdate> element is not displaying in UMt Great Falls Breweries, Tracking #4.80 --><!--
-					<xsl:if test="unittitle and unitdate and not(parent::c01)">,&#160;</xsl:if>
-					
-					<xsl:if test="not(parent::c01)">
-					
-					carlsonm mod 2004-09-26 adding comma before date OBSOLETE, REVISED
-					<xsl:if test="string(unitdate) and string(unittitle)">,&#160;</xsl:if>
-					
-					<xsl:apply-templates select="./unitdate"/>
-					
-					</xsl:if>
-				--><!-- 2004-10-02 new mod for date so that empty elements will be ignored --><xsl:if test="string(*[local-name()='unitdate']) and string(*[local-name()='unittitle'])">, </xsl:if>
-            <xsl:if test="string(*[local-name()='unitdate'])">
-               <xsl:for-each select="*[local-name()='unitdate']">
-                  <xsl:choose>
-                     <xsl:when test="@type='bulk'">  (bulk <xsl:apply-templates/>) </xsl:when>
-                     <xsl:otherwise>
-                        <xsl:apply-templates/>
-                        <xsl:if test="not(position()=last())">, </xsl:if>
-                     </xsl:otherwise>
-                  </xsl:choose>
-               </xsl:for-each>
-            </xsl:if>
-            <!-- March 2015: Adding container display as per revision specification 7.1.2 --><xsl:if test="count(*[local-name()='container']) &gt; 0">
-               <fo:block margin-bottom="10px">
-                  <strong>Container(s): </strong>
-                  <xsl:apply-templates select="*[local-name()='container']" mode="c01"/>
-               </fo:block>
-            </xsl:if>
-         </xsl:when>
-         <!-- carlsonm This is where the unittitle info is output when it is a c01 list only --><xsl:otherwise>
+         <!-- eliminated old code from 2004-09-26 that treated the unitdate for idu, ohy, orcsar, orcs, opvt, mtg, and waps differently --><!-- carlsonm This is where the unittitle info is output when it is a c01 list only --><xsl:otherwise>
             <xsl:if test="*[local-name()='unittitle']/@*[local-name()='label']">
                <xsl:value-of select="*[local-name()='unittitle']/@*[local-name()='label']"/>  </xsl:if>
             <!-- what if no unitititle--><xsl:choose>

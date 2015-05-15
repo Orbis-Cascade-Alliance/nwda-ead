@@ -118,8 +118,8 @@ Other FA's to check: James F. Bishop (OSU Archives)
                <xsl:choose>
                   <xsl:when test="string-length($facet) &gt; 0">
                      <fo:basic-link text-decoration="underline" color="#47371f"
-                                    external-destination="/search/results.aspx?t=i&amp;{$facet}={translate(., ' ', '+')}">
-                        <xsl:value-of select="."/>
+                                    external-destination="/search/results.aspx?t=i&amp;{$facet}={translate(normalize-space(.), ' ', '+')}">
+                        <xsl:value-of select="normalize-space(.)"/>
                      </fo:basic-link>
                   </xsl:when>
                   <xsl:otherwise>

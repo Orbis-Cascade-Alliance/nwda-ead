@@ -37,7 +37,8 @@
 	<xsl:template match="xsl:for-each[contains(@select, '*[@id]')]"/>
 
 	<!-- replace the xsl:choose with the @xml:id='process-rdf' with templates that execute exsl:node-set only (supressing msxsl:node-set) -->
-	<xsl:template match="xsl:choose[@xml:id='process-rdf']">
+	<!-- 2015-05-14: commented the template below out because the transformations are conducted with Xalan -->
+	<!--<xsl:template match="xsl:choose[@xml:id='process-rdf']">
 		<xsl:element name="xsl:apply-templates">
 			<xsl:attribute name="select">exsl:node-set($rdf)//arch:Archive</xsl:attribute>
 			<xsl:attribute name="mode">repository</xsl:attribute>
@@ -46,7 +47,7 @@
 			<xsl:attribute name="select">exsl:node-set($rdf)//arch:Archive</xsl:attribute>
 			<xsl:attribute name="mode">contact</xsl:attribute>
 		</xsl:element>
-	</xsl:template>
+	</xsl:template>-->
 
 	<!-- suppress highlighting template -->
 	<xsl:template match="xsl:template[@name='highlight']"/>
