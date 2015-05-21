@@ -631,9 +631,9 @@ Changes:
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>
-   <!-- ******************** END CONVERT CONTAINER TYPE TO REGULAR TEXT ****************** --><xsl:template name="c0x_children"><!-- for displaying extent, physloc, etc.  this is brought over from the original mod.dsc --><!-- added note in addition to did/note for item 2F on revision specifications--><xsl:if test="string(*[local-name()='did']/*[local-name()='origination'] | *[local-name()='did']/*[local-name()='physdesc'] | *[local-name()='did']/*[local-name()='physloc'] |    *[local-name()='did']/*[local-name()='note'] | *[local-name()='arrangement'] | *[local-name()='odd']| *[local-name()='scopecontent'] | *[local-name()='acqinfo'] |    *[local-name()='custodhist'] | *[local-name()='processinfo'] | *[local-name()='note'] | *[local-name()='bioghist'] | *[local-name()='accessrestrict'] |    *[local-name()='userestrict'] |    *[local-name()='index'] | *[local-name()='altformavail'])">
+   <!-- ******************** END CONVERT CONTAINER TYPE TO REGULAR TEXT ****************** --><xsl:template name="c0x_children"><!-- for displaying extent, physloc, etc.  this is brought over from the original mod.dsc --><!-- added note in addition to did/note for item 2F on revision specifications--><xsl:if test="string(*[local-name()='did']/*[local-name()='origination'] | *[local-name()='did']/*[local-name()='physdesc'] | *[local-name()='did']/*[local-name()='physloc'] |    *[local-name()='did']/*[local-name()='note'] | *[local-name()='did']/*[local-name()='abstract'] | *[local-name()='arrangement'] | *[local-name()='odd']| *[local-name()='scopecontent'] | *[local-name()='acqinfo'] |    *[local-name()='custodhist'] | *[local-name()='processinfo'] | *[local-name()='note'] | *[local-name()='bioghist'] | *[local-name()='accessrestrict'] |    *[local-name()='userestrict'] |    *[local-name()='index'] | *[local-name()='altformavail'])">
          <xsl:for-each select="*[local-name()='did']">
-            <xsl:for-each select="*[local-name()='origination'] | *[local-name()='physdesc'] | *[local-name()='physloc'] | *[local-name()='note']">
+            <xsl:for-each select="*[local-name()='origination'] | *[local-name()='physdesc'] | *[local-name()='physloc'] | *[local-name()='note'] | *[local-name()='abstract']">
                <xsl:choose>
                   <xsl:when test="self::*[local-name()='physdesc']">
                      <fo:block>
@@ -760,6 +760,12 @@ Changes:
                   <xsl:apply-templates select="*[local-name()='container']" mode="c01"/>
                </fo:block>
             </xsl:if>
+            <!-- May 2015: Adding abstract, which had not previously been displayed --><xsl:if test="count(*[local-name()='abstract']) &gt; 0">
+               <fo:block margin-bottom="10px">
+                  <strong>Abstract: </strong>
+                  <xsl:apply-templates select="*[local-name()='abstract']"/>
+               </fo:block>
+            </xsl:if>
          </xsl:when>
          <!-- eliminated old code from 2004-09-26 that treated the unitdate for idu, ohy, orcsar, orcs, opvt, mtg, and waps differently --><!-- carlsonm This is where the unittitle info is output when it is a c01 list only --><xsl:otherwise>
             <xsl:if test="*[local-name()='unittitle']/@*[local-name()='label']">
@@ -809,6 +815,12 @@ Changes:
                   <xsl:apply-templates select="*[local-name()='container']" mode="c01"/>
                </fo:block>
             </xsl:if>
+            <!-- May 2015: Adding abstract, which had not previously been displayed --><xsl:if test="count(*[local-name()='abstract']) &gt; 0">
+               <fo:block margin-bottom="10px">
+                  <strong>Abstract: </strong>
+                  <xsl:apply-templates select="*[local-name()='abstract']"/>
+               </fo:block>
+            </xsl:if>
          </xsl:otherwise>
       </xsl:choose>
       <!--non-unittitle,unitdate,unitid descriptive information--><!-- This now only processes the following elements within <c01>.  The context at this
@@ -852,7 +864,7 @@ Changes:
          </xsl:when>
          <!-- i.e. no second <arc> element --><xsl:otherwise>
             <xsl:choose>
-               <xsl:when test="*[local-name()='arc'][1][@*[local-name()='show']='embed'] and *[local-name()='arc'][1][@actuate='onload']">
+               <xsl:when test="*[local-name()='arc'][1][@*[local-name()='show']='embed'] and *[local-name()='arc'][1][@actuate='onload' or @actuate='onLoad']">
                   <xsl:for-each select="*[local-name()='daoloc']">
                      <xsl:if test="@*[local-name()='label'] = following-sibling::*[local-name()='arc'][1]/@*[local-name()='to']">
                         <fo:external-graphic src="{@*[local-name()='href']}"/>
@@ -865,7 +877,7 @@ Changes:
                      </xsl:if>
                   </xsl:for-each>
                </xsl:when>
-               <xsl:when test="(*[local-name()='arc'][1][@*[local-name()='show']='replace'] or *[local-name()='arc'][1][@*[local-name()='show']='new']) and       *[local-name()='arc'][1][@actuate='onrequest']">
+               <xsl:when test="(*[local-name()='arc'][1][@*[local-name()='show']='replace'] or *[local-name()='arc'][1][@*[local-name()='show']='new']) and       *[local-name()='arc'][1][@actuate='onrequest' or @actuate='onRequest']">
                   <fo:basic-link text-decoration="underline" color="#47371f">
                      <xsl:if test="following::*[local-name()='arc'][1]/@*[local-name()='title']"/>
                      <xsl:choose><!-- when a textual hyperlink is desired, i.e. <resource> element contains data --><xsl:when test="string(*[local-name()='resource'])">

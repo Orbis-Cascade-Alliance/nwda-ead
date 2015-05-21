@@ -580,13 +580,13 @@ Changes:
 
 		<!-- added note in addition to did/note for item 2F on revision specifications-->
 		<xsl:if test="string(*[local-name()='did']/*[local-name()='origination'] | *[local-name()='did']/*[local-name()='physdesc'] | *[local-name()='did']/*[local-name()='physloc'] |
-			*[local-name()='did']/*[local-name()='note'] | *[local-name()='arrangement'] | *[local-name()='odd']| *[local-name()='scopecontent'] | *[local-name()='acqinfo'] |
+			*[local-name()='did']/*[local-name()='note'] | *[local-name()='did']/*[local-name()='abstract'] | *[local-name()='arrangement'] | *[local-name()='odd']| *[local-name()='scopecontent'] | *[local-name()='acqinfo'] |
 			*[local-name()='custodhist'] | *[local-name()='processinfo'] | *[local-name()='note'] | *[local-name()='bioghist'] | *[local-name()='accessrestrict'] |    *[local-name()='userestrict'] |
 			*[local-name()='index'] | *[local-name()='altformavail'])">
 
 
 			<xsl:for-each select="*[local-name()='did']">
-				<xsl:for-each select="*[local-name()='origination'] | *[local-name()='physdesc'] | *[local-name()='physloc'] | *[local-name()='note']">
+				<xsl:for-each select="*[local-name()='origination'] | *[local-name()='physdesc'] | *[local-name()='physloc'] | *[local-name()='note'] | *[local-name()='abstract']">
 
 					<xsl:choose>
 						<xsl:when test="self::*[local-name()='physdesc']">
@@ -746,6 +746,13 @@ Changes:
 						<xsl:apply-templates select="*[local-name()='container']" mode="c01"/>
 					</p>
 				</xsl:if>
+				<!-- May 2015: Adding abstract, which had not previously been displayed -->
+				<xsl:if test="count(*[local-name()='abstract']) &gt; 0">
+					<p>
+						<strong>Abstract: </strong>
+						<xsl:apply-templates select="*[local-name()='abstract']"/>
+					</p>
+				</xsl:if>
 			</xsl:when>
 			<!-- eliminated old code from 2004-09-26 that treated the unitdate for idu, ohy, orcsar, orcs, opvt, mtg, and waps differently -->
 			<!-- carlsonm This is where the unittitle info is output when it is a c01 list only -->
@@ -805,6 +812,13 @@ Changes:
 						<xsl:apply-templates select="*[local-name()='container']" mode="c01"/>
 					</p>
 				</xsl:if>
+				<!-- May 2015: Adding abstract, which had not previously been displayed -->
+				<xsl:if test="count(*[local-name()='abstract']) &gt; 0">
+					<p>
+						<strong>Abstract: </strong>
+						<xsl:apply-templates select="*[local-name()='abstract']"/>
+					</p>
+				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
 		<!--non-unittitle,unitdate,unitid descriptive information-->
@@ -834,7 +848,6 @@ Changes:
 
 		</xsl:if>
 	</xsl:template>
-
 
 	<xsl:template match="*[local-name()='daogrp']">
 
