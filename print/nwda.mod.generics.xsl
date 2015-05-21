@@ -66,10 +66,7 @@ Major or significant revision history:
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>
-   <!--lists--><xsl:template match="*[local-name()='bibliography']/*[local-name()='p'][*[local-name()='bibref']]">
-      <xsl:apply-templates/>
-   </xsl:template>
-   <xsl:template match="*[local-name()='item'] | *[local-name()='indexentry'] | *[local-name()='bibref']">
+   <xsl:template match="*[local-name()='item'] | *[local-name()='indexentry']">
       <fo:list-item>
          <fo:list-item-label end-indent="label-end()">
             <fo:block/>
@@ -80,6 +77,11 @@ Major or significant revision history:
             </fo:block>
          </fo:list-item-body>
       </fo:list-item>
+   </xsl:template>
+   <xsl:template match="*[local-name()='bibref']">
+      <fo:inline>
+         <xsl:apply-templates/>
+      </fo:inline>
    </xsl:template>
    <!-- 2004-07-14 carlsonm mod to treat <chronitem> separately --><xsl:template match="*[local-name()='chronitem']">
       <fo:table-row width="100%">
@@ -141,13 +143,21 @@ Major or significant revision history:
          <xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
       </fo:table>
    </xsl:template>
-   <xsl:template match="*[local-name()='list'] | *[local-name()='index'] | *[local-name()='fileplan'] | *[local-name()='bibliography']">
+   <xsl:template match="*[local-name()='list'] | *[local-name()='index']">
       <fo:inline>
          <xsl:apply-templates select="*[local-name()='head']"/>
       </fo:inline>
       <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
          <xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
       </fo:list-block>
+   </xsl:template>
+   <xsl:template match="*[local-name()='fileplan'] | *[local-name()='bibliography']">
+      <xsl:if test="*[local-name()='head']">
+         <fo:inline>
+            <xsl:apply-templates select="*[local-name()='head']"/>
+         </fo:inline>
+      </xsl:if>
+      <xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
    </xsl:template>
    <!-- where would an archivist be without... "misc"--><xsl:template match="*[local-name()='change']">
       <xsl:apply-templates select="./*[local-name()='item']"/> ( <xsl:apply-templates select="./*[local-name()='date']"/>) </xsl:template>

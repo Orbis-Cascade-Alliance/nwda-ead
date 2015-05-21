@@ -74,15 +74,19 @@ Major or significant revision history:
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	<!--lists-->
-	<xsl:template match="*[local-name()='bibliography']/*[local-name()='p'][*[local-name()='bibref']]">
-		<xsl:apply-templates/>
-	</xsl:template>
-	<xsl:template match="*[local-name()='item'] | *[local-name()='indexentry'] | *[local-name()='bibref']">
+
+	<xsl:template match="*[local-name()='item'] | *[local-name()='indexentry']">
 		<li class="{name()}">
 			<xsl:apply-templates/>
 		</li>
 	</xsl:template>
+
+	<xsl:template match="*[local-name()='bibref']">
+		<span>
+			<xsl:apply-templates/>
+		</span>
+	</xsl:template>
+
 	<!-- 2004-07-14 carlsonm mod to treat <chronitem> separately -->
 	<xsl:template match="*[local-name()='chronitem']">
 		<tr valign="top">
@@ -132,7 +136,7 @@ Major or significant revision history:
 			<xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
 		</table>
 	</xsl:template>
-	<xsl:template match="*[local-name()='list'] | *[local-name()='index'] | *[local-name()='fileplan'] | *[local-name()='bibliography']">
+	<xsl:template match="*[local-name()='list'] | *[local-name()='index']">
 		<span class="tableHead">
 			<xsl:apply-templates select="*[local-name()='head']"/>
 		</span>
@@ -140,6 +144,16 @@ Major or significant revision history:
 			<xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
 		</ul>
 	</xsl:template>
+
+	<xsl:template match="*[local-name()='fileplan'] | *[local-name()='bibliography']">
+		<xsl:if test="*[local-name()='head']">
+			<span class="tableHead">
+				<xsl:apply-templates select="*[local-name()='head']"/>
+			</span>
+		</xsl:if>
+		<xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
+	</xsl:template>
+
 	<!-- where would an archivist be without... "misc"-->
 	<xsl:template match="*[local-name()='change']">
 		<xsl:apply-templates select="./*[local-name()='item']"/>&#160;( <xsl:apply-templates select="./*[local-name()='date']"/>) </xsl:template>
@@ -159,13 +173,13 @@ Major or significant revision history:
 		<xsl:apply-templates/>
 	</xsl:template>
 	<!--ultra generics-->
-	
+
 	<xsl:template match="*[local-name()='emph'][not(@render)]">
 		<u>
 			<xsl:apply-templates/>
 		</u>
 	</xsl:template>
-	
+
 	<xsl:template match="*[local-name()='lb']">
 		<br/>
 	</xsl:template>
