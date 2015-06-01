@@ -51,7 +51,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
       <fo:root font-size="12px" color="#6b6b6b"
                font-family="georgia, 'times new roman', times, serif">
          <fo:layout-master-set>
-            <fo:simple-page-master margin-right="1in" margin-left="1in" margin-bottom="1in" margin-top="1in"
+            <fo:simple-page-master margin-right=".5in" margin-left=".5in" margin-bottom=".5in" margin-top=".5in"
                                    page-width="8in"
                                    page-height="11in"
                                    master-name="content">
@@ -69,6 +69,9 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
                      <fo:table-body>
                         <fo:table-row>
                            <fo:table-cell>
+                              <fo:block>
+                                 <xsl:value-of select="$titleproper"/>
+                              </fo:block>
                               <fo:block>
                                  <fo:basic-link show-destination="new"
                                                 external-destination="{concat($serverURL, '/ark:/', $identifier)}">

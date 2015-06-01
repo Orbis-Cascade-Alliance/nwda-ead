@@ -10,6 +10,11 @@ h3{
 	color:#676d38;
 }
 
+h4 {
+    font-weight:bold;
+    margin:15px 0;
+}
+
 #results
 {
 	height:expression(this.scrollHeight > 449 ? "450px" : "auto" ); /* sets max-height for IE */

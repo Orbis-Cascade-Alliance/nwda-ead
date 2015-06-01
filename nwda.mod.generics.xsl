@@ -354,7 +354,7 @@ Major or significant revision history:
 					<xsl:text>)</xsl:text>
 				</span>
 				<xsl:if test="not(position() = last())">
-					<xsl:text> </xsl:text>
+					<xsl:text>, </xsl:text>
 				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>

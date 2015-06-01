@@ -59,7 +59,7 @@
 			<fo:root font-size="12px" color="#6b6b6b" font-family="georgia, 'times new roman', times, serif">
 				<!--  -->
 				<fo:layout-master-set>
-					<fo:simple-page-master margin-right="1in" margin-left="1in" margin-bottom="1in" margin-top="1in" page-width="8in" page-height="11in" master-name="content">
+					<fo:simple-page-master margin-right=".5in" margin-left=".5in" margin-bottom=".5in" margin-top=".5in" page-width="8in" page-height="11in" master-name="content">
 						<fo:region-body region-name="body" margin-bottom=".5in"/>
 						<fo:region-after region-name="footer" extent=".5in"/>
 					</fo:simple-page-master>
@@ -76,6 +76,13 @@
 								<fo:table-body>
 									<fo:table-row>
 										<fo:table-cell>
+											<fo:block>
+												<xsl:element name="xsl:value-of">
+													<xsl:attribute name="select">
+														<xsl:text>$titleproper</xsl:text>
+													</xsl:attribute>
+												</xsl:element>
+											</fo:block>
 											<fo:block>
 												<fo:basic-link show-destination="new">
 													<xsl:attribute name="external-destination">
