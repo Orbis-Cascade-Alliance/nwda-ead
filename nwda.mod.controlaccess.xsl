@@ -52,9 +52,7 @@ Other FA's to check: James F. Bishop (OSU Archives)
 
 			<xsl:choose>
 				<xsl:when test="child::*[local-name()='controlaccess']">
-					<xsl:if test="child::*[local-name()='p']">
-						<xsl:apply-templates select="*[local-name()='p']"/>
-					</xsl:if>
+					<xsl:apply-templates select="*[local-name()='p']"/>
 					<xsl:for-each select="*[local-name()='controlaccess'][child::*[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))]]">
 						<ul class="ca_list">
 							<xsl:apply-templates select="*[local-name()='name'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |

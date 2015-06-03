@@ -348,12 +348,12 @@
 	<!-- links -->
 	<xsl:template match="a">
 		<!-- ignore a tags which are not for anchor positioning -->
-		<xsl:if test="child::*">
+		<xsl:if test="child::* or string(@*[local-name()='href'])">
 			<fo:basic-link text-decoration="underline" color="#47371f">
 				<xsl:choose>
-					<xsl:when test="@href">
+					<xsl:when test="string(@*[local-name()='href'])">
 						<xsl:attribute name="external-destination">
-							<xsl:value-of select="@href"/>
+							<xsl:value-of select="@*[local-name()='href']"/>
 						</xsl:attribute>
 						<xsl:apply-templates/>
 					</xsl:when>
@@ -361,9 +361,7 @@
 						<xsl:apply-templates/>
 					</xsl:otherwise>
 				</xsl:choose>
-
 			</fo:basic-link>
-
 		</xsl:if>
 	</xsl:template>
 
@@ -403,7 +401,7 @@
 	<xsl:template match="dd"/>
 
 	<!-- list -->
-	<xsl:template match="ul">
+	<xsl:template match="ul[child::li]">
 		<fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
 			<xsl:apply-templates/>
 		</fo:list-block>

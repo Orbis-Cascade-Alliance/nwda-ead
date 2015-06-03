@@ -24,8 +24,8 @@ Major or significant revision history:
 			<br/>
 		</xsl:if>
 	</xsl:template>
-	<xsl:template match="*[local-name()='extref']">
-		<a class="extptr">
+	<xsl:template match="*[local-name()='extref'][string(@*[local-name()='href'])]">
+		<a>
 			<xsl:attribute name="href">
 				<xsl:value-of select="@*[local-name()='href']"/>
 			</xsl:attribute>
@@ -129,17 +129,22 @@ Major or significant revision history:
 	<!-- 2004-07-14 carlsonm mod to treat chronlist differently -->
 	<!-- 2004-12-07 carlsonm: put chronlist into a table format instead of a def list -->
 	<xsl:template match="*[local-name()='chronlist']">
-		<span class="tableHead">
-			<xsl:apply-templates select="*[local-name()='head']"/>
-		</span>
+		<xsl:if test="*[local-name()='head']">
+			<span class="tableHead">
+				<xsl:apply-templates select="*[local-name()='head']"/>
+			</span>
+		</xsl:if>
 		<table class="{name()}" border="0" cellspacing="10">
 			<xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
 		</table>
 	</xsl:template>
 	<xsl:template match="*[local-name()='list'] | *[local-name()='index']">
-		<span class="tableHead">
-			<xsl:apply-templates select="*[local-name()='head']"/>
-		</span>
+		<xsl:if test="*[local-name()='head']">
+			<span class="tableHead">
+				<xsl:apply-templates select="*[local-name()='head']"/>
+			</span>
+		</xsl:if>
+		
 		<ul>
 			<xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
 		</ul>
@@ -348,14 +353,12 @@ Major or significant revision history:
 				</span>
 			</xsl:when>
 			<xsl:otherwise>
+				<xsl:text>, </xsl:text>
 				<span property="dcterms:extent" content="{.}">
 					<xsl:text>(</xsl:text>
 					<xsl:value-of select="."/>
 					<xsl:text>)</xsl:text>
-				</span>
-				<xsl:if test="not(position() = last())">
-					<xsl:text>, </xsl:text>
-				</xsl:if>
+				</span>				
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

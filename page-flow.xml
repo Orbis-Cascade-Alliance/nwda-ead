@@ -6,6 +6,7 @@
 	
 	<page path="/nwda-ead/contact" view="xpl/contact.xpl"/>
 	<page path="/nwda-ead/(.*)/pdf" view="xpl/pdf.xpl"/>
+	<page path="/nwda-ead/(.*)/pdf\.xml" model="xpl/pdf.xpl" view="xpl/serialize-xml.xpl"/>
 	<page path="/nwda-ead/(.*)" view="xpl/render.xpl"/>
 
 	<epilogue url="oxf:/config/epilogue.xpl"/>

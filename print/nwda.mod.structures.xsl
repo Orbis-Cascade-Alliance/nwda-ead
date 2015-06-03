@@ -355,7 +355,10 @@ Mark Carlson
                         <fo:block margin-right="10px">Digital Objects</fo:block>
                      </fo:table-cell>
                      <fo:table-cell>
-                        <fo:block/>
+                        <fo:block>
+                           <fo:basic-link text-decoration="underline" color="#47371f"
+                                          external-destination="{concat('http://harvester.orbiscascade.org/apis/get?ark=ark:/', //*[local-name()='eadid']/@identifier)}">yes</fo:basic-link>
+                        </fo:block>
                      </fo:table-cell>
                   </fo:table-row>
                </xsl:if>
@@ -364,7 +367,9 @@ Mark Carlson
       </fo:block>
    </xsl:template>
    <!-- ********************* </OVERVIEW> *********************** --><xsl:template name="sect_separator">
-      <fo:block margin-bottom="10px"/>
+      <fo:block margin-bottom="10px">
+         <fo:basic-link text-decoration="underline" color="#47371f" external-destination="#top">^ Return to Top</fo:basic-link>
+      </fo:block>
    </xsl:template>
    <!-- ********************* START COLLECTION IMAGE *********************** --><xsl:template name="collection_image"><!-- the call for this template has been commented out so that only logos and not collection images display, EG 2007-08-27 --><!-- margin-top is 100% to force collection image to be bottom-aligned while the institutional logo is top-aligned. --><fo:block>
          <fo:block>

@@ -26,7 +26,7 @@ Major or significant revision history:
          <fo:block/>
       </xsl:if>
    </xsl:template>
-   <xsl:template match="*[local-name()='extref']">
+   <xsl:template match="*[local-name()='extref'][string(@*[local-name()='href'])]">
       <fo:basic-link text-decoration="underline" color="#47371f">
          <xsl:attribute name="external-destination">
             <xsl:value-of select="@*[local-name()='href']"/>
@@ -136,20 +136,24 @@ Major or significant revision history:
       </fo:list-item>
    </xsl:template>
    <!-- 2004-07-14 carlsonm mod to treat chronlist differently --><!-- 2004-12-07 carlsonm: put chronlist into a table format instead of a def list --><xsl:template match="*[local-name()='chronlist']">
-      <fo:inline>
-         <xsl:apply-templates select="*[local-name()='head']"/>
-      </fo:inline>
+      <xsl:if test="*[local-name()='head']">
+         <fo:inline>
+            <xsl:apply-templates select="*[local-name()='head']"/>
+         </fo:inline>
+      </xsl:if>
       <fo:table width="100%">
          <xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
       </fo:table>
    </xsl:template>
    <xsl:template match="*[local-name()='list'] | *[local-name()='index']">
-      <fo:inline>
-         <xsl:apply-templates select="*[local-name()='head']"/>
-      </fo:inline>
-      <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
+      <xsl:if test="*[local-name()='head']">
+         <fo:inline>
+            <xsl:apply-templates select="*[local-name()='head']"/>
+         </fo:inline>
+      </xsl:if>
+      <ul>
          <xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
-      </fo:list-block>
+      </ul>
    </xsl:template>
    <xsl:template match="*[local-name()='fileplan'] | *[local-name()='bibliography']">
       <xsl:if test="*[local-name()='head']">
@@ -292,14 +296,12 @@ Major or significant revision history:
             </fo:inline>
          </xsl:when>
          <xsl:otherwise>
+            <xsl:text>, </xsl:text>
             <fo:inline>
                <xsl:text>(</xsl:text>
                <xsl:value-of select="."/>
                <xsl:text>)</xsl:text>
             </fo:inline>
-            <xsl:if test="not(position() = last())">
-               <xsl:text>, </xsl:text>
-            </xsl:if>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>

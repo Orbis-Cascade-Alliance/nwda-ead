@@ -34,25 +34,23 @@ Other FA's to check: James F. Bishop (OSU Archives)
       <xsl:if test="descendant::*[not(@altrender='nodisplay')]"><!-- i.e. we don't want to print a "Subject" heading if there are more
 <controlaccess> elements that need to be selected --><xsl:choose>
             <xsl:when test="child::*[local-name()='controlaccess']">
-               <xsl:if test="child::*[local-name()='p']">
-                  <xsl:apply-templates select="*[local-name()='p']"/>
-               </xsl:if>
+               <xsl:apply-templates select="*[local-name()='p']"/>
                <xsl:for-each select="*[local-name()='controlaccess'][child::*[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))]]">
-                  <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
+                  <ul class="ca_list">
                      <xsl:apply-templates select="*[local-name()='name'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |         *[local-name()='persname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |         *[local-name()='corpname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |         *[local-name()='famname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |         *[local-name()='subject'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |         *[local-name()='genreform'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |         *[local-name()='geogname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |         *[local-name()='occupation'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |         *[local-name()='function'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |         *[local-name()='title'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0]"
                                           mode="controlaccess">
                         <xsl:sort select="normalize-space(.)"/>
                      </xsl:apply-templates>
-                  </fo:list-block>
+                  </ul>
                </xsl:for-each>
             </xsl:when>
             <xsl:otherwise>
-               <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
+               <ul class="ca_list">
                   <xsl:apply-templates select="*[local-name()='name'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |        *[local-name()='persname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |        *[local-name()='corpname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |        *[local-name()='famname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |        *[local-name()='subject'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='genreform'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='geogname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='occupation'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='function'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='title'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0]"
                                        mode="controlaccess">
                      <xsl:sort select="normalize-space(.)"/>
                   </xsl:apply-templates>
-               </fo:list-block>
+               </ul>
             </xsl:otherwise>
          </xsl:choose>
       </xsl:if>
