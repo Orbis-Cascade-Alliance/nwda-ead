@@ -245,6 +245,7 @@
 				<xsl:attribute name="table-layout">fixed</xsl:attribute>
 				<!-- construct an xsl:if within the XSL:FO to test for container[2] -->
 				<xsl:element name="xsl:choose">
+					<!-- when there are two containers -->
 					<xsl:element name="xsl:when">
 						<xsl:attribute name="test">descendant::*[local-name()='did']/*[local-name()='container'][2]</xsl:attribute>
 						<!-- when there is a unitdate, include column for unitdate -->
@@ -263,6 +264,22 @@
 							</xsl:element>
 						</xsl:element>
 					</xsl:element>
+					<!-- when there are not containers -->
+					<xsl:element name="xsl:when">
+						<xsl:attribute name="test">not(descendant::*[local-name()='did']/*[local-name()='container'])</xsl:attribute>
+						<!-- when there is a unitdate, include column for unitdate -->
+						<xsl:element name="xsl:choose">
+							<xsl:element name="xsl:when">
+								<xsl:attribute name="test">descendant::*[local-name()='did']/*[local-name()='unitdate']</xsl:attribute>
+								<fo:table-column column-width="80%"/>
+								<fo:table-column column-width="20%"/>
+							</xsl:element>
+							<xsl:element name="xsl:otherwise">
+								<fo:table-column column-width="100%"/>
+							</xsl:element>
+						</xsl:element>
+					</xsl:element>
+					<!-- when there is one container -->
 					<xsl:element name="xsl:otherwise">
 						<!-- when there is a unitdate, include column for unitdate -->
 						<xsl:element name="xsl:choose">
@@ -273,8 +290,8 @@
 								<fo:table-column column-width="20%"/>
 							</xsl:element>
 							<xsl:element name="xsl:otherwise">
-								<fo:table-column column-width="15%"/>
-								<fo:table-column column-width="85%"/>
+								<fo:table-column column-width="20%"/>
+								<fo:table-column column-width="80%"/>
 							</xsl:element>
 						</xsl:element>
 					</xsl:element>

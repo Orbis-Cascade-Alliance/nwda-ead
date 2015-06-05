@@ -61,6 +61,17 @@ Changes:
                            </xsl:otherwise>
                         </xsl:choose>
                      </xsl:when>
+                     <xsl:when test="not(descendant::*[local-name()='did']/*[local-name()='container'])">
+                        <xsl:choose>
+                           <xsl:when test="descendant::*[local-name()='did']/*[local-name()='unitdate']">
+                              <fo:table-column column-width="80%"/>
+                              <fo:table-column column-width="20%"/>
+                           </xsl:when>
+                           <xsl:otherwise>
+                              <fo:table-column column-width="100%"/>
+                           </xsl:otherwise>
+                        </xsl:choose>
+                     </xsl:when>
                      <xsl:otherwise>
                         <xsl:choose>
                            <xsl:when test="descendant::*[local-name()='did']/*[local-name()='unitdate']">
@@ -69,8 +80,8 @@ Changes:
                               <fo:table-column column-width="20%"/>
                            </xsl:when>
                            <xsl:otherwise>
-                              <fo:table-column column-width="15%"/>
-                              <fo:table-column column-width="85%"/>
+                              <fo:table-column column-width="20%"/>
+                              <fo:table-column column-width="80%"/>
                            </xsl:otherwise>
                         </xsl:choose>
                      </xsl:otherwise>
@@ -184,6 +195,17 @@ Changes:
                      </xsl:otherwise>
                   </xsl:choose>
                </xsl:when>
+               <xsl:when test="not(descendant::*[local-name()='did']/*[local-name()='container'])">
+                  <xsl:choose>
+                     <xsl:when test="descendant::*[local-name()='did']/*[local-name()='unitdate']">
+                        <fo:table-column column-width="80%"/>
+                        <fo:table-column column-width="20%"/>
+                     </xsl:when>
+                     <xsl:otherwise>
+                        <fo:table-column column-width="100%"/>
+                     </xsl:otherwise>
+                  </xsl:choose>
+               </xsl:when>
                <xsl:otherwise>
                   <xsl:choose>
                      <xsl:when test="descendant::*[local-name()='did']/*[local-name()='unitdate']">
@@ -192,8 +214,8 @@ Changes:
                         <fo:table-column column-width="20%"/>
                      </xsl:when>
                      <xsl:otherwise>
-                        <fo:table-column column-width="15%"/>
-                        <fo:table-column column-width="85%"/>
+                        <fo:table-column column-width="20%"/>
+                        <fo:table-column column-width="80%"/>
                      </xsl:otherwise>
                   </xsl:choose>
                </xsl:otherwise>
