@@ -24,7 +24,8 @@ Mark Carlson
                 exclude-result-prefixes="nwda xsd vcard xsl msxsl exsl ead">
    <xsl:template match="*[local-name()='profiledesc'] | *[local-name()='revisiondesc'] | *[local-name()='filedesc'] | *[local-name()='eadheader'] | *[local-name()='frontmatter']"/>
    <!-- ********************* <FOOTER> *********************** --><xsl:template match="*[local-name()='publicationstmt']">
-      <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px">
+      <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
+                font-weight="bold">
          <xsl:value-of select="/*[local-name()='ead']/*[local-name()='eadheader']//*[local-name()='titlestmt']/*[local-name()='author']"/>
          <fo:block/>
          <xsl:value-of select="./*[local-name()='date']"/>
@@ -387,7 +388,8 @@ Mark Carlson
    <!-- ********************* END COLLECTION IMAGE *********************** --><!-- ********************* <ARCHDESC_MINOR_CHILDREN> *********************** --><!--this template generically called by arbitrary groupings: see per eg. relatedinfo template --><xsl:template name="archdesc_minor_children">
       <xsl:param name="withLabel"/>
       <xsl:if test="$withLabel='true'">
-         <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px">
+         <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
+                   font-weight="bold">
             <xsl:if test="@id"/>
             <xsl:choose><!--pull in correct label, depending on what is actually matched--><xsl:when test="name()='altformavail'">
                   <xsl:value-of select="$altformavail_label"/>
@@ -624,7 +626,8 @@ Mark Carlson
       </xsl:variable>
       <xsl:if test="not(ancestor::*[local-name()='dsc'])">
          <xsl:if test="@id"/>
-         <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px">Arrangement</fo:block>
+         <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
+                   font-weight="bold">Arrangement</fo:block>
       </xsl:if>
       <fo:block>
          <xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>

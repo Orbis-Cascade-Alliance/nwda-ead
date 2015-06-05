@@ -480,15 +480,15 @@ Changes:
                <!-- for one container --><xsl:otherwise>
                   <xsl:variable name="container_colspan">
                      <xsl:choose>
-                        <xsl:when test="/*[local-name()='ead']/*[local-name()='dsc'][@type='in-depth'] |          /*[local-name()='ead']/*[local-name()='archdesc']/*[local-name()='dsc'][@type='in-depth']">
+                        <xsl:when test="ancestor::*[local-name()='dsc'][@type='in-depth']">
                            <xsl:choose>
-                              <xsl:when test="ancestor-or-self::*[local-name()='dsc']/descendant::*[local-name()='did']/*[local-name()='container'][2]">2</xsl:when>
+                              <xsl:when test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='did']/*[local-name()='container'][2]">2</xsl:when>
                               <xsl:otherwise>1</xsl:otherwise>
                            </xsl:choose>
                         </xsl:when>
                         <xsl:otherwise>
                            <xsl:choose>
-                              <xsl:when test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container'][2]">2</xsl:when>
+                              <xsl:when test="ancestor::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container'][2]">2</xsl:when>
                               <xsl:otherwise>1</xsl:otherwise>
                            </xsl:choose>
                         </xsl:otherwise>
@@ -705,7 +705,8 @@ Changes:
                      KEF:  Line below was introducing "off-by-one" problems.  Replaced it
                      with explicit check for c01 siblings. 
                 --><!-- <xsl:variable select="count(../preceding-sibling::*)+1" name="ppos"/> --><xsl:variable select="count(../preceding-sibling::*[local-name()='c01'])+1" name="ppos"/>
-            <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"><!-- what if no unitititle--><xsl:choose>
+            <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
+                      font-weight="bold"><!-- what if no unitititle--><xsl:choose>
                   <xsl:when test="./*[local-name()='unittitle']">
                      <xsl:if test="string(*[local-name()='unitid'])">
                         <xsl:if test="*[local-name()='unitid']/@*[local-name()='label']">

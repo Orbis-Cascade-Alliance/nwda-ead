@@ -87,36 +87,13 @@ Major or significant revision history:
 		</span>
 	</xsl:template>
 
-	<!-- 2004-07-14 carlsonm mod to treat <chronitem> separately -->
-	<xsl:template match="*[local-name()='chronitem']">
-		<tr valign="top">
-			<td valign="top">
-				<xsl:apply-templates select="*[local-name()='date']"/>
-			</td>
-			<!-- 2004-11-30 Carlson mod add code to process <eventgrp>.  See OSU SC "Pauling" in <bioghist> or OSU Archives "Board of Regents" in <odd> -->
-			<td valign="top">
-				<xsl:choose>
-					<xsl:when test="*[local-name()='event']">
-						<span class="{name()}">
-							<xsl:apply-templates select="*[local-name()='event']"/>
-						</span>
-						<br/>
-					</xsl:when>
-					<xsl:when test="*[local-name()='eventgrp']">
-						<xsl:apply-templates select="*[local-name()='eventgrp']" mode="chronlist"/>
-					</xsl:when>
-				</xsl:choose>
-			</td>
-		</tr>
-	</xsl:template>
 	<xsl:template match="*[local-name()='eventgrp']" mode="chronlist">
 		<xsl:for-each select="*[local-name()='event']">
-			<span class="{name()}">
-				<xsl:apply-templates/>
-			</span>
+			<xsl:apply-templates/>
 			<br/>
 		</xsl:for-each>
 	</xsl:template>
+
 	<xsl:template match="*[local-name()='defitem']">
 		<li class="{name()}">
 			<xsl:if test="./*[local-name()='label']">
@@ -128,33 +105,55 @@ Major or significant revision history:
 	</xsl:template>
 	<!-- 2004-07-14 carlsonm mod to treat chronlist differently -->
 	<!-- 2004-12-07 carlsonm: put chronlist into a table format instead of a def list -->
+	<!-- 2015-06-15 Ethan Gruber: put chronlist back into a bootstrap 3 horizontal def list -->
+
 	<xsl:template match="*[local-name()='chronlist']">
 		<xsl:if test="*[local-name()='head']">
-			<span class="tableHead">
+			<h5>
 				<xsl:apply-templates select="*[local-name()='head']"/>
-			</span>
+			</h5>
 		</xsl:if>
-		<table class="{name()}" border="0" cellspacing="10">
+
+		<dl class="dl-horizontal">
 			<xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
-		</table>
+		</dl>
+
 	</xsl:template>
+
+	<xsl:template match="*[local-name()='chronitem']">
+		<dt>
+			<xsl:apply-templates select="*[local-name()='date']"/>
+		</dt>
+		<!-- 2004-11-30 Carlson mod add code to process <eventgrp>.  See OSU SC "Pauling" in <bioghist> or OSU Archives "Board of Regents" in <odd> -->
+		<dd>
+			<xsl:choose>
+				<xsl:when test="*[local-name()='event']">
+					<xsl:apply-templates select="*[local-name()='event']"/>
+				</xsl:when>
+				<xsl:when test="*[local-name()='eventgrp']">
+					<xsl:apply-templates select="*[local-name()='eventgrp']" mode="chronlist"/>
+				</xsl:when>
+			</xsl:choose>
+		</dd>
+	</xsl:template>
+
 	<xsl:template match="*[local-name()='list'] | *[local-name()='index']">
 		<xsl:if test="*[local-name()='head']">
-			<span class="tableHead">
+			<h5>
 				<xsl:apply-templates select="*[local-name()='head']"/>
-			</span>
+			</h5>
 		</xsl:if>
-		
 		<ul>
+			
 			<xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
 		</ul>
 	</xsl:template>
 
 	<xsl:template match="*[local-name()='fileplan'] | *[local-name()='bibliography']">
 		<xsl:if test="*[local-name()='head']">
-			<span class="tableHead">
+			<h5>
 				<xsl:apply-templates select="*[local-name()='head']"/>
-			</span>
+			</h5>
 		</xsl:if>
 		<xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
 	</xsl:template>
@@ -358,7 +357,7 @@ Major or significant revision history:
 					<xsl:text>(</xsl:text>
 					<xsl:value-of select="."/>
 					<xsl:text>)</xsl:text>
-				</span>				
+				</span>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

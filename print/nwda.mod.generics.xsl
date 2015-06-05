@@ -83,39 +83,9 @@ Major or significant revision history:
          <xsl:apply-templates/>
       </fo:inline>
    </xsl:template>
-   <!-- 2004-07-14 carlsonm mod to treat <chronitem> separately --><xsl:template match="*[local-name()='chronitem']">
-      <fo:table-row width="100%">
-         <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
-                        border-bottom-style="solid"
-                        padding="8px">
-            <fo:block>
-               <xsl:apply-templates select="*[local-name()='date']"/>
-            </fo:block>
-         </fo:table-cell>
-         <!-- 2004-11-30 Carlson mod add code to process <eventgrp>.  See OSU SC "Pauling" in <bioghist> or OSU Archives "Board of Regents" in <odd> --><fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
-                        border-bottom-style="solid"
-                        padding="8px">
-            <fo:block>
-               <xsl:choose>
-                  <xsl:when test="*[local-name()='event']">
-                     <fo:inline>
-                        <xsl:apply-templates select="*[local-name()='event']"/>
-                     </fo:inline>
-                     <fo:block/>
-                  </xsl:when>
-                  <xsl:when test="*[local-name()='eventgrp']">
-                     <xsl:apply-templates select="*[local-name()='eventgrp']" mode="chronlist"/>
-                  </xsl:when>
-               </xsl:choose>
-            </fo:block>
-         </fo:table-cell>
-      </fo:table-row>
-   </xsl:template>
    <xsl:template match="*[local-name()='eventgrp']" mode="chronlist">
       <xsl:for-each select="*[local-name()='event']">
-         <fo:inline>
-            <xsl:apply-templates/>
-         </fo:inline>
+         <xsl:apply-templates/>
          <fo:block/>
       </xsl:for-each>
    </xsl:template>
@@ -135,31 +105,60 @@ Major or significant revision history:
          </fo:list-item-body>
       </fo:list-item>
    </xsl:template>
-   <!-- 2004-07-14 carlsonm mod to treat chronlist differently --><!-- 2004-12-07 carlsonm: put chronlist into a table format instead of a def list --><xsl:template match="*[local-name()='chronlist']">
+   <!-- 2004-07-14 carlsonm mod to treat chronlist differently --><!-- 2004-12-07 carlsonm: put chronlist into a table format instead of a def list --><!-- 2015-06-15 Ethan Gruber: put chronlist back into a bootstrap 3 horizontal def list --><xsl:template match="*[local-name()='chronlist']">
       <xsl:if test="*[local-name()='head']">
-         <fo:inline>
+         <fo:block font-size="12px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
+                   font-style="italic"
+                   font-weight="bold">
             <xsl:apply-templates select="*[local-name()='head']"/>
-         </fo:inline>
+         </fo:block>
       </xsl:if>
-      <fo:table width="100%">
-         <xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
+      <fo:table>
+         <fo:table-body>
+            <xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
+         </fo:table-body>
       </fo:table>
    </xsl:template>
+   <xsl:template match="*[local-name()='chronitem']">
+      <fo:table-row>
+         <fo:table-cell text-align="right" font-weight="bold" width="160px">
+            <fo:block margin-right="10px">
+               <xsl:apply-templates select="*[local-name()='date']"/>
+            </fo:block>
+         </fo:table-cell>
+         <fo:table-cell>
+            <fo:block>
+               <xsl:choose>
+                  <xsl:when test="*[local-name()='event']">
+                     <xsl:apply-templates select="*[local-name()='event']"/>
+                  </xsl:when>
+                  <xsl:when test="*[local-name()='eventgrp']">
+                     <xsl:apply-templates select="*[local-name()='eventgrp']" mode="chronlist"/>
+                  </xsl:when>
+               </xsl:choose>
+            </fo:block>
+         </fo:table-cell>
+      </fo:table-row>
+      <!-- 2004-11-30 Carlson mod add code to process <eventgrp>.  See OSU SC "Pauling" in <bioghist> or OSU Archives "Board of Regents" in <odd> --></xsl:template>
    <xsl:template match="*[local-name()='list'] | *[local-name()='index']">
       <xsl:if test="*[local-name()='head']">
-         <fo:inline>
+         <fo:block font-size="12px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
+                   font-style="italic"
+                   font-weight="bold">
             <xsl:apply-templates select="*[local-name()='head']"/>
-         </fo:inline>
+         </fo:block>
       </xsl:if>
-      <ul>
+      <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
          <xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
-      </ul>
+      </fo:list-block>
    </xsl:template>
    <xsl:template match="*[local-name()='fileplan'] | *[local-name()='bibliography']">
       <xsl:if test="*[local-name()='head']">
-         <fo:inline>
+         <fo:block font-size="12px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
+                   font-style="italic"
+                   font-weight="bold">
             <xsl:apply-templates select="*[local-name()='head']"/>
-         </fo:inline>
+         </fo:block>
       </xsl:if>
       <xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
    </xsl:template>

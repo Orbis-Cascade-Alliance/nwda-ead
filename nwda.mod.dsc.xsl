@@ -409,16 +409,15 @@ Changes:
 					<xsl:otherwise>
 						<xsl:variable name="container_colspan">
 							<xsl:choose>
-								<xsl:when test="/*[local-name()='ead']/*[local-name()='dsc'][@type='in-depth'] |
-									/*[local-name()='ead']/*[local-name()='archdesc']/*[local-name()='dsc'][@type='in-depth']">
+								<xsl:when test="ancestor::*[local-name()='dsc'][@type='in-depth']">
 									<xsl:choose>
-										<xsl:when test="ancestor-or-self::*[local-name()='dsc']/descendant::*[local-name()='did']/*[local-name()='container'][2]">2</xsl:when>
+										<xsl:when test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='did']/*[local-name()='container'][2]">2</xsl:when>
 										<xsl:otherwise>1</xsl:otherwise>
 									</xsl:choose>
 								</xsl:when>
 								<xsl:otherwise>
 									<xsl:choose>
-										<xsl:when test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container'][2]">2</xsl:when>
+										<xsl:when test="ancestor::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container'][2]">2</xsl:when>
 										<xsl:otherwise>1</xsl:otherwise>
 									</xsl:choose>
 								</xsl:otherwise>

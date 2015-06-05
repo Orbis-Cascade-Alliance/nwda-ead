@@ -213,7 +213,13 @@
 	</xsl:template>
 
 	<xsl:template match="h4">
-		<fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px">
+		<fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px" font-weight="bold">
+			<xsl:apply-templates/>
+		</fo:block>
+	</xsl:template>
+	
+	<xsl:template match="h5">
+		<fo:block font-size="12px" color="#6b6b6b" margin-bottom="10px" margin-top="10px" font-style="italic" font-weight="bold">
 			<xsl:apply-templates/>
 		</fo:block>
 	</xsl:template>
@@ -401,7 +407,7 @@
 	<xsl:template match="dd"/>
 
 	<!-- list -->
-	<xsl:template match="ul[child::li]">
+	<xsl:template match="ul">
 		<fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
 			<xsl:apply-templates/>
 		</fo:list-block>

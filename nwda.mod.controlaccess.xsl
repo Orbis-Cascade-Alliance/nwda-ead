@@ -32,6 +32,7 @@ Modifications and Revisions by Mark Carlson, 2004
 			</p>-->
 		</div>
 	</xsl:template>
+	
 	<xsl:template name="group_subject">
 		<!-- The following test checks for any <controlaccess> elements that have child elements
 not encoded altrender="nodisplay".  This test is necessary because sometimes
@@ -53,21 +54,23 @@ Other FA's to check: James F. Bishop (OSU Archives)
 			<xsl:choose>
 				<xsl:when test="child::*[local-name()='controlaccess']">
 					<xsl:apply-templates select="*[local-name()='p']"/>
-					<xsl:for-each select="*[local-name()='controlaccess'][child::*[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))]]">
-						<ul class="ca_list">
-							<xsl:apply-templates select="*[local-name()='name'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |
-								*[local-name()='persname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |
-								*[local-name()='corpname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |
-								*[local-name()='famname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |
-								*[local-name()='subject'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |
-								*[local-name()='genreform'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |
-								*[local-name()='geogname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |
-								*[local-name()='occupation'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |
-								*[local-name()='function'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |
-								*[local-name()='title'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0]" mode="controlaccess">
-								<xsl:sort select="normalize-space(.)"/>
-							</xsl:apply-templates>
-						</ul>
+					<xsl:for-each select="*[local-name()='controlaccess'][child::*[not(@audience='internal') and not(@altrender='nodisplay') and string-length(text()|*)!=0]]">
+						<xsl:if test="not(child::*[starts-with(@encodinganalog, '7')])">
+							<ul class="ca_list">
+								<xsl:apply-templates select="*[local-name()='name'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |
+									*[local-name()='persname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |
+									*[local-name()='corpname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |
+									*[local-name()='famname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |
+									*[local-name()='subject'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |
+									*[local-name()='genreform'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |
+									*[local-name()='geogname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |
+									*[local-name()='occupation'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |
+									*[local-name()='function'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |
+									*[local-name()='title'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0]" mode="controlaccess">
+									<xsl:sort select="normalize-space(.)"/>
+								</xsl:apply-templates>
+							</ul>
+						</xsl:if>						
 					</xsl:for-each>
 				</xsl:when>
 				<xsl:otherwise>
@@ -90,6 +93,7 @@ Other FA's to check: James F. Bishop (OSU Archives)
 
 		</xsl:if>
 	</xsl:template>
+	
 	<xsl:template name="group_other">
 		<ul class="ca_list">
 			<li class="ca_head">Other Creators :</li>
@@ -144,7 +148,7 @@ Other FA's to check: James F. Bishop (OSU Archives)
 
 			<xsl:choose>
 				<xsl:when test="string-length($facet) &gt; 0">
-					<a href="/search/results.aspx?t=i&amp;{$facet}={translate(normalize-space(.), ' ', '+')}">
+					<a href="{$serverURL}/search/results.aspx?t=i&amp;{$facet}={translate(normalize-space(.), ' ', '+')}">
 						<xsl:value-of select="normalize-space(.)"/>
 					</a>
 				</xsl:when>

@@ -7,7 +7,7 @@
                 version="1.0"
                 exclude-result-prefixes="fo ead"><!-- ********************* <TABLE OF CONTENTS> *********************** --><!-- TOC TEMPLATE - creates Table of Contents --><xsl:template name="toc">
       <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">Table of Contents</fo:block>
-      <ul class="list-unstyled">
+      <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
          <xsl:if test="*[local-name()='did']">
             <fo:list-item>
                <fo:list-item-label end-indent="label-end()">
@@ -106,7 +106,7 @@
                                     external-destination="#{$useinfo_id}">
                         <xsl:value-of select="$useinfo_head"/>
                      </fo:basic-link>
-                     <ul style="display:none" class="list-unstyled use-content">
+                     <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
                         <xsl:if test="string(*[local-name()='altformavail'])">
                            <fo:list-item>
                               <fo:list-item-label end-indent="label-end()">
@@ -167,7 +167,7 @@
                               </fo:list-item-body>
                            </fo:list-item>
                         </xsl:if>
-                     </ul>
+                     </fo:list-block>
                   </fo:block>
                </fo:list-item-body>
             </fo:list-item>
@@ -184,7 +184,7 @@
                                     external-destination="#administrative_info">
                         <xsl:text>Administrative Information</xsl:text>
                      </fo:basic-link>
-                     <ul style="display:none" class="list-unstyled admin-content">
+                     <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
                         <xsl:if test="string(*[local-name()='arrangement'])">
                            <fo:list-item>
                               <fo:list-item-label end-indent="label-end()">
@@ -350,7 +350,7 @@
                               </fo:list-item-body>
                            </fo:list-item>
                         </xsl:if>
-                     </ul>
+                     </fo:list-block>
                   </fo:block>
                </fo:list-item-body>
             </fo:list-item>
@@ -390,11 +390,11 @@
                </fo:list-item-body>
             </fo:list-item>
          </xsl:if>
-      </ul>
+      </fo:list-block>
    </xsl:template>
    <xsl:template name="dsc_links"><!-- if there are c02's anywhere in the dsc, then display the c01 headings
 			if there are no c02's, all of the c01's are an in-depth type of dsc --><xsl:if test="//*[local-name()='c02']">
-         <ul class="list-unstyled dsc-content">
+         <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
             <xsl:for-each select="//*[local-name()='c01']">
                <fo:list-item>
                   <fo:list-item-label end-indent="label-end()">
@@ -428,7 +428,7 @@
                   </fo:list-item-body>
                </fo:list-item>
             </xsl:for-each>
-         </ul>
+         </fo:list-block>
       </xsl:if>
    </xsl:template>
    <!-- ********************* </TABLE OF CONTENTS> *********************** --></xsl:stylesheet>

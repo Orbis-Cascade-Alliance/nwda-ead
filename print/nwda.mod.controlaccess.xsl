@@ -35,22 +35,24 @@ Other FA's to check: James F. Bishop (OSU Archives)
 <controlaccess> elements that need to be selected --><xsl:choose>
             <xsl:when test="child::*[local-name()='controlaccess']">
                <xsl:apply-templates select="*[local-name()='p']"/>
-               <xsl:for-each select="*[local-name()='controlaccess'][child::*[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))]]">
-                  <ul class="ca_list">
-                     <xsl:apply-templates select="*[local-name()='name'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |         *[local-name()='persname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |         *[local-name()='corpname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |         *[local-name()='famname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |         *[local-name()='subject'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |         *[local-name()='genreform'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |         *[local-name()='geogname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |         *[local-name()='occupation'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |         *[local-name()='function'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |         *[local-name()='title'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0]"
-                                          mode="controlaccess">
-                        <xsl:sort select="normalize-space(.)"/>
-                     </xsl:apply-templates>
-                  </ul>
+               <xsl:for-each select="*[local-name()='controlaccess'][child::*[not(@audience='internal') and not(@altrender='nodisplay') and string-length(text()|*)!=0]]">
+                  <xsl:if test="not(child::*[starts-with(@encodinganalog, '7')])">
+                     <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
+                        <xsl:apply-templates select="*[local-name()='name'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |          *[local-name()='persname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |          *[local-name()='corpname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |          *[local-name()='famname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |          *[local-name()='subject'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |          *[local-name()='genreform'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |          *[local-name()='geogname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |          *[local-name()='occupation'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |          *[local-name()='function'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |          *[local-name()='title'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0]"
+                                             mode="controlaccess">
+                           <xsl:sort select="normalize-space(.)"/>
+                        </xsl:apply-templates>
+                     </fo:list-block>
+                  </xsl:if>
                </xsl:for-each>
             </xsl:when>
             <xsl:otherwise>
-               <ul class="ca_list">
+               <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
                   <xsl:apply-templates select="*[local-name()='name'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |        *[local-name()='persname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |        *[local-name()='corpname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |        *[local-name()='famname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |        *[local-name()='subject'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='genreform'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='geogname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='occupation'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='function'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='title'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0]"
                                        mode="controlaccess">
                      <xsl:sort select="normalize-space(.)"/>
                   </xsl:apply-templates>
-               </ul>
+               </fo:list-block>
             </xsl:otherwise>
          </xsl:choose>
       </xsl:if>
@@ -116,7 +118,7 @@ Other FA's to check: James F. Bishop (OSU Archives)
                <xsl:choose>
                   <xsl:when test="string-length($facet) &gt; 0">
                      <fo:basic-link text-decoration="underline" color="#47371f"
-                                    external-destination="/search/results.aspx?t=i&amp;{$facet}={translate(normalize-space(.), ' ', '+')}">
+                                    external-destination="{$serverURL}/search/results.aspx?t=i&amp;{$facet}={translate(normalize-space(.), ' ', '+')}">
                         <xsl:value-of select="normalize-space(.)"/>
                      </fo:basic-link>
                   </xsl:when>
