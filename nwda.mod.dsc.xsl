@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
+_<!--
 Original code by stephen.yearl@yale.edu, 2003-04-25
 Modications and Revisions by Mark Carlson, 2004
 
@@ -218,11 +218,9 @@ Changes:
 					</xsl:choose>
 				</xsl:if>
 
-				<xsl:if test="string(descendant::*[local-name()='unittitle'])">
-					<th class="c0x_content">
-						<span class="c0x_header">Description</span>
-					</th>
-				</xsl:if>
+				<th class="c0x_content">
+					<span class="c0x_header">Description</span>
+				</th>
 
 				<xsl:if test="string(descendant::*[local-name()='unitdate'])">
 					<th class="c0x_date">
