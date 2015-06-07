@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-_<!--
+<!--
 Original code by stephen.yearl@yale.edu, 2003-04-25
 Modications and Revisions by Mark Carlson, 2004
 

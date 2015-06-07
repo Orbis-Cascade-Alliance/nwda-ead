@@ -311,15 +311,13 @@ Changes:
                   </xsl:otherwise>
                </xsl:choose>
             </xsl:if>
-            <xsl:if test="string(descendant::*[local-name()='unittitle'])">
-               <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
-                              border-bottom-style="solid"
-                              padding="8px">
-                  <fo:block>
-                     <fo:inline font-size="85%" font-weight="bold">Description</fo:inline>
-                  </fo:block>
-               </fo:table-cell>
-            </xsl:if>
+            <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
+                           border-bottom-style="solid"
+                           padding="8px">
+               <fo:block>
+                  <fo:inline font-size="85%" font-weight="bold">Description</fo:inline>
+               </fo:block>
+            </fo:table-cell>
             <xsl:if test="string(descendant::*[local-name()='unitdate'])">
                <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
                               border-bottom-style="solid"
