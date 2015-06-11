@@ -133,11 +133,15 @@ Modifications and Revisions by Mark Carlson, 2004
          <xsl:choose>
             <xsl:when test="$other='true'">
                <xsl:apply-templates select="descendant::*[local-name()=$name][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog,       '7')]"
-                                    mode="controlaccess"/>
+                                    mode="controlaccess">
+                  <xsl:sort/>
+               </xsl:apply-templates>
             </xsl:when>
             <xsl:otherwise>
                <xsl:apply-templates select="descendant::*[local-name()=$name][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog,       '7'))]"
-                                    mode="controlaccess"/>
+                                    mode="controlaccess">
+                  <xsl:sort/>
+               </xsl:apply-templates>
             </xsl:otherwise>
          </xsl:choose>
       </fo:list-block>
