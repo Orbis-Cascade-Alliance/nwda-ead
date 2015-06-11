@@ -308,9 +308,16 @@ Major or significant revision history:
 Tracking # 4.20
 --><xsl:choose>
          <xsl:when test="not(ancestor::*[local-name()='dsc']) or parent::*[local-name()='dsc']">
-            <fo:block margin-bottom="10px">
-               <xsl:apply-templates/>
-            </fo:block>
+            <xsl:choose>
+               <xsl:when test="*[local-name()='table']">
+                  <xsl:apply-templates select="*[local-name()='table']"/>
+               </xsl:when>
+               <xsl:otherwise>
+                  <fo:block margin-bottom="10px">
+                     <xsl:apply-templates/>
+                  </fo:block>
+               </xsl:otherwise>
+            </xsl:choose>
          </xsl:when>
          <xsl:otherwise>
             <xsl:apply-templates/>
@@ -333,66 +340,80 @@ Tracking # 4.20
 						ddd<xsl:sort order="ascending" data-type="text"/>ddd
 					</xsl:apply-templates><br />	--></xsl:template>
    <xsl:template match="*[local-name()='address']">
-      <fo:block margin-bottom="10px"><!-- the following code distinguishes between a text-only address line and a url or email address --><xsl:for-each select="*[local-name()='addressline']">
-            <xsl:choose><!-- if the addressline contains http://, a href is created --><xsl:when test="contains(normalize-space(.), 'http://')">
-                  <xsl:choose>
-                     <xsl:when test="substring-before(normalize-space(.), 'http://')">
-                        <xsl:value-of select="substring-before(normalize-space(.), 'http://')"/>
-                        <fo:basic-link text-decoration="underline" color="#47371f"
-                                       external-destination="http://{substring-after(normalize-space(.), 'http://')}">
-                           <xsl:text>http://</xsl:text>
-                           <xsl:value-of select="substring-after(normalize-space(.), 'http://')"/>
-                        </fo:basic-link>
-                     </xsl:when>
-                     <xsl:otherwise>
-                        <fo:basic-link text-decoration="underline" color="#47371f"
-                                       external-destination="{normalize-space(.)}">
-                           <xsl:value-of select="normalize-space(.)"/>
-                        </fo:basic-link>
-                     </xsl:otherwise>
-                  </xsl:choose>
-                  <xsl:if test="not(position() = last())">
-                     <fo:block/>
-                  </xsl:if>
-               </xsl:when>
-               <!-- if the @ symbol is contained, it is assumed to be an email address --><xsl:when test="contains(normalize-space(.), '@')">
-                  <xsl:choose><!-- if email address is preceded by a space, i. e. "Email: foo@bar.com", only the foo@bar.com is made a mailto link --><xsl:when test="contains(normalize-space(.), ' ')">
-                        <xsl:value-of select="substring-before(normalize-space(.), ' ')"/>
-                        <xsl:text/>
-                        <fo:basic-link text-decoration="underline" color="#47371f"
-                                       external-destination="mailto:{substring-after(normalize-space(.), ' ')}">
-                           <xsl:value-of select="substring-after(normalize-space(.), ' ')"/>
-                        </fo:basic-link>
-                        <!-- insert break only if it's not the last line.  this will cut back on unnecessary whitespace --><xsl:if test="not(position() = last())">
+      <xsl:choose>
+         <xsl:when test="*[local-name()='table']">
+            <xsl:apply-templates select="*[local-name()='table']"/>
+         </xsl:when>
+         <xsl:otherwise>
+            <fo:block margin-bottom="10px"><!-- the following code distinguishes between a text-only address line and a url or email address --><xsl:for-each select="*[local-name()='addressline']">
+                  <xsl:choose><!-- if the addressline contains http://, a href is created --><xsl:when test="contains(normalize-space(.), 'http://')">
+                        <xsl:choose>
+                           <xsl:when test="substring-before(normalize-space(.), 'http://')">
+                              <xsl:value-of select="substring-before(normalize-space(.), 'http://')"/>
+                              <fo:basic-link text-decoration="underline" color="#47371f"
+                                             external-destination="http://{substring-after(normalize-space(.), 'http://')}">
+                                 <xsl:text>http://</xsl:text>
+                                 <xsl:value-of select="substring-after(normalize-space(.), 'http://')"/>
+                              </fo:basic-link>
+                           </xsl:when>
+                           <xsl:otherwise>
+                              <fo:basic-link text-decoration="underline" color="#47371f"
+                                             external-destination="{normalize-space(.)}">
+                                 <xsl:value-of select="normalize-space(.)"/>
+                              </fo:basic-link>
+                           </xsl:otherwise>
+                        </xsl:choose>
+                        <xsl:if test="not(position() = last())">
                            <fo:block/>
                         </xsl:if>
                      </xsl:when>
-                     <!-- otherwise, the whole line is.  this is assuming these are the only two options seen.  standards in email and http 
+                     <!-- if the @ symbol is contained, it is assumed to be an email address --><xsl:when test="contains(normalize-space(.), '@')">
+                        <xsl:choose><!-- if email address is preceded by a space, i. e. "Email: foo@bar.com", only the foo@bar.com is made a mailto link --><xsl:when test="contains(normalize-space(.), ' ')">
+                              <xsl:value-of select="substring-before(normalize-space(.), ' ')"/>
+                              <xsl:text/>
+                              <fo:basic-link text-decoration="underline" color="#47371f"
+                                             external-destination="mailto:{substring-after(normalize-space(.), ' ')}">
+                                 <xsl:value-of select="substring-after(normalize-space(.), ' ')"/>
+                              </fo:basic-link>
+                              <!-- insert break only if it's not the last line.  this will cut back on unnecessary whitespace --><xsl:if test="not(position() = last())">
+                                 <fo:block/>
+                              </xsl:if>
+                           </xsl:when>
+                           <!-- otherwise, the whole line is.  this is assuming these are the only two options seen.  standards in email and http 
 								address lines should be further developed --><xsl:otherwise>
-                        <fo:basic-link text-decoration="underline" color="#47371f"
-                                       external-destination="mailto:{normalize-space(.)}">
-                           <xsl:value-of select="normalize-space(.)"/>
-                        </fo:basic-link>
+                              <fo:basic-link text-decoration="underline" color="#47371f"
+                                             external-destination="mailto:{normalize-space(.)}">
+                                 <xsl:value-of select="normalize-space(.)"/>
+                              </fo:basic-link>
+                              <xsl:if test="not(position() = last())">
+                                 <fo:block/>
+                              </xsl:if>
+                           </xsl:otherwise>
+                        </xsl:choose>
+                     </xsl:when>
+                     <xsl:otherwise>
+                        <xsl:value-of select="normalize-space(.)"/>
                         <xsl:if test="not(position() = last())">
                            <fo:block/>
                         </xsl:if>
                      </xsl:otherwise>
                   </xsl:choose>
-               </xsl:when>
-               <xsl:otherwise>
-                  <xsl:value-of select="normalize-space(.)"/>
-                  <xsl:if test="not(position() = last())">
-                     <fo:block/>
-                  </xsl:if>
-               </xsl:otherwise>
-            </xsl:choose>
-         </xsl:for-each>
-      </fo:block>
+               </xsl:for-each>
+            </fo:block>
+         </xsl:otherwise>
+      </xsl:choose>
    </xsl:template>
    <xsl:template match="*[local-name()='div']">
-      <fo:block margin-bottom="10px">
-         <xsl:apply-templates/>
-      </fo:block>
+      <xsl:choose>
+         <xsl:when test="*[local-name()='table']">
+            <xsl:apply-templates select="*[local-name()='table']"/>
+         </xsl:when>
+         <xsl:otherwise>
+            <fo:block margin-bottom="10px">
+               <xsl:apply-templates/>
+            </fo:block>
+         </xsl:otherwise>
+      </xsl:choose>
    </xsl:template>
    <!-- suppress all heads
   <xsl:template match="head">

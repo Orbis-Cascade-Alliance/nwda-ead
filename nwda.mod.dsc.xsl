@@ -37,7 +37,7 @@ Changes:
 
 
 	<!-- ********************* <DSC> *********************** -->
-	<xsl:template name="dsc" match="*[local-name()='dsc']">
+	<xsl:template name="dsc" match="*[local-name()='dsc'][count(*[local-name()='c01']) &gt; 0]">
 		<xsl:if test="@id">
 			<a id="{@id}"/>
 		</xsl:if>
@@ -256,23 +256,15 @@ Changes:
 			<!-- if there is only one container, the td is 170 pixels wide, otherwise 85 for two containers -->
 
 			<xsl:choose>
-				<xsl:when test="not(*[local-name()='did']/*[local-name()='container'][2])">
-					<xsl:choose>
-						<!-- a colspan of 2 is assigned to a c0x that does not have 2 containers if any descendants of its c01 parent
-							have 2 containers -->
-						<xsl:when test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container'][2]">
-							<td colspan="2">
-								<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
-							</td>
-						</xsl:when>
-						<xsl:otherwise>
-							<td>
-								<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
-							</td>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:when>
-				<xsl:when test="*[local-name()='did']/*[local-name()='container'][2]">
+				<xsl:when test="count(*[local-name()='did']/*[local-name()='container']) = 1">
+					<td>
+						<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
+					</td>
+					<xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container'][2]">
+						<td/>
+					</xsl:if>
+				</xsl:when>				
+				<xsl:when test="count(*[local-name()='did']/*[local-name()='container']) = 2">
 					<td>
 						<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
 					</td>
@@ -280,6 +272,17 @@ Changes:
 						<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][2]"/>
 					</td>
 				</xsl:when>
+				<xsl:when test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container']">
+					<xsl:choose>
+						<xsl:when test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container'][2]">
+							<td colspan="2"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<td/>
+						</xsl:otherwise>
+					</xsl:choose>
+					
+				</xsl:when>				
 			</xsl:choose>
 
 			<xsl:variable select="count(../../preceding-sibling::*)+1" name="pppos"/>
@@ -398,24 +401,33 @@ Changes:
 							</span>
 						</td>
 						<td/>
-						<xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
-							<td class="c0x_date"/>
-						</xsl:if>
+						<xsl:choose>
+							<xsl:when test="count(//*[local-name()='c02']) &gt; 0">
+								<xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+									<td class="c0x_date"/>
+								</xsl:if>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='unitdate']">
+									<td class="c0x_date"/>
+								</xsl:if>
+							</xsl:otherwise>
+						</xsl:choose>						
 					</xsl:when>
 
 					<!-- for one container -->
 					<xsl:otherwise>
 						<xsl:variable name="container_colspan">
 							<xsl:choose>
-								<xsl:when test="ancestor::*[local-name()='dsc'][@type='in-depth']">
+								<xsl:when test="count(//*[local-name()='c02']) &gt; 0">
 									<xsl:choose>
-										<xsl:when test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='did']/*[local-name()='container'][2]">2</xsl:when>
+										<xsl:when test="ancestor::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container'][2]">2</xsl:when>
 										<xsl:otherwise>1</xsl:otherwise>
 									</xsl:choose>
 								</xsl:when>
 								<xsl:otherwise>
 									<xsl:choose>
-										<xsl:when test="ancestor::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container'][2]">2</xsl:when>
+										<xsl:when test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='did']/*[local-name()='container'][2]">2</xsl:when>
 										<xsl:otherwise>1</xsl:otherwise>
 									</xsl:choose>
 								</xsl:otherwise>
@@ -427,9 +439,18 @@ Changes:
 							</span>
 						</td>
 						<td/>
-						<xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
-							<td class="c0x_date"/>
-						</xsl:if>
+						<xsl:choose>
+							<xsl:when test="count(//*[local-name()='c02']) &gt; 0">
+								<xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+									<td class="c0x_date"/>
+								</xsl:if>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='unitdate']">
+									<td class="c0x_date"/>
+								</xsl:if>
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:otherwise>
 				</xsl:choose>
 			</tr>

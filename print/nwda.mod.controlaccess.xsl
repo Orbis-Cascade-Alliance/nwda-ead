@@ -10,15 +10,137 @@ Modifications and Revisions by Mark Carlson, 2004
          <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
             <xsl:value-of select="$controlaccess_head"/>
          </fo:block>
-         <fo:block>
-            <xsl:call-template name="group_subject"/>
-            <xsl:if test="descendant::*[@encodinganalog='700'] or descendant::*[@encodinganalog='710']">
-               <xsl:call-template name="group_other"/>
+         <fo:block><!--<xsl:call-template name="group_subject"/>
+				<xsl:if test="descendant::*[@encodinganalog='700'] or descendant::*[@encodinganalog='710']">
+					<xsl:call-template name="group_other"/>
+				</xsl:if>--><!-- handle controlled access terms in lists that will always contain list items --><xsl:if test="descendant::*[local-name()='subject'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))]">
+               <xsl:call-template name="generate-list">
+                  <xsl:with-param name="name">subject</xsl:with-param>
+               </xsl:call-template>
+            </xsl:if>
+            <xsl:if test="descendant::*[local-name()='persname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))]">
+               <xsl:call-template name="generate-list">
+                  <xsl:with-param name="name">persname</xsl:with-param>
+               </xsl:call-template>
+            </xsl:if>
+            <xsl:if test="descendant::*[local-name()='corpname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))]">
+               <xsl:call-template name="generate-list">
+                  <xsl:with-param name="name">corpname</xsl:with-param>
+               </xsl:call-template>
+            </xsl:if>
+            <xsl:if test="descendant::*[local-name()='famname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))]">
+               <xsl:call-template name="generate-list">
+                  <xsl:with-param name="name">famname</xsl:with-param>
+               </xsl:call-template>
+            </xsl:if>
+            <xsl:if test="descendant::*[local-name()='name'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))]">
+               <xsl:call-template name="generate-list">
+                  <xsl:with-param name="name">name</xsl:with-param>
+               </xsl:call-template>
+            </xsl:if>
+            <xsl:if test="descendant::*[local-name()='geogname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))]">
+               <xsl:call-template name="generate-list">
+                  <xsl:with-param name="name">geogname</xsl:with-param>
+               </xsl:call-template>
+            </xsl:if>
+            <xsl:if test="descendant::*[local-name()='genreform'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))]">
+               <xsl:call-template name="generate-list">
+                  <xsl:with-param name="name">genreform</xsl:with-param>
+               </xsl:call-template>
+            </xsl:if>
+            <xsl:if test="descendant::*[local-name()='occupation'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))]">
+               <xsl:call-template name="generate-list">
+                  <xsl:with-param name="name">occupation</xsl:with-param>
+               </xsl:call-template>
+            </xsl:if>
+            <xsl:if test="descendant::*[local-name()='function'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))]">
+               <xsl:call-template name="generate-list">
+                  <xsl:with-param name="name">function</xsl:with-param>
+               </xsl:call-template>
+            </xsl:if>
+            <xsl:if test="descendant::*[local-name()='title'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))]">
+               <xsl:call-template name="generate-list">
+                  <xsl:with-param name="name">title</xsl:with-param>
+               </xsl:call-template>
+            </xsl:if>
+            <!-- handle other names which start 700+ @encodinganalogs --><xsl:if test="descendant::*[not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')]">
+               <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
+                  <fo:list-item>
+                     <fo:list-item-label end-indent="label-end()">
+                        <fo:block/>
+                     </fo:list-item-label>
+                     <fo:list-item-body start-indent="body-start()">
+                        <fo:block font-weight="bold">Other Creators :</fo:block>
+                     </fo:list-item-body>
+                  </fo:list-item>
+                  <fo:list-item>
+                     <fo:list-item-label end-indent="label-end()">
+                        <fo:block/>
+                     </fo:list-item-label>
+                     <fo:list-item-body start-indent="body-start()">
+                        <fo:block>
+                           <xsl:if test="descendant::*[local-name()='persname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')]">
+                              <xsl:call-template name="generate-list">
+                                 <xsl:with-param name="other">true</xsl:with-param>
+                                 <xsl:with-param name="name">persname</xsl:with-param>
+                              </xsl:call-template>
+                           </xsl:if>
+                           <xsl:if test="descendant::*[local-name()='corpname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')]">
+                              <xsl:call-template name="generate-list">
+                                 <xsl:with-param name="other">true</xsl:with-param>
+                                 <xsl:with-param name="name">corpname</xsl:with-param>
+                              </xsl:call-template>
+                           </xsl:if>
+                           <xsl:if test="descendant::*[local-name()='famname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')]">
+                              <xsl:call-template name="generate-list">
+                                 <xsl:with-param name="other">true</xsl:with-param>
+                                 <xsl:with-param name="name">famname</xsl:with-param>
+                              </xsl:call-template>
+                           </xsl:if>
+                           <xsl:if test="descendant::*[local-name()='name'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog, '7')]">
+                              <xsl:call-template name="generate-list">
+                                 <xsl:with-param name="other">true</xsl:with-param>
+                                 <xsl:with-param name="name">name</xsl:with-param>
+                              </xsl:call-template>
+                           </xsl:if>
+                        </fo:block>
+                     </fo:list-item-body>
+                  </fo:list-item>
+               </fo:list-block>
             </xsl:if>
          </fo:block>
-         <!--<p class="top">
-				<a href="#top" title="Top of finding aid"><span class="glyphicon glyphicon-arrow-up"> </span>Return to Top</a>
-			</p>--></fo:block>
+      </fo:block>
+   </xsl:template>
+   <xsl:template name="generate-list">
+      <xsl:param name="name"/>
+      <xsl:param name="other"/>
+      <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
+         <fo:list-item>
+            <fo:list-item-label end-indent="label-end()">
+               <fo:block/>
+            </fo:list-item-label>
+            <fo:list-item-body start-indent="body-start()">
+               <fo:block font-weight="bold">
+                  <xsl:call-template name="controlaccess_heads">
+                     <xsl:with-param name="name">
+                        <xsl:value-of select="$name"/>
+                     </xsl:with-param>
+                  </xsl:call-template>
+                  <xsl:text> : </xsl:text>
+               </fo:block>
+            </fo:list-item-body>
+         </fo:list-item>
+         <xsl:choose>
+            <xsl:when test="$other='true'">
+               <xsl:apply-templates select="descendant::*[local-name()=$name][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][starts-with(@encodinganalog,       '7')]"
+                                    mode="controlaccess"/>
+            </xsl:when>
+            <xsl:otherwise>
+               <xsl:apply-templates select="descendant::*[local-name()=$name][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog,       '7'))]"
+                                    mode="controlaccess"/>
+            </xsl:otherwise>
+         </xsl:choose>
+      </fo:list-block>
    </xsl:template>
    <xsl:template name="group_subject"><!-- The following test checks for any <controlaccess> elements that have child elements
 not encoded altrender="nodisplay".  This test is necessary because sometimes
@@ -38,7 +160,7 @@ Other FA's to check: James F. Bishop (OSU Archives)
                <xsl:for-each select="*[local-name()='controlaccess'][child::*[not(@audience='internal') and not(@altrender='nodisplay') and string-length(text()|*)!=0]]">
                   <xsl:if test="not(child::*[starts-with(@encodinganalog, '7')])">
                      <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
-                        <xsl:apply-templates select="*[local-name()='name'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |          *[local-name()='persname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |          *[local-name()='corpname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |          *[local-name()='famname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |          *[local-name()='subject'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |          *[local-name()='genreform'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |          *[local-name()='geogname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |          *[local-name()='occupation'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |          *[local-name()='function'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |          *[local-name()='title'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0]"
+                        <xsl:apply-templates select="*[local-name()='name'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog,          '7'))] |          *[local-name()='persname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog,          '7'))] |          *[local-name()='corpname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog,          '7'))] |          *[local-name()='famname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog,          '7'))] |          *[local-name()='subject'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |          *[local-name()='genreform'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |          *[local-name()='geogname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |          *[local-name()='occupation'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |          *[local-name()='function'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |          *[local-name()='title'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0]"
                                              mode="controlaccess">
                            <xsl:sort select="normalize-space(.)"/>
                         </xsl:apply-templates>
@@ -48,7 +170,7 @@ Other FA's to check: James F. Bishop (OSU Archives)
             </xsl:when>
             <xsl:otherwise>
                <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
-                  <xsl:apply-templates select="*[local-name()='name'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |        *[local-name()='persname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |        *[local-name()='corpname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |        *[local-name()='famname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |        *[local-name()='subject'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='genreform'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='geogname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='occupation'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='function'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='title'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0]"
+                  <xsl:apply-templates select="*[local-name()='name'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))]        |        *[local-name()='persname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |        *[local-name()='corpname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |        *[local-name()='famname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0][not(starts-with(@encodinganalog, '7'))] |        *[local-name()='subject'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='genreform'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='geogname'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='occupation'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='function'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0] |        *[local-name()='title'][not(@audience='internal')][not(@altrender='nodisplay')][string-length(text()|*)!=0]"
                                        mode="controlaccess">
                      <xsl:sort select="normalize-space(.)"/>
                   </xsl:apply-templates>
@@ -88,17 +210,6 @@ Other FA's to check: James F. Bishop (OSU Archives)
 </xsl:if>
 --></xsl:template>
    <xsl:template match="*" mode="controlaccess">
-      <xsl:if test="position()=1">
-         <fo:list-item>
-            <fo:list-item-label end-indent="label-end()">
-               <fo:block/>
-            </fo:list-item-label>
-            <fo:list-item-body start-indent="body-start()">
-               <fo:block font-weight="bold">
-                  <xsl:call-template name="controlaccess_heads"/> : </fo:block>
-            </fo:list-item-body>
-         </fo:list-item>
-      </xsl:if>
       <fo:list-item>
          <fo:list-item-label end-indent="label-end()">
             <fo:block/>
@@ -134,19 +245,20 @@ Other FA's to check: James F. Bishop (OSU Archives)
             </fo:block>
          </fo:list-item-body>
       </fo:list-item>
-      <!----></xsl:template>
+   </xsl:template>
    <xsl:template name="controlaccess_heads">
+      <xsl:param name="name"/>
       <xsl:choose>
-         <xsl:when test="local-name()='corpname'"> Corporate Names </xsl:when>
-         <xsl:when test="local-name()='famname'"> Family Names </xsl:when>
-         <xsl:when test="local-name()='function'"> Functions </xsl:when>
-         <xsl:when test="local-name()='geogname'"> Geographical Names </xsl:when>
-         <xsl:when test="local-name()='genreform'"> Form or Genre Terms </xsl:when>
-         <xsl:when test="local-name()='name'"> Other Names </xsl:when>
-         <xsl:when test="local-name()='occupation'"> Occupations </xsl:when>
-         <xsl:when test="local-name()='persname'"> Personal Names </xsl:when>
-         <xsl:when test="local-name()='subject'"> Subject Terms </xsl:when>
-         <xsl:when test="local-name()='title'"> Titles within the Collection </xsl:when>
+         <xsl:when test="$name='corpname'"> Corporate Names </xsl:when>
+         <xsl:when test="$name='famname'"> Family Names </xsl:when>
+         <xsl:when test="$name='function'"> Functions </xsl:when>
+         <xsl:when test="$name='geogname'"> Geographical Names </xsl:when>
+         <xsl:when test="$name='genreform'"> Form or Genre Terms </xsl:when>
+         <xsl:when test="$name='name'"> Other Names </xsl:when>
+         <xsl:when test="$name='occupation'"> Occupations </xsl:when>
+         <xsl:when test="$name='persname'"> Personal Names </xsl:when>
+         <xsl:when test="$name='subject'"> Subject Terms </xsl:when>
+         <xsl:when test="$name='title'"> Titles within the Collection </xsl:when>
          <xsl:otherwise/>
       </xsl:choose>
    </xsl:template>

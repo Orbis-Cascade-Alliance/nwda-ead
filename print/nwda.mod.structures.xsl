@@ -21,7 +21,7 @@ Mark Carlson
                 xmlns:msxsl="urn:schemas-microsoft-com:xslt"
                 xmlns:exsl="http://exslt.org/common"
                 version="1.0"
-                exclude-result-prefixes="nwda xsd vcard xsl msxsl exsl ead">
+                exclude-result-prefixes="nwda xsd vcard xsl msxsl exsl ead rdf foaf dcterms">
    <xsl:template match="*[local-name()='profiledesc'] | *[local-name()='revisiondesc'] | *[local-name()='filedesc'] | *[local-name()='eadheader'] | *[local-name()='frontmatter']"/>
    <!-- ********************* <FOOTER> *********************** --><xsl:template match="*[local-name()='publicationstmt']">
       <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
@@ -368,9 +368,16 @@ Mark Carlson
       </fo:block>
    </xsl:template>
    <!-- ********************* </OVERVIEW> *********************** --><xsl:template name="sect_separator">
-      <fo:block margin-bottom="10px">
-         <fo:basic-link text-decoration="underline" color="#47371f" external-destination="#top">^ Return to Top</fo:basic-link>
-      </fo:block>
+      <xsl:choose>
+         <xsl:when test="*[local-name()='table']">
+            <xsl:apply-templates select="*[local-name()='table']"/>
+         </xsl:when>
+         <xsl:otherwise>
+            <fo:block margin-bottom="10px">
+               <fo:basic-link text-decoration="underline" color="#47371f" external-destination="#top">^ Return to Top</fo:basic-link>
+            </fo:block>
+         </xsl:otherwise>
+      </xsl:choose>
    </xsl:template>
    <!-- ********************* START COLLECTION IMAGE *********************** --><xsl:template name="collection_image"><!-- the call for this template has been commented out so that only logos and not collection images display, EG 2007-08-27 --><!-- margin-top is 100% to force collection image to be bottom-aligned while the institutional logo is top-aligned. --><fo:block>
          <fo:block>
@@ -525,9 +532,16 @@ Mark Carlson
       </xsl:choose>
       <fo:block>
          <xsl:for-each select="*[local-name()='p']">
-            <fo:block margin-bottom="10px">
-               <xsl:apply-templates/>
-            </fo:block>
+            <xsl:choose>
+               <xsl:when test="*[local-name()='table']">
+                  <xsl:apply-templates select="*[local-name()='table']"/>
+               </xsl:when>
+               <xsl:otherwise>
+                  <fo:block margin-bottom="10px">
+                     <xsl:apply-templates/>
+                  </fo:block>
+               </xsl:otherwise>
+            </xsl:choose>
          </xsl:for-each>
       </fo:block>
    </xsl:template>
@@ -549,9 +563,16 @@ Mark Carlson
       </xsl:if>
       <fo:block>
          <xsl:for-each select="*[local-name()='p']">
-            <fo:block margin-bottom="10px">
-               <xsl:apply-templates/>
-            </fo:block>
+            <xsl:choose>
+               <xsl:when test="*[local-name()='table']">
+                  <xsl:apply-templates select="*[local-name()='table']"/>
+               </xsl:when>
+               <xsl:otherwise>
+                  <fo:block margin-bottom="10px">
+                     <xsl:apply-templates/>
+                  </fo:block>
+               </xsl:otherwise>
+            </xsl:choose>
          </xsl:for-each>
          <!--<xsl:apply-templates select="./*[not(self::head)]"/>--></fo:block>
       <!--<xsl:call-template name="sect_separator" />--></xsl:template>
@@ -580,9 +601,16 @@ Mark Carlson
       </xsl:choose>
       <fo:block>
          <xsl:for-each select="*[local-name()='p']">
-            <fo:block margin-bottom="10px">
-               <xsl:apply-templates/>
-            </fo:block>
+            <xsl:choose>
+               <xsl:when test="*[local-name()='table']">
+                  <xsl:apply-templates select="*[local-name()='table']"/>
+               </xsl:when>
+               <xsl:otherwise>
+                  <fo:block margin-bottom="10px">
+                     <xsl:apply-templates/>
+                  </fo:block>
+               </xsl:otherwise>
+            </xsl:choose>
          </xsl:for-each>
       </fo:block>
    </xsl:template>
@@ -665,10 +693,21 @@ Mark Carlson
          <xsl:if test="@id"/>
       </xsl:if>
       <fo:block>
-         <fo:table width="100%">
+         <fo:table table-layout="fixed">
+            <xsl:choose>
+               <xsl:when test="count(descendant::*[local-name()='colspec']) &gt; 0">
+                  <xsl:variable name="count">
+                     <xsl:value-of select="count(descendant::*[local-name()='colspec'])"/>
+                  </xsl:variable>
+                  <xsl:for-each select="descendant::*[local-name()='colspec']">
+                     <fo:table-column column-width="{floor(100 div $count)}%"/>
+                  </xsl:for-each>
+               </xsl:when>
+               <xsl:otherwise/>
+            </xsl:choose>
             <xsl:apply-templates select="*[local-name()='p']"/>
             <xsl:apply-templates select="*[local-name()='listhead']"/>
-            <fo:table-body width="100%">
+            <fo:table-body>
                <xsl:apply-templates select="*[local-name()='indexentry']"/>
             </fo:table-body>
          </fo:table>
@@ -677,7 +716,7 @@ Mark Carlson
    </xsl:template>
    <xsl:template match="*[local-name()='listhead']">
       <fo:table-header>
-         <fo:table-row width="100%">
+         <fo:table-row>
             <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
                            border-bottom-style="solid"
                            padding="8px">
@@ -696,7 +735,7 @@ Mark Carlson
       </fo:table-header>
    </xsl:template>
    <xsl:template match="*[local-name()='indexentry']">
-      <fo:table-row width="100%">
+      <fo:table-row>
          <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                         border-bottom-style="solid"
                         padding="8px">
@@ -748,9 +787,16 @@ Mark Carlson
       </xsl:variable>
       <fo:block>
          <xsl:for-each select="*[local-name()='p']">
-            <fo:block margin-bottom="10px">
-               <xsl:apply-templates/>
-            </fo:block>
+            <xsl:choose>
+               <xsl:when test="*[local-name()='table']">
+                  <xsl:apply-templates select="*[local-name()='table']"/>
+               </xsl:when>
+               <xsl:otherwise>
+                  <fo:block margin-bottom="10px">
+                     <xsl:apply-templates/>
+                  </fo:block>
+               </xsl:otherwise>
+            </xsl:choose>
          </xsl:for-each>
       </fo:block>
    </xsl:template>

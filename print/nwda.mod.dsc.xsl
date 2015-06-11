@@ -33,7 +33,7 @@ Changes:
    <xsl:variable name="ucChars">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:variable>
    <xsl:variable name="repCode"
                  select="translate(//*[local-name()='eadid']/@mainagencycode,$ucChars,$lcChars)"/>
-   <!-- ********************* <DSC> *********************** --><xsl:template name="dsc" match="*[local-name()='dsc']">
+   <!-- ********************* <DSC> *********************** --><xsl:template name="dsc" match="*[local-name()='dsc'][count(*[local-name()='c01']) &gt; 0]">
       <xsl:if test="@id"/>
       <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
          <xsl:value-of select="$dsc_head"/>
@@ -44,7 +44,7 @@ Changes:
             </xsl:when>
             <xsl:otherwise>
                <xsl:apply-templates select="*[local-name()='p']"/>
-               <!-- if there are no c02's then all of the c01s are displayed as rows in a table, like an in-depth finding aid --><fo:table width="100%" table-layout="fixed">
+               <!-- if there are no c02's then all of the c01s are displayed as rows in a table, like an in-depth finding aid --><fo:table table-layout="fixed">
                   <xsl:choose>
                      <xsl:when test="descendant::*[local-name()='did']/*[local-name()='container'][2]">
                         <xsl:choose>
@@ -103,13 +103,13 @@ Changes:
       </fo:block>
    </xsl:template>
    <!-- ********************* </SERIES> *************************** --><!-- ********************* In-Depth DSC Type ********************* --><xsl:template name="indepth">
-      <fo:table-body width="100%">
+      <fo:table-body>
          <xsl:for-each select="*[local-name()='c01']">
             <xsl:if test="*[local-name()='did']/*[local-name()='container']">
                <xsl:call-template name="container_row"/>
             </xsl:if>
             <xsl:variable name="current_pos" select="position()"/>
-            <fo:table-row width="100%"><!-- only display table cells for containers when they exist within the c01s --><xsl:if test="parent::node()/descendant::*[local-name()='container']">
+            <fo:table-row><!-- only display table cells for containers when they exist within the c01s --><xsl:if test="parent::node()/descendant::*[local-name()='container']">
                   <xsl:choose>
                      <xsl:when test="not(parent::node()/descendant::*[local-name()='did']/*[local-name()='container'][2])">
                         <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
@@ -178,7 +178,7 @@ Changes:
          <xsl:apply-templates select="*[local-name()='did']"/>
       </fo:block>
       <xsl:if test="descendant::*[local-name()='c02']">
-         <fo:table width="100%" table-layout="fixed">
+         <fo:table table-layout="fixed">
             <xsl:choose>
                <xsl:when test="descendant::*[local-name()='did']/*[local-name()='container'][2]">
                   <xsl:choose>
@@ -221,9 +221,9 @@ Changes:
                </xsl:otherwise>
             </xsl:choose>
             <!-- calls the labels for the table --><xsl:call-template name="table_label"/>
-            <fo:table-body width="100%">
+            <fo:table-body>
                <xsl:if test="@level='item' or @level='file'">
-                  <fo:table-row width="100%">
+                  <fo:table-row>
                      <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                                     border-bottom-style="solid"
                                     padding="8px">
@@ -252,7 +252,7 @@ Changes:
                         <fo:block/>
                      </fo:table-cell>
                   </fo:table-row>
-                  <fo:table-row width="100%">
+                  <fo:table-row>
                      <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                                     border-bottom-style="solid"
                                     padding="8px">
@@ -283,7 +283,7 @@ Changes:
    </xsl:template>
    <!-- ********************* </DSC TABLE> *************************** --><!-- ********************* LABELS FOR TABLE ********************* --><xsl:template name="table_label">
       <fo:table-header>
-         <fo:table-row width="100%">
+         <fo:table-row>
             <xsl:if test="descendant::*[local-name()='container']">
                <xsl:choose>
                   <xsl:when test="descendant::*[local-name()='did'][count(*[local-name()='container']) = 2]">
@@ -336,31 +336,24 @@ Changes:
       <!-- ********* ROW FOR DISPLAYING CONTAINER TYPES ********* --><xsl:if test="*[local-name()='did']/*[local-name()='container']">
          <xsl:call-template name="container_row"/>
       </xsl:if>
-      <!-- *********** ROW FOR DISPLAYING CONTAINER, CONTENT, AND DATE DATA **************--><!--all c0x level items are their own row; indentation created by css only--><fo:table-row width="100%"><!-- if there is only one container, the td is 170 pixels wide, otherwise 85 for two containers --><xsl:choose>
-            <xsl:when test="not(*[local-name()='did']/*[local-name()='container'][2])">
-               <xsl:choose><!-- a colspan of 2 is assigned to a c0x that does not have 2 containers if any descendants of its c01 parent
-							have 2 containers --><xsl:when test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container'][2]">
-                     <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
-                                    border-bottom-style="solid"
-                                    padding="8px"
-                                    number-columns-spanned="2">
-                        <fo:block>
-                           <xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
-                        </fo:block>
-                     </fo:table-cell>
-                  </xsl:when>
-                  <xsl:otherwise>
-                     <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
-                                    border-bottom-style="solid"
-                                    padding="8px">
-                        <fo:block>
-                           <xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
-                        </fo:block>
-                     </fo:table-cell>
-                  </xsl:otherwise>
-               </xsl:choose>
+      <!-- *********** ROW FOR DISPLAYING CONTAINER, CONTENT, AND DATE DATA **************--><!--all c0x level items are their own row; indentation created by css only--><fo:table-row><!-- if there is only one container, the td is 170 pixels wide, otherwise 85 for two containers --><xsl:choose>
+            <xsl:when test="count(*[local-name()='did']/*[local-name()='container']) = 1">
+               <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
+                              border-bottom-style="solid"
+                              padding="8px">
+                  <fo:block>
+                     <xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
+                  </fo:block>
+               </fo:table-cell>
+               <xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container'][2]">
+                  <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
+                                 border-bottom-style="solid"
+                                 padding="8px">
+                     <fo:block/>
+                  </fo:table-cell>
+               </xsl:if>
             </xsl:when>
-            <xsl:when test="*[local-name()='did']/*[local-name()='container'][2]">
+            <xsl:when test="count(*[local-name()='did']/*[local-name()='container']) = 2">
                <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                               border-bottom-style="solid"
                               padding="8px">
@@ -375,6 +368,25 @@ Changes:
                      <xsl:value-of select="*[local-name()='did']/*[local-name()='container'][2]"/>
                   </fo:block>
                </fo:table-cell>
+            </xsl:when>
+            <xsl:when test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container']">
+               <xsl:choose>
+                  <xsl:when test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container'][2]">
+                     <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
+                                    border-bottom-style="solid"
+                                    padding="8px"
+                                    number-columns-spanned="2">
+                        <fo:block/>
+                     </fo:table-cell>
+                  </xsl:when>
+                  <xsl:otherwise>
+                     <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
+                                    border-bottom-style="solid"
+                                    padding="8px">
+                        <fo:block/>
+                     </fo:table-cell>
+                  </xsl:otherwise>
+               </xsl:choose>
             </xsl:when>
          </xsl:choose>
          <xsl:variable select="count(../../preceding-sibling::*)+1" name="pppos"/>
@@ -462,7 +474,7 @@ Changes:
          </xsl:call-template>
       </xsl:variable>
       <!-- if none of the container variables contains any data, the row will not be created --><xsl:if test="string($first_container) or string($second_container)">
-         <fo:table-row width="100%">
+         <fo:table-row>
             <xsl:choose><!-- for two containers --><xsl:when test="*[local-name()='did']/*[local-name()='container'][2]">
                   <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                                  border-bottom-style="solid"
@@ -489,26 +501,39 @@ Changes:
                                  padding="8px">
                      <fo:block/>
                   </fo:table-cell>
-                  <xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
-                     <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
-                                    border-bottom-style="solid"
-                                    padding="8px">
-                        <fo:block/>
-                     </fo:table-cell>
-                  </xsl:if>
+                  <xsl:choose>
+                     <xsl:when test="count(//*[local-name()='c02']) &gt; 0">
+                        <xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+                           <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
+                                          border-bottom-style="solid"
+                                          padding="8px">
+                              <fo:block/>
+                           </fo:table-cell>
+                        </xsl:if>
+                     </xsl:when>
+                     <xsl:otherwise>
+                        <xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='unitdate']">
+                           <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
+                                          border-bottom-style="solid"
+                                          padding="8px">
+                              <fo:block/>
+                           </fo:table-cell>
+                        </xsl:if>
+                     </xsl:otherwise>
+                  </xsl:choose>
                </xsl:when>
                <!-- for one container --><xsl:otherwise>
                   <xsl:variable name="container_colspan">
                      <xsl:choose>
-                        <xsl:when test="ancestor::*[local-name()='dsc'][@type='in-depth']">
+                        <xsl:when test="count(//*[local-name()='c02']) &gt; 0">
                            <xsl:choose>
-                              <xsl:when test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='did']/*[local-name()='container'][2]">2</xsl:when>
+                              <xsl:when test="ancestor::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container'][2]">2</xsl:when>
                               <xsl:otherwise>1</xsl:otherwise>
                            </xsl:choose>
                         </xsl:when>
                         <xsl:otherwise>
                            <xsl:choose>
-                              <xsl:when test="ancestor::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container'][2]">2</xsl:when>
+                              <xsl:when test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='did']/*[local-name()='container'][2]">2</xsl:when>
                               <xsl:otherwise>1</xsl:otherwise>
                            </xsl:choose>
                         </xsl:otherwise>
@@ -530,13 +555,26 @@ Changes:
                                  padding="8px">
                      <fo:block/>
                   </fo:table-cell>
-                  <xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
-                     <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
-                                    border-bottom-style="solid"
-                                    padding="8px">
-                        <fo:block/>
-                     </fo:table-cell>
-                  </xsl:if>
+                  <xsl:choose>
+                     <xsl:when test="count(//*[local-name()='c02']) &gt; 0">
+                        <xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+                           <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
+                                          border-bottom-style="solid"
+                                          padding="8px">
+                              <fo:block/>
+                           </fo:table-cell>
+                        </xsl:if>
+                     </xsl:when>
+                     <xsl:otherwise>
+                        <xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='unitdate']">
+                           <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
+                                          border-bottom-style="solid"
+                                          padding="8px">
+                              <fo:block/>
+                           </fo:table-cell>
+                        </xsl:if>
+                     </xsl:otherwise>
+                  </xsl:choose>
                </xsl:otherwise>
             </xsl:choose>
          </fo:table-row>
@@ -776,16 +814,30 @@ Changes:
                </xsl:choose>
                <!-- END what if no unitititle--></fo:block>
             <!-- March 2015: Adding container display as per revision specification 7.1.2 --><xsl:if test="count(*[local-name()='container']) &gt; 0">
-               <fo:block margin-bottom="10px">
-                  <strong>Container(s): </strong>
-                  <xsl:apply-templates select="*[local-name()='container']" mode="c01"/>
-               </fo:block>
+               <xsl:choose>
+                  <xsl:when test="*[local-name()='table']">
+                     <xsl:apply-templates select="*[local-name()='table']"/>
+                  </xsl:when>
+                  <xsl:otherwise>
+                     <fo:block margin-bottom="10px">
+                        <strong>Container(s): </strong>
+                        <xsl:apply-templates select="*[local-name()='container']" mode="c01"/>
+                     </fo:block>
+                  </xsl:otherwise>
+               </xsl:choose>
             </xsl:if>
             <!-- May 2015: Adding abstract, which had not previously been displayed --><xsl:if test="count(*[local-name()='abstract']) &gt; 0">
-               <fo:block margin-bottom="10px">
-                  <strong>Abstract: </strong>
-                  <xsl:apply-templates select="*[local-name()='abstract']"/>
-               </fo:block>
+               <xsl:choose>
+                  <xsl:when test="*[local-name()='table']">
+                     <xsl:apply-templates select="*[local-name()='table']"/>
+                  </xsl:when>
+                  <xsl:otherwise>
+                     <fo:block margin-bottom="10px">
+                        <strong>Abstract: </strong>
+                        <xsl:apply-templates select="*[local-name()='abstract']"/>
+                     </fo:block>
+                  </xsl:otherwise>
+               </xsl:choose>
             </xsl:if>
          </xsl:when>
          <!-- eliminated old code from 2004-09-26 that treated the unitdate for idu, ohy, orcsar, orcs, opvt, mtg, and waps differently --><!-- carlsonm This is where the unittitle info is output when it is a c01 list only --><xsl:otherwise>
@@ -831,16 +883,30 @@ Changes:
 					--><xsl:otherwise>Subordinate Component</xsl:otherwise>
             </xsl:choose>
             <!-- END what if no unitititle--><!-- March 2015: Adding container display as per revision specification 7.1.2 --><xsl:if test="count(*[local-name()='container']) &gt; 0">
-               <fo:block margin-bottom="10px">
-                  <strong>Container(s): </strong>
-                  <xsl:apply-templates select="*[local-name()='container']" mode="c01"/>
-               </fo:block>
+               <xsl:choose>
+                  <xsl:when test="*[local-name()='table']">
+                     <xsl:apply-templates select="*[local-name()='table']"/>
+                  </xsl:when>
+                  <xsl:otherwise>
+                     <fo:block margin-bottom="10px">
+                        <strong>Container(s): </strong>
+                        <xsl:apply-templates select="*[local-name()='container']" mode="c01"/>
+                     </fo:block>
+                  </xsl:otherwise>
+               </xsl:choose>
             </xsl:if>
             <!-- May 2015: Adding abstract, which had not previously been displayed --><xsl:if test="count(*[local-name()='abstract']) &gt; 0">
-               <fo:block margin-bottom="10px">
-                  <strong>Abstract: </strong>
-                  <xsl:apply-templates select="*[local-name()='abstract']"/>
-               </fo:block>
+               <xsl:choose>
+                  <xsl:when test="*[local-name()='table']">
+                     <xsl:apply-templates select="*[local-name()='table']"/>
+                  </xsl:when>
+                  <xsl:otherwise>
+                     <fo:block margin-bottom="10px">
+                        <strong>Abstract: </strong>
+                        <xsl:apply-templates select="*[local-name()='abstract']"/>
+                     </fo:block>
+                  </xsl:otherwise>
+               </xsl:choose>
             </xsl:if>
          </xsl:otherwise>
       </xsl:choose>
