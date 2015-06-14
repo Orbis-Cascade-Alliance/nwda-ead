@@ -253,88 +253,61 @@
 		<fo:table>
 			<xsl:attribute name="table-layout">fixed</xsl:attribute>
 			<!-- create conditional for dsc tables -->
-			<xsl:choose>
-				<xsl:when test="ancestor::xsl:template[@name='dsc_table'] or ancestor::xsl:template[@name='dsc']">					
-					<!-- construct an xsl:if within the XSL:FO to test for container[2] -->
-					<xsl:element name="xsl:choose">
-						<!-- when there are two containers -->
-						<xsl:element name="xsl:when">
-							<xsl:attribute name="test">descendant::*[local-name()='did']/*[local-name()='container'][2]</xsl:attribute>
-							<!-- when there is a unitdate, include column for unitdate -->
-							<xsl:element name="xsl:choose">
-								<xsl:element name="xsl:when">
-									<xsl:attribute name="test">descendant::*[local-name()='did']/*[local-name()='unitdate']</xsl:attribute>
-									<fo:table-column column-width="10%"/>
-									<fo:table-column column-width="10%"/>
-									<fo:table-column column-width="60%"/>
-									<fo:table-column column-width="20%"/>
-								</xsl:element>
-								<xsl:element name="xsl:otherwise">
-									<fo:table-column column-width="10%"/>
-									<fo:table-column column-width="10%"/>
-									<fo:table-column column-width="80%"/>
-								</xsl:element>
+			<xsl:if test="ancestor::xsl:template[@name='dsc_table'] or ancestor::xsl:template[@name='dsc']">					
+				<!-- construct an xsl:if within the XSL:FO to test for container[2] -->
+				<xsl:element name="xsl:choose">
+					<!-- when there are two containers -->
+					<xsl:element name="xsl:when">
+						<xsl:attribute name="test">descendant::*[local-name()='did']/*[local-name()='container'][2]</xsl:attribute>
+						<!-- when there is a unitdate, include column for unitdate -->
+						<xsl:element name="xsl:choose">
+							<xsl:element name="xsl:when">
+								<xsl:attribute name="test">descendant::*[local-name()='did']/*[local-name()='unitdate']</xsl:attribute>
+								<fo:table-column column-width="10%"/>
+								<fo:table-column column-width="10%"/>
+								<fo:table-column column-width="60%"/>
+								<fo:table-column column-width="20%"/>
 							</xsl:element>
-						</xsl:element>
-						<!-- when there are not containers -->
-						<xsl:element name="xsl:when">
-							<xsl:attribute name="test">not(descendant::*[local-name()='did']/*[local-name()='container'])</xsl:attribute>
-							<!-- when there is a unitdate, include column for unitdate -->
-							<xsl:element name="xsl:choose">
-								<xsl:element name="xsl:when">
-									<xsl:attribute name="test">descendant::*[local-name()='did']/*[local-name()='unitdate']</xsl:attribute>
-									<fo:table-column column-width="80%"/>
-									<fo:table-column column-width="20%"/>
-								</xsl:element>
-								<xsl:element name="xsl:otherwise">
-									<fo:table-column column-width="100%"/>
-								</xsl:element>
-							</xsl:element>
-						</xsl:element>
-						<!-- when there is one container -->
-						<xsl:element name="xsl:otherwise">
-							<!-- when there is a unitdate, include column for unitdate -->
-							<xsl:element name="xsl:choose">
-								<xsl:element name="xsl:when">
-									<xsl:attribute name="test">descendant::*[local-name()='did']/*[local-name()='unitdate']</xsl:attribute>
-									<fo:table-column column-width="15%"/>
-									<fo:table-column column-width="65%"/>
-									<fo:table-column column-width="20%"/>
-								</xsl:element>
-								<xsl:element name="xsl:otherwise">
-									<fo:table-column column-width="20%"/>
-									<fo:table-column column-width="80%"/>
-								</xsl:element>
+							<xsl:element name="xsl:otherwise">
+								<fo:table-column column-width="10%"/>
+								<fo:table-column column-width="10%"/>
+								<fo:table-column column-width="80%"/>
 							</xsl:element>
 						</xsl:element>
 					</xsl:element>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:element name="xsl:choose">
-						<!-- when there is a colspec -->
-						<xsl:element name="xsl:when">
-							<xsl:attribute name="test">count(descendant::*[local-name()='colspec']) &gt; 0</xsl:attribute>
-							<xsl:element name="xsl:variable">
-								<xsl:attribute name="name">count</xsl:attribute>
-								<xsl:element name="xsl:value-of">
-									<xsl:attribute name="select">count(descendant::*[local-name()='colspec'])</xsl:attribute>
-								</xsl:element>
+					<!-- when there are not containers -->
+					<xsl:element name="xsl:when">
+						<xsl:attribute name="test">not(descendant::*[local-name()='did']/*[local-name()='container'])</xsl:attribute>
+						<!-- when there is a unitdate, include column for unitdate -->
+						<xsl:element name="xsl:choose">
+							<xsl:element name="xsl:when">
+								<xsl:attribute name="test">descendant::*[local-name()='did']/*[local-name()='unitdate']</xsl:attribute>
+								<fo:table-column column-width="80%"/>
+								<fo:table-column column-width="20%"/>
 							</xsl:element>
-							<xsl:element name="xsl:for-each">
-								<xsl:attribute name="select">descendant::*[local-name()='colspec']</xsl:attribute>
-								<fo:table-column>
-									<xsl:attribute name="column-width">{floor(100 div $count)}%</xsl:attribute>
-								</fo:table-column>
+							<xsl:element name="xsl:otherwise">
+								<fo:table-column column-width="100%"/>
 							</xsl:element>
-						</xsl:element>
-						<xsl:element name="xsl:otherwise">
-							
 						</xsl:element>
 					</xsl:element>
-				</xsl:otherwise>
-			</xsl:choose>
-			
-
+					<!-- when there is one container -->
+					<xsl:element name="xsl:otherwise">
+						<!-- when there is a unitdate, include column for unitdate -->
+						<xsl:element name="xsl:choose">
+							<xsl:element name="xsl:when">
+								<xsl:attribute name="test">descendant::*[local-name()='did']/*[local-name()='unitdate']</xsl:attribute>
+								<fo:table-column column-width="15%"/>
+								<fo:table-column column-width="65%"/>
+								<fo:table-column column-width="20%"/>
+							</xsl:element>
+							<xsl:element name="xsl:otherwise">
+								<fo:table-column column-width="20%"/>
+								<fo:table-column column-width="80%"/>
+							</xsl:element>
+						</xsl:element>
+					</xsl:element>
+				</xsl:element>
+			</xsl:if>
 			<xsl:apply-templates/>
 		</fo:table>
 	</xsl:template>
@@ -356,8 +329,9 @@
 			<xsl:apply-templates/>
 		</fo:table-row>
 	</xsl:template>
-
-
+	
+	<!-- ignore caption, which is the table/head in EAD -->
+	<xsl:template match="caption"/>
 
 	<xsl:template match="td">
 		<fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px" border-bottom-style="solid" padding="8px">
@@ -388,7 +362,7 @@
 	</xsl:template>
 
 	<xsl:template match="th">
-		<fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px" border-bottom-style="solid" padding="8px">
+		<fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px" border-bottom-style="solid" padding="8px" font-weight="bold">
 			<xsl:if test="@colspan">
 				<xsl:attribute name="number-columns-spanned">
 					<xsl:value-of select="@colspan"/>

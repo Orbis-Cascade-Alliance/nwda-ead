@@ -694,17 +694,6 @@ Mark Carlson
       </xsl:if>
       <fo:block>
          <fo:table table-layout="fixed">
-            <xsl:choose>
-               <xsl:when test="count(descendant::*[local-name()='colspec']) &gt; 0">
-                  <xsl:variable name="count">
-                     <xsl:value-of select="count(descendant::*[local-name()='colspec'])"/>
-                  </xsl:variable>
-                  <xsl:for-each select="descendant::*[local-name()='colspec']">
-                     <fo:table-column column-width="{floor(100 div $count)}%"/>
-                  </xsl:for-each>
-               </xsl:when>
-               <xsl:otherwise/>
-            </xsl:choose>
             <xsl:apply-templates select="*[local-name()='p']"/>
             <xsl:apply-templates select="*[local-name()='listhead']"/>
             <fo:table-body>
@@ -719,14 +708,16 @@ Mark Carlson
          <fo:table-row>
             <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
                            border-bottom-style="solid"
-                           padding="8px">
+                           padding="8px"
+                           font-weight="bold">
                <fo:block>
                   <xsl:apply-templates select="*[local-name()='head01']"/>
                </fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
                            border-bottom-style="solid"
-                           padding="8px">
+                           padding="8px"
+                           font-weight="bold">
                <fo:block>
                   <xsl:apply-templates select="*[local-name()='head02']"/>
                </fo:block>

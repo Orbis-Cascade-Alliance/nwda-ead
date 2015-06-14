@@ -6,19 +6,13 @@
                 exclude-result-prefixes="fo ead">
    <xsl:template match="*[local-name()='table']">
       <fo:table table-layout="fixed">
-         <xsl:choose>
-            <xsl:when test="count(descendant::*[local-name()='colspec']) &gt; 0">
-               <xsl:variable name="count">
-                  <xsl:value-of select="count(descendant::*[local-name()='colspec'])"/>
-               </xsl:variable>
-               <xsl:for-each select="descendant::*[local-name()='colspec']">
-                  <fo:table-column column-width="{floor(100 div $count)}%"/>
-               </xsl:for-each>
-            </xsl:when>
-            <xsl:otherwise/>
-         </xsl:choose>
          <xsl:apply-templates/>
       </fo:table>
+   </xsl:template>
+   <xsl:template match="*[local-name()='tbody']">
+      <fo:table-body>
+         <xsl:apply-templates/>
+      </fo:table-body>
    </xsl:template>
    <xsl:template match="*[local-name()='thead']">
       <fo:table-header>
@@ -26,7 +20,8 @@
             <xsl:for-each select=".//*[local-name()='entry']">
                <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
                               border-bottom-style="solid"
-                              padding="8px">
+                              padding="8px"
+                              font-weight="bold">
                   <fo:block>
                      <xsl:apply-templates/>
                   </fo:block>
@@ -48,6 +43,7 @@
          </xsl:for-each>
       </fo:table-row>
    </xsl:template>
+   <xsl:template match="*[local-name()='table']/*[local-name()='head']"/>
 </xsl:stylesheet>
 <!-- Stylus Studio meta-information - (c)1998-2004. Sonic Software Corporation. All rights reserved.
 <metaInformation>

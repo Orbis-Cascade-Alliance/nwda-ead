@@ -1,9 +1,14 @@
 <?xml version="1.0"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format"  xmlns:ead="urn:isbn:1-931666-22-9" exclude-result-prefixes="fo ead">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:ead="urn:isbn:1-931666-22-9" exclude-result-prefixes="fo ead">
 	<xsl:template match="*[local-name()='table']">
 		<table class="table table-striped">
 			<xsl:apply-templates/>
 		</table>
+	</xsl:template>
+	<xsl:template match="*[local-name()='tbody']">
+		<tbody>
+			<xsl:apply-templates/>
+		</tbody>
 	</xsl:template>
 	<xsl:template match="*[local-name()='thead']">
 		<thead>
@@ -11,19 +16,24 @@
 				<xsl:for-each select=".//*[local-name()='entry']">
 					<th>
 						<xsl:apply-templates/>
-					</th>					
+					</th>
 				</xsl:for-each>
 			</tr>
-		</thead>		
+		</thead>
 	</xsl:template>
 	<xsl:template match="*[local-name()='row']">
 		<tr>
 			<xsl:for-each select="./*[local-name()='entry']">
 				<td>
 					<xsl:apply-templates/>
-				</td>				
+				</td>
 			</xsl:for-each>
 		</tr>
+	</xsl:template>
+	<xsl:template match="*[local-name()='table']/*[local-name()='head']">
+		<caption>
+			<xsl:value-of select="."/>
+		</caption>
 	</xsl:template>
 </xsl:stylesheet>
 <!-- Stylus Studio meta-information - (c)1998-2004. Sonic Software Corporation. All rights reserved.

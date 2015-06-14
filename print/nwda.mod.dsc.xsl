@@ -289,21 +289,24 @@ Changes:
                   <xsl:when test="descendant::*[local-name()='did'][count(*[local-name()='container']) = 2]">
                      <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
                                     border-bottom-style="solid"
-                                    padding="8px">
+                                    padding="8px"
+                                    font-weight="bold">
                         <fo:block>
                            <fo:inline font-size="85%" font-weight="bold">Container(s)</fo:inline>
                         </fo:block>
                      </fo:table-cell>
                      <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
                                     border-bottom-style="solid"
-                                    padding="8px">
+                                    padding="8px"
+                                    font-weight="bold">
                         <fo:block/>
                      </fo:table-cell>
                   </xsl:when>
                   <xsl:otherwise>
                      <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
                                     border-bottom-style="solid"
-                                    padding="8px">
+                                    padding="8px"
+                                    font-weight="bold">
                         <fo:block>
                            <fo:inline font-size="85%" font-weight="bold">Container(s)</fo:inline>
                         </fo:block>
@@ -313,7 +316,8 @@ Changes:
             </xsl:if>
             <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
                            border-bottom-style="solid"
-                           padding="8px">
+                           padding="8px"
+                           font-weight="bold">
                <fo:block>
                   <fo:inline font-size="85%" font-weight="bold">Description</fo:inline>
                </fo:block>
@@ -321,7 +325,8 @@ Changes:
             <xsl:if test="string(descendant::*[local-name()='unitdate'])">
                <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
                               border-bottom-style="solid"
-                              padding="8px">
+                              padding="8px"
+                              font-weight="bold">
                   <fo:block>
                      <fo:inline font-size="85%" font-weight="bold">Dates</fo:inline>
                   </fo:block>
