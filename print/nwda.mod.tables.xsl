@@ -5,8 +5,14 @@
                 version="1.0"
                 exclude-result-prefixes="fo ead">
    <xsl:template match="*[local-name()='table']">
+      <xsl:if test="*[local-name()='head']">
+         <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
+                   font-weight="bold">
+            <xsl:value-of select="*[local-name()='head']"/>
+         </fo:block>
+      </xsl:if>
       <fo:table table-layout="fixed">
-         <xsl:apply-templates/>
+         <xsl:apply-templates select="*[not(local-name()='head')]"/>
       </fo:table>
    </xsl:template>
    <xsl:template match="*[local-name()='tbody']">
@@ -43,7 +49,6 @@
          </xsl:for-each>
       </fo:table-row>
    </xsl:template>
-   <xsl:template match="*[local-name()='table']/*[local-name()='head']"/>
 </xsl:stylesheet>
 <!-- Stylus Studio meta-information - (c)1998-2004. Sonic Software Corporation. All rights reserved.
 <metaInformation>
