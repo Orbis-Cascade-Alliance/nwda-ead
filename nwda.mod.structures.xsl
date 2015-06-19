@@ -818,14 +818,17 @@ Mark Carlson
 		</xsl:if>
 
 		<div class="{$class}">
-			<table class="table table-striped">
-				<xsl:apply-templates select="*[local-name()='p']"/>
-				<xsl:apply-templates select="*[local-name()='listhead']"/>
-				<tbody>
-					<xsl:apply-templates select="*[local-name()='indexentry']"/>
-				</tbody>
-
-			</table>
+			<xsl:apply-templates select="*[local-name()='p']"/>
+			<xsl:apply-templates select="*[local-name()='listhead']"/>
+			<xsl:if test="count(*[local-name()='indexentry']) &gt; 0">
+				<ul>
+					<xsl:for-each select="*[local-name()='indexentry']">
+						<li>
+							<xsl:apply-templates/>
+						</li>
+					</xsl:for-each>
+				</ul>
+			</xsl:if>
 		</div>
 		<xsl:call-template name="sect_separator"/>
 	</xsl:template>

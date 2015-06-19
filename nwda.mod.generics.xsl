@@ -76,7 +76,7 @@ Major or significant revision history:
 	</xsl:template>
 
 	<xsl:template match="*[local-name()='item'] | *[local-name()='indexentry']">
-		<li class="{name()}">
+		<li>
 			<xsl:apply-templates/>
 		</li>
 	</xsl:template>
@@ -95,7 +95,7 @@ Major or significant revision history:
 	</xsl:template>
 
 	<xsl:template match="*[local-name()='defitem']">
-		<li class="{name()}">
+		<li>
 			<xsl:if test="./*[local-name()='label']">
 				<b>
 					<xsl:value-of select="*[local-name()='label']"/>
@@ -143,10 +143,11 @@ Major or significant revision history:
 				<xsl:apply-templates select="*[local-name()='head']"/>
 			</h5>
 		</xsl:if>
-		<ul>
-			
-			<xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
-		</ul>
+		<xsl:if test="*[local-name()='item'] or *[local-name()='defitem'] or *[local-name()='indexentry']">
+			<ul>			
+				<xsl:apply-templates select="*[local-name()='item']|*[local-name()='defitem']|*[local-name()='indexentry']"/>
+			</ul>
+		</xsl:if>		
 	</xsl:template>
 
 	<xsl:template match="*[local-name()='fileplan'] | *[local-name()='bibliography']">

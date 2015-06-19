@@ -160,7 +160,7 @@ Changes:
 				<!-- calls the labels for the table -->
 				<xsl:call-template name="table_label"/>
 				<tbody>
-					<xsl:if test="@level='item' or @level='file'">
+					<xsl:if test="@level='item' or @level='file' and descendant::*[local-name()='container']">
 						<tr>
 							<td>
 								<span class="containerLabel">
@@ -235,15 +235,7 @@ Changes:
 	<xsl:template
 		match="*[local-name()='c02']|*[local-name()='c03']|*[local-name()='c04']|*[local-name()='c05']|*[local-name()='c06']|*[local-name()='c07']|*[local-name()='c08']|*[local-name()='c09']|*[local-name()='c10']|*[local-name()='c11']|*[local-name()='c12']">
 
-		<!-- this determines the number of containers (max of 2) so that when the template is called to display the text in the container
-			field, a paramer is passed to display the data of did/container[$container_number].  this has replaced slews of conditionals that 
-			nested tables -->
-		<xsl:if test="@id">
-			<a id="{@id}"/>
-		</xsl:if>
-
 		<!-- ********* ROW FOR DISPLAYING CONTAINER TYPES ********* -->
-
 		<xsl:if test="*[local-name()='did']/*[local-name()='container']">
 			<xsl:call-template name="container_row"/>
 		</xsl:if>

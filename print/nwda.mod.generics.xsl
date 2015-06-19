@@ -148,9 +148,11 @@ Major or significant revision history:
             <xsl:apply-templates select="*[local-name()='head']"/>
          </fo:block>
       </xsl:if>
-      <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
-         <xsl:apply-templates select="./*[not(self::*[local-name()='head'])]"/>
-      </fo:list-block>
+      <xsl:if test="*[local-name()='item'] or *[local-name()='defitem'] or *[local-name()='indexentry']">
+         <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
+            <xsl:apply-templates select="*[local-name()='item']|*[local-name()='defitem']|*[local-name()='indexentry']"/>
+         </fo:list-block>
+      </xsl:if>
    </xsl:template>
    <xsl:template match="*[local-name()='fileplan'] | *[local-name()='bibliography']">
       <xsl:if test="*[local-name()='head']">
