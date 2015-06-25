@@ -255,7 +255,7 @@ Other FA's to check: James F. Bishop (OSU Archives)
 
 			<xsl:choose>
 				<xsl:when test="string-length($facet) &gt; 0">
-					<a href="{$serverURL}/search/results.aspx?t=i&amp;{$facet}={translate(normalize-space(.), ' ', '+')}">
+					<a href="{$serverURL}/search/results.aspx?t=i&amp;q=0&amp;{$facet}={translate(normalize-space(.), ' ', '+')}">
 						<xsl:value-of select="normalize-space(.)"/>
 					</a>
 				</xsl:when>
