@@ -152,7 +152,7 @@ Changes:
                      <xsl:call-template name="c0x_children"/>
                   </fo:block>
                </fo:table-cell>
-               <xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='unitdate']">
+               <xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='did']/*[local-name()='unitdate']">
                   <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                                  border-bottom-style="solid"
                                  padding="8px">
@@ -222,7 +222,7 @@ Changes:
             </xsl:choose>
             <!-- calls the labels for the table --><xsl:call-template name="table_label"/>
             <fo:table-body>
-               <xsl:if test="@level='item' or @level='file' and descendant::*[local-name()='container']">
+               <xsl:if test="(@level='item' or @level='file') and descendant::*[local-name()='container']">
                   <fo:table-row>
                      <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                                     border-bottom-style="solid"
@@ -322,7 +322,7 @@ Changes:
                   <fo:inline font-size="85%" font-weight="bold">Description</fo:inline>
                </fo:block>
             </fo:table-cell>
-            <xsl:if test="string(descendant::*[local-name()='unitdate'])">
+            <xsl:if test="string(descendant::*[local-name()='did']/*[local-name()='unitdate'])">
                <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
                               border-bottom-style="solid"
                               padding="8px"
@@ -432,7 +432,7 @@ Changes:
                </fo:block>
             </fo:block>
          </fo:table-cell>
-         <!-- if the date layout is columnar, then the column is displayed --><xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+         <!-- if the date layout is columnar, then the column is displayed --><xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='unitdate']">
             <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                            border-bottom-style="solid"
                            padding="8px">
@@ -505,7 +505,7 @@ Changes:
                   </fo:table-cell>
                   <xsl:choose>
                      <xsl:when test="count(//*[local-name()='c02']) &gt; 0">
-                        <xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+                        <xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='unitdate']">
                            <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                                           border-bottom-style="solid"
                                           padding="8px">
@@ -514,7 +514,7 @@ Changes:
                         </xsl:if>
                      </xsl:when>
                      <xsl:otherwise>
-                        <xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='unitdate']">
+                        <xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='did']/*[local-name()='unitdate']">
                            <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                                           border-bottom-style="solid"
                                           padding="8px">
@@ -559,7 +559,7 @@ Changes:
                   </fo:table-cell>
                   <xsl:choose>
                      <xsl:when test="count(//*[local-name()='c02']) &gt; 0">
-                        <xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+                        <xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='unitdate']">
                            <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                                           border-bottom-style="solid"
                                           padding="8px">
@@ -568,7 +568,7 @@ Changes:
                         </xsl:if>
                      </xsl:when>
                      <xsl:otherwise>
-                        <xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='unitdate']">
+                        <xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='did']/*[local-name()='unitdate']">
                            <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                                           border-bottom-style="solid"
                                           padding="8px">

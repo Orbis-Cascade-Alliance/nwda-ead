@@ -819,21 +819,19 @@ Mark Carlson
 
 		<div class="{$class}">
 			<xsl:apply-templates select="*[local-name()='p']"/>
-			<xsl:apply-templates select="*[local-name()='listhead']"/>
 			<xsl:if test="count(*[local-name()='indexentry']) &gt; 0">
-				<ul>
-					<xsl:for-each select="*[local-name()='indexentry']">
-						<li>
-							<xsl:apply-templates/>
-						</li>
-					</xsl:for-each>
-				</ul>
+				<table class="table table-striped">
+					<xsl:apply-templates select="*[local-name()='listhead']" mode="index"/>
+					<tbody>
+						<xsl:apply-templates select="*[local-name()='indexentry']" mode="index"/>
+					</tbody>
+				</table>				
 			</xsl:if>
 		</div>
 		<xsl:call-template name="sect_separator"/>
 	</xsl:template>
 
-	<xsl:template match="*[local-name()='listhead']">
+	<xsl:template match="*[local-name()='listhead']" mode="index">
 		<thead>
 			<tr>
 				<th style="width:50%">
@@ -847,7 +845,7 @@ Mark Carlson
 
 	</xsl:template>
 
-	<xsl:template match="*[local-name()='indexentry']">
+	<xsl:template match="*[local-name()='indexentry']" mode="index">
 		<tr>
 			<td>
 				<xsl:apply-templates select="*[local-name()='corpname'] | *[local-name()='famname'] | *[local-name()='function'] | *[local-name()='genreform'] | *[local-name()='geogname'] |

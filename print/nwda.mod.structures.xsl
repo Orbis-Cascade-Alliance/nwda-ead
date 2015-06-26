@@ -694,27 +694,18 @@ Mark Carlson
       </xsl:if>
       <fo:block>
          <xsl:apply-templates select="*[local-name()='p']"/>
-         <xsl:apply-templates select="*[local-name()='listhead']"/>
          <xsl:if test="count(*[local-name()='indexentry']) &gt; 0">
-            <fo:list-block provisional-distance-between-starts="15px" provisional-label-separation="5px">
-               <xsl:for-each select="*[local-name()='indexentry']">
-                  <fo:list-item>
-                     <fo:list-item-label end-indent="label-end()">
-                        <fo:block/>
-                     </fo:list-item-label>
-                     <fo:list-item-body start-indent="body-start()">
-                        <fo:block>
-                           <xsl:apply-templates/>
-                        </fo:block>
-                     </fo:list-item-body>
-                  </fo:list-item>
-               </xsl:for-each>
-            </fo:list-block>
+            <fo:table table-layout="fixed">
+               <xsl:apply-templates select="*[local-name()='listhead']" mode="index"/>
+               <fo:table-body>
+                  <xsl:apply-templates select="*[local-name()='indexentry']" mode="index"/>
+               </fo:table-body>
+            </fo:table>
          </xsl:if>
       </fo:block>
       <xsl:call-template name="sect_separator"/>
    </xsl:template>
-   <xsl:template match="*[local-name()='listhead']">
+   <xsl:template match="*[local-name()='listhead']" mode="index">
       <fo:table-header>
          <fo:table-row>
             <fo:table-cell border-bottom-color="#ddd" border-bottom-width="2px"
@@ -736,7 +727,7 @@ Mark Carlson
          </fo:table-row>
       </fo:table-header>
    </xsl:template>
-   <xsl:template match="*[local-name()='indexentry']">
+   <xsl:template match="*[local-name()='indexentry']" mode="index">
       <fo:table-row>
          <fo:table-cell border-bottom-color="#ddd" border-bottom-width="1px"
                         border-bottom-style="solid"

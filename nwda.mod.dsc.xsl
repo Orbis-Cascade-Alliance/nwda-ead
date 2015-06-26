@@ -130,7 +130,7 @@ Changes:
 						<xsl:call-template name="c0x_children"/>
 					</td>
 
-					<xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='unitdate']">
+					<xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='did']/*[local-name()='unitdate']">
 						<td class="c0x_date">
 							<xsl:for-each select="*[local-name()='did']/*[local-name()='unitdate']">
 								<xsl:value-of select="."/>
@@ -160,7 +160,7 @@ Changes:
 				<!-- calls the labels for the table -->
 				<xsl:call-template name="table_label"/>
 				<tbody>
-					<xsl:if test="@level='item' or @level='file' and descendant::*[local-name()='container']">
+					<xsl:if test="(@level='item' or @level='file') and descendant::*[local-name()='container']">
 						<tr>
 							<td>
 								<span class="containerLabel">
@@ -222,7 +222,7 @@ Changes:
 					<span class="c0x_header">Description</span>
 				</th>
 
-				<xsl:if test="string(descendant::*[local-name()='unitdate'])">
+				<xsl:if test="string(descendant::*[local-name()='did']/*[local-name()='unitdate'])">
 					<th class="c0x_date">
 						<span class="c0x_header">Dates</span>
 					</th>
@@ -318,7 +318,7 @@ Changes:
 				</div>
 			</td>
 			<!-- if the date layout is columnar, then the column is displayed -->
-			<xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+			<xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='unitdate']">
 				<td class="c0x_date">
 					<xsl:for-each select="*[local-name()='did']/*[local-name()='unitdate']">
 						<xsl:choose>
@@ -395,12 +395,12 @@ Changes:
 						<td/>
 						<xsl:choose>
 							<xsl:when test="count(//*[local-name()='c02']) &gt; 0">
-								<xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+								<xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='unitdate']">
 									<td class="c0x_date"/>
 								</xsl:if>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='unitdate']">
+								<xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='did']/*[local-name()='unitdate']">
 									<td class="c0x_date"/>
 								</xsl:if>
 							</xsl:otherwise>
@@ -433,12 +433,12 @@ Changes:
 						<td/>
 						<xsl:choose>
 							<xsl:when test="count(//*[local-name()='c02']) &gt; 0">
-								<xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='unitdate']">
+								<xsl:if test="ancestor::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='unitdate']">
 									<td class="c0x_date"/>
 								</xsl:if>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='unitdate']">
+								<xsl:if test="ancestor::*[local-name()='dsc']/descendant::*[local-name()='did']/*[local-name()='unitdate']">
 									<td class="c0x_date"/>
 								</xsl:if>
 							</xsl:otherwise>
