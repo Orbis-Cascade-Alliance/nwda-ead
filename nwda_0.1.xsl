@@ -88,7 +88,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 			skos: http://www.w3.org/2004/02/skos/core#    dcterms: http://purl.org/dc/terms/    arch: http://purl.org/archival/vocab/arch#    xsd: http://www.w3.org/2001/XMLSchema#">
 			<head>
 				<title>
-					<xsl:text>Northwest Digital Archives: </xsl:text>
+					<xsl:text>Archives West: </xsl:text>
 					<xsl:value-of select="$titleproper"/>
 				</title>
 				<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
