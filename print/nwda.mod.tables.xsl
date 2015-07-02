@@ -6,7 +6,7 @@
                 exclude-result-prefixes="fo ead">
    <xsl:template match="*[local-name()='table']">
       <xsl:if test="*[local-name()='head']">
-         <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
+         <fo:block font-size="14px" color="#666666" margin-bottom="10px" margin-top="10px"
                    font-weight="bold">
             <xsl:value-of select="*[local-name()='head']"/>
          </fo:block>

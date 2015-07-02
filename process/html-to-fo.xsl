@@ -5,6 +5,11 @@
 	<xsl:strip-space elements="*"/>
 	<xsl:output encoding="UTF-8" method="xml" indent="yes"/>
 
+	<xsl:variable name="font-color">#666666</xsl:variable>
+	<xsl:variable name="header-color">#6c34a8</xsl:variable>
+	<xsl:variable name="link-color">#337ab7</xsl:variable>
+	<xsl:variable name="font-family">Verdana,Arial,Helvetica,Sans</xsl:variable>
+
 	<xsl:template match="@*|node()">
 		<xsl:copy>
 			<xsl:apply-templates select="*|@*|text()|processing-instruction()|comment()"/>
@@ -56,7 +61,7 @@
 	<xsl:template match="xsl:template[@name='html_base']">
 		<xsl:element name="xsl:template">
 			<xsl:attribute name="name">html_base</xsl:attribute>
-			<fo:root font-size="12px" color="#6b6b6b" font-family="georgia, 'times new roman', times, serif">
+			<fo:root font-size="11px" color="{$font-color}" font-family="{$font-family}">
 				<!--  -->
 				<fo:layout-master-set>
 					<fo:simple-page-master margin-right=".5in" margin-left=".5in" margin-bottom=".5in" margin-top=".5in" page-width="8in" page-height="11in" master-name="content">
@@ -71,7 +76,7 @@
 						</xsl:element>
 					</fo:title>
 					<fo:static-content flow-name="footer">
-						<fo:block color="#676D38" font-size="85%" intrusion-displace="line">
+						<fo:block color="{$header-color}" font-size="85%" intrusion-displace="line">
 							<fo:table>
 								<fo:table-body>
 									<fo:table-row>
@@ -107,7 +112,7 @@
 						</fo:block>
 					</fo:static-content>
 					<fo:flow flow-name="body">
-						<fo:block font-size="24px" color="#676D38">
+						<fo:block font-size="24px" color="{$header-color}">
 							<xsl:element name="xsl:value-of" namespace="http://www.w3.org/1999/XSL/Transform">
 								<xsl:attribute name="select">normalize-space(*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unittitle'])</xsl:attribute>
 							</xsl:element>
@@ -188,7 +193,9 @@
 				<fo:inline>
 					<xsl:choose>
 						<xsl:when test="@class='containerLabel'">
-							<xsl:attribute name="color">#676d38</xsl:attribute>
+							<xsl:attribute name="color">
+								<xsl:value-of select="$header-color"/>
+							</xsl:attribute>
 							<xsl:attribute name="font-size">85%</xsl:attribute>
 							<xsl:attribute name="text-decoration">none</xsl:attribute>
 							<xsl:attribute name="text-transform">capitalize</xsl:attribute>
@@ -203,23 +210,23 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
+
 
 	<!-- headings -->
 	<xsl:template match="h3">
-		<fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
+		<fo:block font-size="20px" color="{$header-color}" margin-bottom="10px" margin-top="20px">
 			<xsl:apply-templates/>
 		</fo:block>
 	</xsl:template>
 
 	<xsl:template match="h4">
-		<fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px" font-weight="bold">
+		<fo:block font-size="14px" color="{$font-color}" margin-bottom="10px" margin-top="10px" font-weight="bold">
 			<xsl:apply-templates/>
 		</fo:block>
 	</xsl:template>
-	
+
 	<xsl:template match="h5">
-		<fo:block font-size="12px" color="#6b6b6b" margin-bottom="10px" margin-top="10px" font-style="italic" font-weight="bold">
+		<fo:block font-size="12px" color="{$font-color}" margin-bottom="10px" margin-top="10px" font-style="italic" font-weight="bold">
 			<xsl:apply-templates/>
 		</fo:block>
 	</xsl:template>
@@ -245,7 +252,7 @@
 				</fo:block>
 			</xsl:element>
 		</xsl:element>
-		
+
 	</xsl:template>
 
 	<!-- tables -->
@@ -253,7 +260,7 @@
 		<fo:table>
 			<xsl:attribute name="table-layout">fixed</xsl:attribute>
 			<!-- create conditional for dsc tables -->
-			<xsl:if test="ancestor::xsl:template[@name='dsc_table'] or ancestor::xsl:template[@name='dsc']">					
+			<xsl:if test="ancestor::xsl:template[@name='dsc_table'] or ancestor::xsl:template[@name='dsc']">
 				<!-- construct an xsl:if within the XSL:FO to test for container[2] -->
 				<xsl:element name="xsl:choose">
 					<!-- when there are two containers -->
@@ -329,7 +336,7 @@
 			<xsl:apply-templates/>
 		</fo:table-row>
 	</xsl:template>
-	
+
 	<!-- ignore caption, which is the table/head in EAD -->
 	<xsl:template match="caption"/>
 
@@ -383,7 +390,7 @@
 	<xsl:template match="a">
 		<!-- ignore a tags which are not for anchor positioning -->
 		<xsl:if test="child::* or string(@*[local-name()='href'])">
-			<fo:basic-link text-decoration="underline" color="#47371f">
+			<fo:basic-link text-decoration="underline" color="{$link-color}">
 				<xsl:choose>
 					<xsl:when test="string(@*[local-name()='href'])">
 						<xsl:attribute name="external-destination">
@@ -492,7 +499,7 @@
 	<xsl:template match="font">
 		<xsl:apply-templates/>
 	</xsl:template>
-	
+
 	<!-- handle images -->
 	<xsl:template match="img">
 		<fo:external-graphic src="{@src}"/>

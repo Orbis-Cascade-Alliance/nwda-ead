@@ -11,7 +11,7 @@
                        data-target=".navbar-collapse">
                   <fo:inline>Toggle navigation</fo:inline>
                </button>
-               <fo:basic-link text-decoration="underline" color="#47371f" external-destination="/index.shtml">
+               <fo:basic-link text-decoration="underline" color="#337ab7" external-destination="/index.shtml">
                   <fo:external-graphic src="/images/logos/NWDAlogotype.gif"/>
                </fo:basic-link>
             </fo:block>
@@ -23,7 +23,7 @@
                      </fo:list-item-label>
                      <fo:list-item-body start-indent="body-start()">
                         <fo:block>
-                           <fo:basic-link text-decoration="underline" color="#47371f" external-destination="/index.shtml">home</fo:basic-link>
+                           <fo:basic-link text-decoration="underline" color="#337ab7" external-destination="/index.shtml">home</fo:basic-link>
                         </fo:block>
                      </fo:list-item-body>
                   </fo:list-item>
@@ -33,7 +33,7 @@
                      </fo:list-item-label>
                      <fo:list-item-body start-indent="body-start()">
                         <fo:block>
-                           <fo:basic-link text-decoration="underline" color="#47371f" external-destination="/search/">search</fo:basic-link>
+                           <fo:basic-link text-decoration="underline" color="#337ab7" external-destination="/search/">search</fo:basic-link>
                         </fo:block>
                      </fo:list-item-body>
                   </fo:list-item>
@@ -43,7 +43,7 @@
                      </fo:list-item-label>
                      <fo:list-item-body start-indent="body-start()">
                         <fo:block>
-                           <fo:basic-link text-decoration="underline" color="#47371f" external-destination="/about.shtml">about</fo:basic-link>
+                           <fo:basic-link text-decoration="underline" color="#337ab7" external-destination="/about.shtml">about</fo:basic-link>
                         </fo:block>
                      </fo:list-item-body>
                   </fo:list-item>
@@ -53,7 +53,7 @@
                      </fo:list-item-label>
                      <fo:list-item-body start-indent="body-start()">
                         <fo:block>
-                           <fo:basic-link text-decoration="underline" color="#47371f"
+                           <fo:basic-link text-decoration="underline" color="#337ab7"
                                           external-destination="/dynamicpages/contact.aspx">contact us</fo:basic-link>
                         </fo:block>
                      </fo:list-item-body>
@@ -64,7 +64,7 @@
                      </fo:list-item-label>
                      <fo:list-item-body start-indent="body-start()">
                         <fo:block>
-                           <fo:basic-link text-decoration="underline" color="#47371f"
+                           <fo:basic-link text-decoration="underline" color="#337ab7"
                                           external-destination="https://www.orbiscascade.org/archives-and-manuscript-collections">member tools</fo:basic-link>
                         </fo:block>
                      </fo:list-item-body>

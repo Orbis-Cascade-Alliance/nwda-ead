@@ -81,7 +81,7 @@
    <xsl:param name="index_head">Index</xsl:param>
    <xsl:template name="section_head">
       <xsl:param name="structhead"/>
-      <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
+      <fo:block font-size="20px" color="#6c34a8" margin-bottom="10px" margin-top="20px">
          <xsl:value-of select="$structhead"/>
       </fo:block>
    </xsl:template>

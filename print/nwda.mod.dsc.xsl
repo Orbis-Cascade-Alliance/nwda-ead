@@ -35,7 +35,7 @@ Changes:
                  select="translate(//*[local-name()='eadid']/@mainagencycode,$ucChars,$lcChars)"/>
    <!-- ********************* <DSC> *********************** --><xsl:template name="dsc" match="*[local-name()='dsc'][count(*[local-name()='c01']) &gt; 0]">
       <xsl:if test="@id"/>
-      <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
+      <fo:block font-size="20px" color="#6c34a8" margin-bottom="10px" margin-top="20px">
          <xsl:value-of select="$dsc_head"/>
       </fo:block>
       <fo:block>
@@ -228,7 +228,7 @@ Changes:
                                     border-bottom-style="solid"
                                     padding="8px">
                         <fo:block>
-                           <fo:inline color="#676d38" font-size="85%" text-decoration="none"
+                           <fo:inline color="#6c34a8" font-size="85%" text-decoration="none"
                                       text-transform="capitalize">
                               <xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]/@type"/>
                            </fo:inline>
@@ -239,7 +239,7 @@ Changes:
                                        border-bottom-style="solid"
                                        padding="8px">
                            <fo:block>
-                              <fo:inline color="#676d38" font-size="85%" text-decoration="none"
+                              <fo:inline color="#6c34a8" font-size="85%" text-decoration="none"
                                          text-transform="capitalize">
                                  <xsl:value-of select="*[local-name()='did']/*[local-name()='container'][2]/@type"/>
                               </fo:inline>
@@ -482,7 +482,7 @@ Changes:
                                  border-bottom-style="solid"
                                  padding="8px">
                      <fo:block>
-                        <fo:inline color="#676d38" font-size="85%" text-decoration="none"
+                        <fo:inline color="#6c34a8" font-size="85%" text-decoration="none"
                                    text-transform="capitalize">
                            <xsl:value-of select="$first_container"/>
                         </fo:inline>
@@ -492,7 +492,7 @@ Changes:
                                  border-bottom-style="solid"
                                  padding="8px">
                      <fo:block>
-                        <fo:inline color="#676d38" font-size="85%" text-decoration="none"
+                        <fo:inline color="#6c34a8" font-size="85%" text-decoration="none"
                                    text-transform="capitalize">
                            <xsl:value-of select="$second_container"/>
                         </fo:inline>
@@ -546,7 +546,7 @@ Changes:
                                  padding="8px"
                                  number-columns-spanned="{$container_colspan}">
                      <fo:block>
-                        <fo:inline color="#676d38" font-size="85%" text-decoration="none"
+                        <fo:inline color="#6c34a8" font-size="85%" text-decoration="none"
                                    text-transform="capitalize">
                            <xsl:value-of select="$first_container"/>
                         </fo:inline>
@@ -765,12 +765,12 @@ Changes:
                      KEF:  Line below was introducing "off-by-one" problems.  Replaced it
                      with explicit check for c01 siblings. 
                 --><!-- <xsl:variable select="count(../preceding-sibling::*)+1" name="ppos"/> --><xsl:variable select="count(../preceding-sibling::*[local-name()='c01'])+1" name="ppos"/>
-            <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
+            <fo:block font-size="14px" color="#666666" margin-bottom="10px" margin-top="10px"
                       font-weight="bold"><!-- what if no unitititle--><xsl:choose>
                   <xsl:when test="./*[local-name()='unittitle']">
                      <xsl:if test="string(*[local-name()='unitid'])">
                         <xsl:if test="*[local-name()='unitid']/@*[local-name()='label']">
-                           <fo:inline color="#676d38" font-size="85%" text-decoration="none"
+                           <fo:inline color="#6c34a8" font-size="85%" text-decoration="none"
                                       text-transform="capitalize">
                               <xsl:value-of select="*[local-name()='unitid']/@*[local-name()='label']"/>
                               <xsl:text> </xsl:text>
@@ -798,7 +798,7 @@ Changes:
 							<xsl:when test="./unitid[@encodinganalog='245$a']/text() and not(./unittitle)">
 						--><xsl:when test="./*[local-name()='unitid']/text() and not(./*[local-name()='unittitle'])">
                      <xsl:if test="*[local-name()='unitid']/@*[local-name()='label']">
-                        <fo:inline color="#676d38" font-size="85%" text-decoration="none"
+                        <fo:inline color="#6c34a8" font-size="85%" text-decoration="none"
                                    text-transform="capitalize">
                            <xsl:value-of select="*[local-name()='unitid']/@*[local-name()='label']"/>
                            <xsl:text> </xsl:text>
@@ -849,7 +849,7 @@ Changes:
                <xsl:when test="./*[local-name()='unittitle']">
                   <xsl:if test="string(*[local-name()='unitid'])">
                      <xsl:if test="*[local-name()='unitid']/@*[local-name()='label']">
-                        <fo:inline color="#676d38" font-size="85%" text-decoration="none"
+                        <fo:inline color="#6c34a8" font-size="85%" text-decoration="none"
                                    text-transform="capitalize">
                            <xsl:value-of select="*[local-name()='unitid']/@*[local-name()='label']"/>
                            <xsl:text> </xsl:text>
@@ -866,7 +866,7 @@ Changes:
 						--><!-- end add --></xsl:when>
                <xsl:when test="./*[local-name()='unitid']/text() and not(./*[local-name()='unittitle'])">
                   <xsl:if test="*[local-name()='unitid']/@*[local-name()='label']">
-                     <fo:inline color="#676d38" font-size="85%" text-decoration="none"
+                     <fo:inline color="#6c34a8" font-size="85%" text-decoration="none"
                                 text-transform="capitalize">
                         <xsl:value-of select="*[local-name()='unitid']/@*[local-name()='label']"/>
                         <xsl:text> </xsl:text>
@@ -929,7 +929,7 @@ Changes:
    </xsl:template>
    <xsl:template match="*[local-name()='daogrp']">
       <xsl:choose><!-- First, check whether we are dealing with one or two <arc> elements --><xsl:when test="*[local-name()='arc'][2]">
-            <fo:basic-link text-decoration="underline" color="#47371f">
+            <fo:basic-link text-decoration="underline" color="#337ab7">
                <xsl:if test="*[local-name()='arc'][2]/@*[local-name()='show']='new'"/>
                <xsl:for-each select="*[local-name()='daoloc']"><!-- This selects the <daoloc> element that matches the @*[local-name()='label'] attribute from <daoloc> and the @*[local-name()='to'] attribute
 							from the second <arc> element --><xsl:if test="@*[local-name()='label'] = following::*[local-name()='arc'][2]/@*[local-name()='to']">
@@ -967,7 +967,7 @@ Changes:
                   </xsl:for-each>
                </xsl:when>
                <xsl:when test="(*[local-name()='arc'][1][@*[local-name()='show']='replace'] or *[local-name()='arc'][1][@*[local-name()='show']='new']) and       *[local-name()='arc'][1][@actuate='onrequest' or @actuate='onRequest']">
-                  <fo:basic-link text-decoration="underline" color="#47371f">
+                  <fo:basic-link text-decoration="underline" color="#337ab7">
                      <xsl:if test="following::*[local-name()='arc'][1]/@*[local-name()='title']"/>
                      <xsl:choose><!-- when a textual hyperlink is desired, i.e. <resource> element contains data --><xsl:when test="string(*[local-name()='resource'])">
                            <xsl:for-each select="*[local-name()='daoloc']">

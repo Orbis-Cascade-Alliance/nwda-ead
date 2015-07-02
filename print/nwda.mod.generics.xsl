@@ -16,7 +16,7 @@ Major or significant revision history:
                 xmlns:ead="urn:isbn:1-931666-22-9"
                 exclude-result-prefixes="ead xs xlink fo"
                 version="1.0"><!--links--><xsl:template match="*[local-name()='ref']">
-      <fo:basic-link text-decoration="underline" color="#47371f">
+      <fo:basic-link text-decoration="underline" color="#337ab7">
          <xsl:attribute name="external-destination">#<xsl:value-of select="@target"/>
          </xsl:attribute>
          <xsl:value-of select="parent::*[local-name()='p']/text()"/>
@@ -27,7 +27,7 @@ Major or significant revision history:
       </xsl:if>
    </xsl:template>
    <xsl:template match="*[local-name()='extref'][string(@*[local-name()='href'])]">
-      <fo:basic-link text-decoration="underline" color="#47371f">
+      <fo:basic-link text-decoration="underline" color="#337ab7">
          <xsl:attribute name="external-destination">
             <xsl:value-of select="@*[local-name()='href']"/>
          </xsl:attribute>
@@ -37,14 +37,14 @@ Major or significant revision history:
    <xsl:template match="*[local-name()='daogrp']"><!--    <div class="daogrp"> --><xsl:apply-templates select="*[local-name()='daoloc']"/>
       <!--   </div> --></xsl:template>
    <xsl:template match="*[local-name()='dao']">
-      <fo:basic-link text-decoration="underline" color="#47371f">
+      <fo:basic-link text-decoration="underline" color="#337ab7">
          <xsl:attribute name="external-destination">
             <xsl:value-of select="@*[local-name()='href']"/>. <xsl:value-of select="@content-role"/>
          </xsl:attribute>
          <xsl:value-of select="*[local-name()='daodesc']"/>[view]</fo:basic-link>
    </xsl:template>
    <!-- 2004-07-14 carlson mod to fix daoloc display --><xsl:template match="*[local-name()='daoloc']">
-      <fo:basic-link text-decoration="underline" color="#47371f">
+      <fo:basic-link text-decoration="underline" color="#337ab7">
          <xsl:attribute name="external-destination"><!--<xsl:value-of disable-output-escaping="yes" select="@*[local-name()='href']"/> removed 7/23/07 by Ethan Gruber--><xsl:value-of select="@*[local-name()='href']"/>
          </xsl:attribute>   [view]</fo:basic-link>
    </xsl:template>
@@ -107,7 +107,7 @@ Major or significant revision history:
    </xsl:template>
    <!-- 2004-07-14 carlsonm mod to treat chronlist differently --><!-- 2004-12-07 carlsonm: put chronlist into a table format instead of a def list --><!-- 2015-06-15 Ethan Gruber: put chronlist back into a bootstrap 3 horizontal def list --><xsl:template match="*[local-name()='chronlist']">
       <xsl:if test="*[local-name()='head']">
-         <fo:block font-size="12px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
+         <fo:block font-size="12px" color="#666666" margin-bottom="10px" margin-top="10px"
                    font-style="italic"
                    font-weight="bold">
             <xsl:apply-templates select="*[local-name()='head']"/>
@@ -142,7 +142,7 @@ Major or significant revision history:
       <!-- 2004-11-30 Carlson mod add code to process <eventgrp>.  See OSU SC "Pauling" in <bioghist> or OSU Archives "Board of Regents" in <odd> --></xsl:template>
    <xsl:template match="*[local-name()='list'] | *[local-name()='index']">
       <xsl:if test="*[local-name()='head']">
-         <fo:block font-size="12px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
+         <fo:block font-size="12px" color="#666666" margin-bottom="10px" margin-top="10px"
                    font-style="italic"
                    font-weight="bold">
             <xsl:apply-templates select="*[local-name()='head']"/>
@@ -156,7 +156,7 @@ Major or significant revision history:
    </xsl:template>
    <xsl:template match="*[local-name()='fileplan'] | *[local-name()='bibliography']">
       <xsl:if test="*[local-name()='head']">
-         <fo:block font-size="12px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
+         <fo:block font-size="12px" color="#666666" margin-bottom="10px" margin-top="10px"
                    font-style="italic"
                    font-weight="bold">
             <xsl:apply-templates select="*[local-name()='head']"/>
@@ -352,14 +352,14 @@ Tracking # 4.20
                         <xsl:choose>
                            <xsl:when test="substring-before(normalize-space(.), 'http://')">
                               <xsl:value-of select="substring-before(normalize-space(.), 'http://')"/>
-                              <fo:basic-link text-decoration="underline" color="#47371f"
+                              <fo:basic-link text-decoration="underline" color="#337ab7"
                                              external-destination="http://{substring-after(normalize-space(.), 'http://')}">
                                  <xsl:text>http://</xsl:text>
                                  <xsl:value-of select="substring-after(normalize-space(.), 'http://')"/>
                               </fo:basic-link>
                            </xsl:when>
                            <xsl:otherwise>
-                              <fo:basic-link text-decoration="underline" color="#47371f"
+                              <fo:basic-link text-decoration="underline" color="#337ab7"
                                              external-destination="{normalize-space(.)}">
                                  <xsl:value-of select="normalize-space(.)"/>
                               </fo:basic-link>
@@ -373,7 +373,7 @@ Tracking # 4.20
                         <xsl:choose><!-- if email address is preceded by a space, i. e. "Email: foo@bar.com", only the foo@bar.com is made a mailto link --><xsl:when test="contains(normalize-space(.), ' ')">
                               <xsl:value-of select="substring-before(normalize-space(.), ' ')"/>
                               <xsl:text/>
-                              <fo:basic-link text-decoration="underline" color="#47371f"
+                              <fo:basic-link text-decoration="underline" color="#337ab7"
                                              external-destination="mailto:{substring-after(normalize-space(.), ' ')}">
                                  <xsl:value-of select="substring-after(normalize-space(.), ' ')"/>
                               </fo:basic-link>
@@ -383,7 +383,7 @@ Tracking # 4.20
                            </xsl:when>
                            <!-- otherwise, the whole line is.  this is assuming these are the only two options seen.  standards in email and http 
 								address lines should be further developed --><xsl:otherwise>
-                              <fo:basic-link text-decoration="underline" color="#47371f"
+                              <fo:basic-link text-decoration="underline" color="#337ab7"
                                              external-destination="mailto:{normalize-space(.)}">
                                  <xsl:value-of select="normalize-space(.)"/>
                               </fo:basic-link>

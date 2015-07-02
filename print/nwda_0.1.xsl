@@ -48,8 +48,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
       <xsl:call-template name="html_base"/>
    </xsl:template>
    <xsl:template name="html_base">
-      <fo:root font-size="12px" color="#6b6b6b"
-               font-family="georgia, 'times new roman', times, serif">
+      <fo:root font-size="11px" color="#666666" font-family="Verdana,Arial,Helvetica,Sans">
          <fo:layout-master-set>
             <fo:simple-page-master margin-right=".5in" margin-left=".5in" margin-bottom=".5in" margin-top=".5in"
                                    page-width="8in"
@@ -64,7 +63,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
                <xsl:value-of select="$titleproper"/>
             </fo:title>
             <fo:static-content flow-name="footer">
-               <fo:block color="#676D38" font-size="85%" intrusion-displace="line">
+               <fo:block color="#6c34a8" font-size="85%" intrusion-displace="line">
                   <fo:table>
                      <fo:table-body>
                         <fo:table-row>
@@ -90,7 +89,7 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
                </fo:block>
             </fo:static-content>
             <fo:flow flow-name="body">
-               <fo:block font-size="24px" color="#676D38">
+               <fo:block font-size="24px" color="#6c34a8">
                   <xsl:value-of select="normalize-space(*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unittitle'])"/>
                   <xsl:if test="*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unitdate']">
                      <xsl:text>, </xsl:text>

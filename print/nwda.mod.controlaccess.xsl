@@ -7,7 +7,7 @@ Modifications and Revisions by Mark Carlson, 2004
                 version="1.0"
                 exclude-result-prefixes="fo ead"><!-- ********************* <CONTROLACCESS> *********************** --><xsl:template match="*[local-name()='controlaccess']"><!-- P.S. Can't just select index [1] controlaccess because it may not be the group with
 		the indexing terms. carlsonm --><fo:block>
-         <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
+         <fo:block font-size="20px" color="#6c34a8" margin-bottom="10px" margin-top="20px">
             <xsl:value-of select="$controlaccess_head"/>
          </fo:block>
          <fo:block><!--<xsl:call-template name="group_subject"/>
@@ -232,7 +232,7 @@ Other FA's to check: James F. Bishop (OSU Archives)
                </xsl:variable>
                <xsl:choose>
                   <xsl:when test="string-length($facet) &gt; 0">
-                     <fo:basic-link text-decoration="underline" color="#47371f"
+                     <fo:basic-link text-decoration="underline" color="#337ab7"
                                     external-destination="{$serverURL}/search/results.aspx?t=i&amp;q=0&amp;{$facet}={translate(normalize-space(.), ' ', '+')}">
                         <xsl:value-of select="normalize-space(.)"/>
                      </fo:basic-link>

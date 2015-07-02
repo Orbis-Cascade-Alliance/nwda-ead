@@ -24,7 +24,7 @@ Mark Carlson
                 exclude-result-prefixes="nwda xsd vcard xsl msxsl exsl ead rdf foaf dcterms">
    <xsl:template match="*[local-name()='profiledesc'] | *[local-name()='revisiondesc'] | *[local-name()='filedesc'] | *[local-name()='eadheader'] | *[local-name()='frontmatter']"/>
    <!-- ********************* <FOOTER> *********************** --><xsl:template match="*[local-name()='publicationstmt']">
-      <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
+      <fo:block font-size="14px" color="#666666" margin-bottom="10px" margin-top="10px"
                 font-weight="bold">
          <xsl:value-of select="/*[local-name()='ead']/*[local-name()='eadheader']//*[local-name()='titlestmt']/*[local-name()='author']"/>
          <fo:block/>
@@ -46,7 +46,7 @@ Mark Carlson
       <xsl:apply-templates select="*[local-name()='controlaccess']"/>
    </xsl:template>
    <!-- ********************* COLLECTION OVERVIEW *********************** --><xsl:template name="collection_overview">
-      <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
+      <fo:block font-size="20px" color="#6c34a8" margin-bottom="10px" margin-top="20px">
          <xsl:value-of select="$overview_head"/>
       </fo:block>
       <fo:block>
@@ -357,7 +357,7 @@ Mark Carlson
                      </fo:table-cell>
                      <fo:table-cell>
                         <fo:block>
-                           <fo:basic-link text-decoration="underline" color="#47371f"
+                           <fo:basic-link text-decoration="underline" color="#337ab7"
                                           external-destination="{concat('http://harvester.orbiscascade.org/apis/get?ark=ark:/', //*[local-name()='eadid']/@identifier)}">yes</fo:basic-link>
                         </fo:block>
                      </fo:table-cell>
@@ -374,7 +374,7 @@ Mark Carlson
          </xsl:when>
          <xsl:otherwise>
             <fo:block margin-bottom="10px">
-               <fo:basic-link text-decoration="underline" color="#47371f" external-destination="#top">^ Return to Top</fo:basic-link>
+               <fo:basic-link text-decoration="underline" color="#337ab7" external-destination="#top">^ Return to Top</fo:basic-link>
             </fo:block>
          </xsl:otherwise>
       </xsl:choose>
@@ -395,7 +395,7 @@ Mark Carlson
    <!-- ********************* END COLLECTION IMAGE *********************** --><!-- ********************* <ARCHDESC_MINOR_CHILDREN> *********************** --><!--this template generically called by arbitrary groupings: see per eg. relatedinfo template --><xsl:template name="archdesc_minor_children">
       <xsl:param name="withLabel"/>
       <xsl:if test="$withLabel='true'">
-         <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
+         <fo:block font-size="14px" color="#666666" margin-bottom="10px" margin-top="10px"
                    font-weight="bold">
             <xsl:if test="@id"/>
             <xsl:choose><!--pull in correct label, depending on what is actually matched--><xsl:when test="name()='altformavail'">
@@ -513,18 +513,18 @@ Mark Carlson
       </xsl:variable>
       <xsl:choose>
          <xsl:when test="*[local-name()='head']/text()='Biographical Note' and not(ancestor::*[local-name()='dsc'])">
-            <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
+            <fo:block font-size="20px" color="#6c34a8" margin-bottom="10px" margin-top="20px">
                <xsl:value-of select="$bioghist_head"/>
             </fo:block>
          </xsl:when>
          <!-- SY Original	<xsl:when test="starts-with(@encodinganalog, '545')"> --><!-- carlson mod 2004-07-09 only use Bioghist head if encodinganalog starts with 5450 as opposed to 5451 --><xsl:when test="starts-with(@encodinganalog, '5450') and not(ancestor::*[local-name()='dsc'])">
-            <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
+            <fo:block font-size="20px" color="#6c34a8" margin-bottom="10px" margin-top="20px">
                <xsl:value-of select="$bioghist_head"/>
             </fo:block>
          </xsl:when>
          <xsl:otherwise>
             <xsl:if test="not(ancestor::*[local-name()='dsc'])">
-               <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
+               <fo:block font-size="20px" color="#6c34a8" margin-bottom="10px" margin-top="20px">
                   <xsl:value-of select="$historical_head"/>
                </fo:block>
             </xsl:if>
@@ -557,7 +557,7 @@ Mark Carlson
          </xsl:choose>
       </xsl:variable>
       <xsl:if test="not(ancestor::*[local-name()='dsc'])">
-         <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
+         <fo:block font-size="20px" color="#6c34a8" margin-bottom="10px" margin-top="20px">
             <xsl:value-of select="$scopecontent_head"/>
          </fo:block>
       </xsl:if>
@@ -589,12 +589,12 @@ Mark Carlson
       </xsl:variable>
       <xsl:choose>
          <xsl:when test="@type='hist'  and not(ancestor::*[local-name()='dsc'])">
-            <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
+            <fo:block font-size="20px" color="#6c34a8" margin-bottom="10px" margin-top="20px">
                <xsl:value-of select="$odd_head_histbck"/>
             </fo:block>
          </xsl:when>
          <xsl:otherwise>
-            <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
+            <fo:block font-size="20px" color="#6c34a8" margin-bottom="10px" margin-top="20px">
                <xsl:value-of select="$odd_head"/>
             </fo:block>
          </xsl:otherwise>
@@ -615,7 +615,7 @@ Mark Carlson
       </fo:block>
    </xsl:template>
    <!-- ********************* </ODD> *********************** --><!-- ********************* <USEINFO> *********************** --><xsl:template name="useinfo"><!-- removed accessrestrict from this section, moved to Collection Overview, as per March 2015 spec --><xsl:if test="*[local-name()='altformavail'] | *[local-name()='userestrict'] | *[local-name()='prefercite']">
-         <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
+         <fo:block font-size="20px" color="#6c34a8" margin-bottom="10px" margin-top="20px">
             <xsl:if test="@id"/>
             <xsl:value-of select="$useinfo_head"/>
          </fo:block>
@@ -630,7 +630,7 @@ Mark Carlson
       <!--<xsl:call-template name="sect_separator" />--></xsl:template>
    <!-- ********************* </USEINFO> *********************** --><!-- ************************* ADMINISTRATIVE INFO - COLLAPSED BY DEFAULT ******************** --><xsl:template name="administrative_info">
       <xsl:if test="@id"/>
-      <fo:block font-size="20px" color="#676D38" margin-bottom="10px" margin-top="20px">
+      <fo:block font-size="20px" color="#6c34a8" margin-bottom="10px" margin-top="20px">
          <xsl:text>Administrative Information</xsl:text>
       </fo:block>
       <fo:block>
@@ -654,7 +654,7 @@ Mark Carlson
       </xsl:variable>
       <xsl:if test="not(ancestor::*[local-name()='dsc'])">
          <xsl:if test="@id"/>
-         <fo:block font-size="14px" color="#6b6b6b" margin-bottom="10px" margin-top="10px"
+         <fo:block font-size="14px" color="#666666" margin-bottom="10px" margin-top="10px"
                    font-weight="bold">Arrangement</fo:block>
       </xsl:if>
       <fo:block>
@@ -743,7 +743,7 @@ Mark Carlson
                <xsl:for-each select="*[local-name()='ref'] | *[local-name()='ptrgrp']/*[local-name()='ref']">
                   <xsl:choose>
                      <xsl:when test="@target">
-                        <fo:basic-link text-decoration="underline" color="#47371f" external-destination="#{@target}">
+                        <fo:basic-link text-decoration="underline" color="#337ab7" external-destination="#{@target}">
                            <xsl:apply-templates/>
                         </fo:basic-link>
                      </xsl:when>
@@ -796,7 +796,7 @@ Mark Carlson
    <!-- 2014 September: templates for rendering repository metadata from RDF/XML --><xsl:template match="arch:Archive" mode="repository">
       <xsl:choose>
          <xsl:when test="foaf:homepage/@rdf:resource">
-            <fo:basic-link text-decoration="underline" color="#47371f"
+            <fo:basic-link text-decoration="underline" color="#337ab7"
                            external-destination="{foaf:homepage/@rdf:resource}">
                <xsl:value-of select="foaf:name"/>
             </fo:basic-link>
@@ -835,7 +835,7 @@ Mark Carlson
          <fo:block/>
       </xsl:if>
       <xsl:if test="string(vcard:hasEmail/@rdf:resource)">
-         <fo:basic-link text-decoration="underline" color="#47371f"
+         <fo:basic-link text-decoration="underline" color="#337ab7"
                         external-destination="{vcard:hasEmail/@rdf:resource}">
             <xsl:value-of select="substring-after(vcard:hasEmail/@rdf:resource, ':')"/>
          </fo:basic-link>
