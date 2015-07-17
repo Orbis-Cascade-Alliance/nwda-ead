@@ -8,58 +8,67 @@
 	<xsl:include href="nwda.mod.html.header.xsl"/>
 
 	<xsl:template match="/">
-		<html>
-			<head>
-				<title>Northwest Digital Archives | Contact Us</title>
-				<!--<link href="/nwda.css" rel="stylesheet" type="text/css"/>
-				<script src="/scripts/AC_RunActiveContent.js" type="text/javascript">//</script>
-				<script src="/scripts/AC_ActiveX.js" type="text/javascript">//</script>
-				<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">//</script>
-				<script src="/scripts/contact_functions.js" type="text/javascript">//</script>-->
-				<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-				<!-- jquery -->
-				<meta name="viewport" content="width=device-width, initial-scale=1"/>
-				<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">//</script>
-				<!-- bootstrap -->
-				<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
-				<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">//</script>
-
-				<!-- local styling -->
-				<link href="{$pathToCss}{$styleFileName}" rel="stylesheet"/>
-				<!--<script language="javascript" type="text/javascript" src="{$pathToJavascript}contact_functions.js">//</script>-->
-
-				<script type="text/javascript">
-					if (typeof(_gat) == "object") {
-					var pageTracker = _gat._getTracker("UA-3516166-1");
-					pageTracker._setLocalRemoteServerMode();
-					pageTracker._trackPageview();
-					}
-				</script>
-			</head>
-
+        <html>
+            <head>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                <meta name="google-site-verification" content="Jzd19gch6s4FFczJFYTH8hFo9AZ2otlHRX-6B5ij-c0" />
+                <meta name="description" content="Archives West provides access to descriptions of primary sources in the Western United States, including correspondence, diaries, or photographs. Digital reproductions of primary sources are available in some cases." />
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
+                <link rel="stylesheet" type="text/css" href="/global.css"/>
+                <script type="text/javascript" src="/analytics.js"></script>
+                <link rel="stylesheet" type="text/css" href="/az.css"/>
+                <script src="/az.js"></script>
+                <title>Archives West: Contact</title>
+            </head>
 			<body>
-				<xsl:call-template name="html.header"/>
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-md-12">
-							<h2>Contact Us</h2>
-							<table class="table table-striped">
-								<thead>
-									<tr>
-										<th style="width:25%">Repository</th>
-										<th>Information</th>
-									</tr>
-								</thead>
-								<tbody>
-									<xsl:apply-templates select="descendant::arch:Archive">
-										<xsl:sort select="foaf:name" order="ascending" data-type="text"/>
-									</xsl:apply-templates>
-								</tbody>
-							</table>														
-						</div>
-					</div>
-				</div>
-			</body>
+                <div id="header">
+                    <div id="headercontent" class="wcon">
+                        <div id="headerlogo">
+                            <a class="" href="/" id="headerlogotxt">Archives West</a>
+                            <img src="/orbis-white.png" id="orbis-head-logo"/>
+                        </div>
+                        <div id="headerlinks">
+                            <a href="/about" class="">about</a>
+                            <a href="/contact" class="">contact</a>
+                            <a href="/help" class="">help</a>
+                        </div>
+                        <div class="cf"></div>
+                    </div>
+                </div>
+        
+                <div id="contactcontent" class="wcon">
+                    <h2>Contact Participating Repositories</h2>
+
+                    <!-- jean.francois.lauze@gmail.com > added a placeholder for the a-z anchors... -->
+                    <div id="atoz"></div>
+                    <table class="table table-striped" style="font-size: 0.8em;">
+                        <thead>
+				            <tr>
+					            <th style="width:25%">Repository</th>
+					            <th>Information</th>
+				            </tr>
+			            </thead>
+				        <tbody>
+                            <xsl:apply-templates select="descendant::arch:Archive">
+					            <xsl:sort select="foaf:name" order="ascending" data-type="text"/>
+					        </xsl:apply-templates>
+			            </tbody>
+                    </table>
+
+                    <p>
+                        Please report web site functionality problems to
+                        <a href="mailto:webmaster@orbiscascade.org">webmaster@orbiscascade.org</a>
+                    </p>
+                </div>
+
+                <div id="footer">
+                    <a href="http://www.orbiscascade.org"><img src="/orbislogo.png"/></a>
+                </div>
+            </body>
 		</html>
 	</xsl:template>
 
@@ -69,8 +78,8 @@
 			<td>				
 				<xsl:choose>
 					<xsl:when test="foaf:homepage/@rdf:resource">
-						<a href="{foaf:homepage/@rdf:resource}" target="_blank">
-							<xsl:value-of select="normalize-space(foaf:name)"/>
+                        <a class="anchorme" href="{foaf:homepage/@rdf:resource}" target="_blank">
+						    <xsl:value-of select="normalize-space(foaf:name)"/>
 						</a>
 					</xsl:when>
 					<xsl:otherwise>
