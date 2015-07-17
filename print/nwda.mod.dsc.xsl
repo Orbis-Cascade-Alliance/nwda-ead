@@ -23,8 +23,9 @@ Changes:
 --><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:ead="urn:isbn:1-931666-22-9"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
                 version="1.0"
-                exclude-result-prefixes="ead fo"><!-- Set this variable to the server/folder path that points to the icon image file on your server.  
+                exclude-result-prefixes="ead fo xlink"><!-- Set this variable to the server/folder path that points to the icon image file on your server.  
 		This should end with a forward /, e.g. http://myserver.com/images/ --><xsl:variable name="pathToIcon">http://nwda-db.orbiscascade.org/xsl/support/</xsl:variable>
    <!-- Set this variable to the filename of the icon image, e.g. icon.jpg --><xsl:variable name="iconFilename">camicon.gif</xsl:variable>
    <xsl:variable name="lcChars">abcdefghijklmnopqrstuvwxyz</xsl:variable>
@@ -691,7 +692,7 @@ Changes:
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>
-   <!-- ******************** END CONVERT CONTAINER TYPE TO REGULAR TEXT ****************** --><xsl:template name="c0x_children"><!-- for displaying extent, physloc, etc.  this is brought over from the original mod.dsc --><!-- added note in addition to did/note for item 2F on revision specifications--><xsl:if test="string(*[local-name()='did']/*[local-name()='origination'] | *[local-name()='did']/*[local-name()='physdesc'] | *[local-name()='did']/*[local-name()='physloc'] |    *[local-name()='did']/*[local-name()='note'] | *[local-name()='did']/*[local-name()='abstract'] | *[local-name()='arrangement'] | *[local-name()='odd']| *[local-name()='scopecontent'] | *[local-name()='acqinfo'] |    *[local-name()='custodhist'] | *[local-name()='processinfo'] | *[local-name()='note'] | *[local-name()='bioghist'] | *[local-name()='accessrestrict'] |    *[local-name()='userestrict'] |    *[local-name()='index'] | *[local-name()='altformavail'])">
+   <!-- ******************** END CONVERT CONTAINER TYPE TO REGULAR TEXT ****************** --><xsl:template name="c0x_children"><!-- for displaying extent, physloc, etc.  this is brought over from the original mod.dsc --><!-- added note in addition to did/note for item 2F on revision specifications--><xsl:if test="string(*[local-name()='did']/*[local-name()='origination'] | *[local-name()='did']/*[local-name()='physdesc'] | *[local-name()='did']/*[local-name()='physloc'] |    *[local-name()='did']/*[local-name()='note'] | *[local-name()='did']/*[local-name()='abstract'] | *[local-name()='arrangement'] | *[local-name()='odd']| *[local-name()='scopecontent'] |    *[local-name()='acqinfo'] |    *[local-name()='custodhist'] | *[local-name()='processinfo'] | *[local-name()='note'] | *[local-name()='bioghist'] | *[local-name()='accessrestrict'] |    *[local-name()='userestrict'] |    *[local-name()='index'] | *[local-name()='altformavail'])">
          <xsl:for-each select="*[local-name()='did']">
             <xsl:for-each select="*[local-name()='origination'] | *[local-name()='physdesc'] | *[local-name()='physloc'] | *[local-name()='note'] | *[local-name()='abstract']">
                <xsl:choose>
@@ -953,7 +954,7 @@ Changes:
          </xsl:when>
          <!-- i.e. no second <arc> element --><xsl:otherwise>
             <xsl:choose>
-               <xsl:when test="*[local-name()='arc'][1][@*[local-name()='show']='embed'] and *[local-name()='arc'][1][@actuate='onload' or @actuate='onLoad']">
+               <xsl:when test="*[local-name()='arc'][1][@show='embed' or @xlink:show='embed'] and *[local-name()='arc'][1][@actuate='onload' or @xlink:actuate='onLoad']">
                   <xsl:for-each select="*[local-name()='daoloc']">
                      <xsl:if test="@*[local-name()='label'] = following-sibling::*[local-name()='arc'][1]/@*[local-name()='to']">
                         <fo:external-graphic src="{@*[local-name()='href']}"/>
@@ -966,9 +967,9 @@ Changes:
                      </xsl:if>
                   </xsl:for-each>
                </xsl:when>
-               <xsl:when test="(*[local-name()='arc'][1][@*[local-name()='show']='replace'] or *[local-name()='arc'][1][@*[local-name()='show']='new']) and       *[local-name()='arc'][1][@actuate='onrequest' or @actuate='onRequest']">
+               <xsl:when test="*[local-name()='arc'][@show='replace' or @xlink:show='replace' or @show='new' or @xlink:show='new'] and       *[local-name()='arc'][@actuate='onrequest' or @xlink:actuate='onRequest']">
                   <fo:basic-link text-decoration="underline" color="#337ab7">
-                     <xsl:if test="following::*[local-name()='arc'][1]/@*[local-name()='title']"/>
+                     <xsl:if test="*[local-name()='daoloc'][1]/@*[local-name()='title']"/>
                      <xsl:choose><!-- when a textual hyperlink is desired, i.e. <resource> element contains data --><xsl:when test="string(*[local-name()='resource'])">
                            <xsl:for-each select="*[local-name()='daoloc']">
                               <xsl:if test="@*[local-name()='label'] = following::*[local-name()='arc'][1]/@*[local-name()='to']">
@@ -983,9 +984,9 @@ Changes:
                         <xsl:otherwise><!-- if <resource> element is empty, produce an icon that can be used to traverse the link --><xsl:for-each select="*[local-name()='daoloc']">
                               <xsl:if test="@*[local-name()='label'] = following::*[local-name()='arc'][1]/@*[local-name()='to']">
                                  <xsl:attribute name="external-destination">
-                                    <xsl:value-of select="@*[local-name()='href']"/>
+                                    <xsl:value-of select="@href|@xlink:href"/>
                                  </xsl:attribute>
-                                 <xsl:if test="following::*[local-name()='arc'][1]/@*[local-name()='show']='new'"/>
+                                 <xsl:if test="following::*[local-name()='arc'][1][@show='new' or @xlink:show='new']"/>
                               </xsl:if>[view]</xsl:for-each>
                         </xsl:otherwise>
                      </xsl:choose>

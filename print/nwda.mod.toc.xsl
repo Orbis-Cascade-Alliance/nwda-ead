@@ -94,7 +94,7 @@
                </fo:list-item-body>
             </fo:list-item>
          </xsl:if>
-         <xsl:if test="(string(*[local-name()='accessrestrict'])) or (string(*[local-name()='userestrict'])) or (string(*[local-name()='altformavail']))">
+         <xsl:if test="(string(*[local-name()='userestrict'])) or (string(*[local-name()='altformavail']))">
             <fo:list-item>
                <fo:list-item-label end-indent="label-end()">
                   <fo:block/>
@@ -117,21 +117,6 @@
                                     <fo:basic-link text-decoration="underline" color="#337ab7"
                                                    external-destination="#{$altformavail_id}">
                                        <xsl:value-of select="$altformavail_label"/>
-                                    </fo:basic-link>
-                                 </fo:block>
-                              </fo:list-item-body>
-                           </fo:list-item>
-                        </xsl:if>
-                        <xsl:if test="string(*[local-name()='accessrestrict'])">
-                           <fo:list-item>
-                              <fo:list-item-label end-indent="label-end()">
-                                 <fo:block/>
-                              </fo:list-item-label>
-                              <fo:list-item-body start-indent="body-start()">
-                                 <fo:block>
-                                    <fo:basic-link text-decoration="underline" color="#337ab7"
-                                                   external-destination="#{$accessrestrict_id}">
-                                       <xsl:value-of select="$accessrestrict_label"/>
                                     </fo:basic-link>
                                  </fo:block>
                               </fo:list-item-body>

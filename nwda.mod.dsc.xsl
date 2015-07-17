@@ -21,7 +21,8 @@ Changes:
                     from Utah pilot site XSLT with original note date of 08/18/11.)
 
 -->
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:ead="urn:isbn:1-931666-22-9" exclude-result-prefixes="ead fo">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:ead="urn:isbn:1-931666-22-9"
+	xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="ead fo xlink">
 
 	<!-- Set this variable to the server/folder path that points to the icon image file on your server.  
 		This should end with a forward /, e.g. http://myserver.com/images/ -->
@@ -255,7 +256,7 @@ Changes:
 					<xsl:if test="ancestor-or-self::*[local-name()='c01']/descendant::*[local-name()='did']/*[local-name()='container'][2]">
 						<td/>
 					</xsl:if>
-				</xsl:when>				
+				</xsl:when>
 				<xsl:when test="count(*[local-name()='did']/*[local-name()='container']) = 2">
 					<td>
 						<xsl:value-of select="*[local-name()='did']/*[local-name()='container'][1]"/>
@@ -273,8 +274,8 @@ Changes:
 							<td/>
 						</xsl:otherwise>
 					</xsl:choose>
-					
-				</xsl:when>				
+
+				</xsl:when>
 			</xsl:choose>
 
 			<xsl:variable select="count(../../preceding-sibling::*)+1" name="pppos"/>
@@ -404,7 +405,7 @@ Changes:
 									<td class="c0x_date"/>
 								</xsl:if>
 							</xsl:otherwise>
-						</xsl:choose>						
+						</xsl:choose>
 					</xsl:when>
 
 					<!-- for one container -->
@@ -590,9 +591,9 @@ Changes:
 
 		<!-- added note in addition to did/note for item 2F on revision specifications-->
 		<xsl:if test="string(*[local-name()='did']/*[local-name()='origination'] | *[local-name()='did']/*[local-name()='physdesc'] | *[local-name()='did']/*[local-name()='physloc'] |
-			*[local-name()='did']/*[local-name()='note'] | *[local-name()='did']/*[local-name()='abstract'] | *[local-name()='arrangement'] | *[local-name()='odd']| *[local-name()='scopecontent'] | *[local-name()='acqinfo'] |
-			*[local-name()='custodhist'] | *[local-name()='processinfo'] | *[local-name()='note'] | *[local-name()='bioghist'] | *[local-name()='accessrestrict'] |    *[local-name()='userestrict'] |
-			*[local-name()='index'] | *[local-name()='altformavail'])">
+			*[local-name()='did']/*[local-name()='note'] | *[local-name()='did']/*[local-name()='abstract'] | *[local-name()='arrangement'] | *[local-name()='odd']| *[local-name()='scopecontent'] |
+			*[local-name()='acqinfo'] |    *[local-name()='custodhist'] | *[local-name()='processinfo'] | *[local-name()='note'] | *[local-name()='bioghist'] | *[local-name()='accessrestrict'] |
+			*[local-name()='userestrict'] |    *[local-name()='index'] | *[local-name()='altformavail'])">
 
 
 			<xsl:for-each select="*[local-name()='did']">
@@ -905,7 +906,7 @@ Changes:
 			<!-- i.e. no second <arc> element -->
 			<xsl:otherwise>
 				<xsl:choose>
-					<xsl:when test="*[local-name()='arc'][1][@*[local-name()='show']='embed'] and *[local-name()='arc'][1][@actuate='onload' or @actuate='onLoad']">
+					<xsl:when test="*[local-name()='arc'][1][@show='embed' or @xlink:show='embed'] and *[local-name()='arc'][1][@actuate='onload' or @xlink:actuate='onLoad']">
 						<xsl:for-each select="*[local-name()='daoloc']">
 							<xsl:if test="@*[local-name()='label'] = following-sibling::*[local-name()='arc'][1]/@*[local-name()='to']">
 								<img src="{@*[local-name()='href']}" class="daoimage" border="0">
@@ -927,12 +928,13 @@ Changes:
 							</xsl:if>
 						</xsl:for-each>
 					</xsl:when>
-					<xsl:when test="(*[local-name()='arc'][1][@*[local-name()='show']='replace'] or *[local-name()='arc'][1][@*[local-name()='show']='new']) and
-						*[local-name()='arc'][1][@actuate='onrequest' or @actuate='onRequest']">
+					<xsl:when test="*[local-name()='arc'][@show='replace' or @xlink:show='replace' or @show='new' or @xlink:show='new'] and
+						*[local-name()='arc'][@actuate='onrequest' or @xlink:actuate='onRequest']">
+						
 						<a>
-							<xsl:if test="following::*[local-name()='arc'][1]/@*[local-name()='title']">
+							<xsl:if test="*[local-name()='daoloc'][1]/@*[local-name()='title']">
 								<xsl:attribute name="title">
-									<xsl:value-of select="following::*[local-name()='arc'][1]/@*[local-name()='title']"/>
+									<xsl:value-of select="*[local-name()='daoloc'][1]/@*[local-name()='title']"/>
 								</xsl:attribute>
 							</xsl:if>
 							<xsl:choose>
@@ -955,9 +957,9 @@ Changes:
 									<xsl:for-each select="*[local-name()='daoloc']">
 										<xsl:if test="@*[local-name()='label'] = following::*[local-name()='arc'][1]/@*[local-name()='to']">
 											<xsl:attribute name="href">
-												<xsl:value-of select="@*[local-name()='href']"/>
+												<xsl:value-of select="@href|@xlink:href"/>
 											</xsl:attribute>
-											<xsl:if test="following::*[local-name()='arc'][1]/@*[local-name()='show']='new'">
+											<xsl:if test="following::*[local-name()='arc'][1][@show='new' or @xlink:show='new']">
 												<xsl:attribute name="target">_blank</xsl:attribute>
 											</xsl:if>
 										</xsl:if>

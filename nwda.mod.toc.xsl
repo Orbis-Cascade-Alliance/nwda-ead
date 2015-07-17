@@ -67,7 +67,7 @@
 					</a>
 				</li>
 			</xsl:if>
-			<xsl:if test="(string(*[local-name()='accessrestrict'])) or (string(*[local-name()='userestrict'])) or (string(*[local-name()='altformavail']))">
+			<xsl:if test="(string(*[local-name()='userestrict'])) or (string(*[local-name()='altformavail']))">
 				<li>
 					<a href="#" class="toggle-button" id="toggle-use">
 						<span class="glyphicon glyphicon-triangle-right"> </span>
@@ -82,14 +82,7 @@
 									<xsl:value-of select="$altformavail_label"/>
 								</a>
 							</li>
-						</xsl:if>
-						<xsl:if test="string(*[local-name()='accessrestrict'])">
-							<li>
-								<a href="#{$accessrestrict_id}" class="showuseinfo">
-									<xsl:value-of select="$accessrestrict_label"/>
-								</a>
-							</li>
-						</xsl:if>
+						</xsl:if>						
 						<xsl:if test="string(*[local-name()='userestrict'])">
 							<li>
 								<a href="#{$userestrict_id}" class="showuseinfo">
