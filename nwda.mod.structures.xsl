@@ -246,12 +246,7 @@ Mark Carlson
 						<xsl:value-of select="$accessrestrict_label"/>
 					</dt>
 					<dd>
-						<xsl:for-each select="*[local-name()='accessrestrict']/*[local-name()='p']">
-							<xsl:value-of select="."/>
-							<xsl:if test="not(position()=last())">
-								<xsl:text> </xsl:text>
-							</xsl:if>
-						</xsl:for-each>
+						<xsl:apply-templates select="*[local-name()='accessrestrict']"/>						
 					</dd>
 				</xsl:if>
 
@@ -261,12 +256,7 @@ Mark Carlson
 						<xsl:value-of select="$otherfindaid_label"/>
 					</dt>
 					<dd>
-						<xsl:for-each select="*[local-name()='otherfindaid']/*[local-name()='p']">
-							<xsl:value-of select="."/>
-							<xsl:if test="not(position()=last())">
-								<xsl:text> </xsl:text>
-							</xsl:if>
-						</xsl:for-each>
+						<xsl:apply-templates select="*[local-name()='otherfindaid']"/>						
 					</dd>
 				</xsl:if>
 
@@ -793,7 +783,7 @@ Mark Carlson
 	<!-- ********************* <ADMININFO> *********************** -->
 	<xsl:template name="admininfo">
 		<xsl:if test="*[local-name()='acqinfo'] | *[local-name()='accruals'] | *[local-name()='custodhist'] | *[local-name()='processinfo'] | *[local-name()='separatedmaterial'] |
-			*[local-name()='bibliography'] | *[local-name()='otherfindaid'] | *[local-name()='relatedmaterial'] | *[local-name()='originalsloc'] | *[local-name()='appraisal'] |
+			*[local-name()='bibliography'] | *[local-name()='relatedmaterial'] | *[local-name()='originalsloc'] | *[local-name()='appraisal'] |
 			//*[local-name()='sponsor']">
 			<xsl:if test="not(ancestor::*[local-name()='dsc'])">
 				<xsl:choose>
@@ -808,7 +798,7 @@ Mark Carlson
 			</xsl:if>
 			<div class="admininfo">
 				<xsl:for-each select="*[local-name()='custodhist'] | *[local-name()='acqinfo'] | *[local-name()='accruals'] | *[local-name()='processinfo'] | *[local-name()='separatedmaterial'] |
-					*[local-name()='bibliography'] | *[local-name()='otherfindaid'] | *[local-name()='relatedmaterial'] | *[local-name()='appraisal'] | *[local-name()='originalsloc'] |
+					*[local-name()='bibliography'] | *[local-name()='relatedmaterial'] | *[local-name()='appraisal'] | *[local-name()='originalsloc'] |
 					//*[local-name()='sponsor']">
 					<xsl:call-template name="archdesc_minor_children">
 						<xsl:with-param name="withLabel">true</xsl:with-param>
