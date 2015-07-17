@@ -1,0 +1,466 @@
+/* Top Level elements */
+
+@import url(https://fonts.googleapis.com/css?family=Cinzel);
+
+html {
+}
+
+body {
+	background-color: #f5f5f5;
+	color: #666666;
+	margin: 0;
+	padding: 0;
+	font-family: Verdana, Arial, Helvetica, Sans;
+}
+
+h1 {
+	font-size: 28px;
+	font-weight: 600px;
+}
+
+h2 {
+	font-size: 19px;
+}
+
+h3 {
+	/*font-size: 15px;*/
+}
+
+/* main page containers */
+
+#header {
+	width: 100%;
+	/*height: 80px;*/
+	background-image: url(headgradient.jpg);
+	background-position: bottom center;
+	background-size: cover;
+	border-bottom: 1px solid white;
+}
+
+#headercontent {
+	background-image: url(header-bg.jpg);
+	background-position: center;
+	background-size: cover;
+}
+
+#headerlogo {
+	float: left;
+	font-size: 30px;
+	color: white;
+}
+
+#headerlogotxt {
+	display: inline-block;
+	margin: 10px;
+	font-family: 'Cinzel', serif;
+	text-decoration: none;
+	color: white;
+	/*border: 1px solid #dedede;*/
+}
+
+#orbis-head-logo {
+	display: inline-block;
+	height: 30px;
+	position: relative;
+	top: -5px;
+}
+
+#headerlinks {
+	padding-top: 30px;
+	float: right;
+}
+
+#headerlinks a {
+	font-size: 20px;
+	text-transform: uppercase;
+	color: white;
+	text-decoration: none;
+	padding: 0 10px;
+}
+
+#maincontent {
+}
+
+.titleHead {
+	font-size: 1.2em;
+	font-weight: 600;
+}
+
+
+#homesearchtop {
+	padding: 50px 0;
+	background-position: bottom right;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.toggle-button {
+	padding: 1px 4px;
+}
+
+.hsc_title {
+	color: white;
+	font-size: 25px;
+	font-weight: 300;
+	text-transform: uppercase;
+	text-align: right;
+	padding: 4px 20px;
+	background-color: #6c34a8;
+	background-image: url(folded.png);
+	background-position: left;
+	background-repeat: no-repeat;
+}
+
+#optionsearch {
+	text-transform: uppercase;
+	color: #dedede;
+	font-size: 13px;
+	font-weight: 300;
+}
+
+
+.topicSearch {
+	padding-top: 5px;
+}
+
+.topicSearch, .sub-topic {
+	cursor: pointer;
+}
+
+.sub-topic {
+	font-size: 0.8em;
+	padding: 2px 0 2px 2px;
+}
+
+.sub-topic:hover {
+	color: black;
+}
+
+.searchterms {
+    /*
+	max-height: 200px;
+	overflow: auto;
+	*/
+	padding-left: 1px;
+	margin-bottom: 10px;
+	border-left: 1px solid #cccccc;
+}
+
+#searchbytopictable td {
+	vertical-align: top;
+}
+
+/* Small screen */
+
+@media screen and (min-width: 600px) {
+	#searchbytopictable {
+		margin-right: 10px;
+	}
+	#searchbytopictable td {
+		padding: 8px 5px;
+		color: #666666;
+		font-size: 11px;
+	}
+}
+
+/* Regular PC */
+
+@media screen and (min-width: 940px) {
+	#searchbytopictable {
+		margin: 20px;
+	}
+	#searchbytopictable td {
+		padding: 1px;
+		color: #666666;
+		font-size: 11px;
+	}
+}
+
+/* Hi-rez */
+
+@media screen and (min-width: 1240px) {
+	#searchbytopictable td {
+		padding: 8px 5px;
+		color: #666666;
+		font-size: 18px;
+	}
+}
+
+/* various colors from the designer used by priority */
+
+.white {
+	color: white;
+}
+
+.color1 {
+	color: #6C34A8;
+}
+
+.color1b {
+	background-color: #6C34A8;
+}
+
+.backtotop {
+	color: #eeeeee;
+	background-color: #6C34A8;
+	padding: 5px;
+}
+
+.backtotop:hover {
+	color: #ffffff;
+}
+
+.labelsearch {
+	color: white;
+	font-size: 24px;
+	font-weight: 500;
+}
+
+/* item page */
+
+.toc-fixed{
+	-webkit-transition: top 1s, left 1s, height 1s; /* Safari */
+	transition: top 1s, left 1s, height 1s;
+	background-color: #ffffff;
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 2px 2px 2px #cccccc;
+}
+
+.toc-fixed-top{
+	top: 0px;
+	left: 0px;
+	height:100%;
+}
+
+.itemcontent {
+	margin: 20px auto 200px auto;
+}
+
+.contactcontent {
+	font-size: 12px;
+}
+
+.itemcontent_title {
+	font-size: 30px;
+	color: #4a2474;
+	font-weight: 600;
+}
+
+.itemcontent_subtitle {
+	font-size: 22px;
+	color: #666666;
+	font-weight: 500;
+}
+
+.itemcontent_objects_title {
+	font-size: 25px;
+	color: #4a2474;
+	font-weight: 600;
+}
+
+.itemcontent_summary {}
+
+.itemcontent_summary table {
+	margin-left: 5%;
+}
+
+.itemcontent_summary table td {
+	padding: 5px;
+}
+
+.item_thumb {
+	height: 125px;
+	width: auto;
+	margin: 20px auto 10px auto;
+	display: block;
+}
+
+.thumbnails-full {
+
+}
+
+.thumbnails-inline {
+	max-height: 300px;
+	overflow: auto;
+}
+
+.moreinfo-thumbnail{
+	display: inline-block;
+	margin: 2px;
+	border: 1px solid black;
+}
+
+.thumbnail-wdescription {
+	margin: 10px 0;
+	background-color: white;
+	corner-radius: 5px;
+	box-shadow: 2px 2px 2px #cccccc;
+	padding: 10px;
+}
+
+.thumbnail-wdescription img {
+	border: 1px solid #cccccc;
+}
+
+.thumbnail-title {
+	font-weight: 600;
+	background-color: #f0f0f0;
+	border-left: 4px solid #cccccc;
+	padding-left: 6px;
+	margin: 10px 0;
+}
+
+.thumbnail-subtitle {
+	font-style: italic;
+	font-weight: 400;
+	font-size: 0.8em;
+}
+
+.thumbnail-minimal {
+	background-size: cover;
+	width: 100px;
+	height: 100px;
+	border-radius: 5px;
+	display: inline-block;
+	margin: 2px;
+	text-align: center; 
+}
+
+.thumbnail-large {
+	border-radius: 2px;
+	height: 150px;
+	margin: 10px 2px;
+	border: 1px solid #999999;
+	box-shadow: 2px 2px 2px #cccccc;
+}
+
+#thumbnailsbuttons, #thumbnailsinfo {
+	margin: 10px 0;
+}
+
+/* in-document search */
+
+.innersearchterm {
+	color: red;
+	background-color: white;
+	box-shadow: 1px 1px 2px #999999;
+	font-size: 1.3em;
+	!important;
+}
+
+#searchinfo {
+	padding: 3px;
+}
+
+ul.nobullet li {
+	list-style-type: none;
+}
+
+#footer {
+	font-size: 20px;
+	color: white;
+	text-align: right;
+	background-color: #b1b1b1;
+	padding: 20px 5%;
+}
+
+#footer a {
+	color: white;
+}
+
+#footer span {
+	padding: 0 20px;
+}
+
+
+/*
+ * Temporary elements
+ *
+ * */
+
+#social {
+	height: 50px;
+	background-color: #eeeeee;
+}
+
+
+
+/*
+ * Helper Classes
+ *
+ * */
+
+.offsetline {
+	border-bottom: 1px solid #aaaaaa;
+	margin: 0px -20px;
+}
+
+.hugespace {
+	margin: 20%;
+	font-size: 2em;
+	text-align: center;
+}
+
+.cf {
+	clear: both;
+}
+
+.p1 {
+	padding: 20px;
+}
+
+.mb {
+	margin-bottom: 20px;
+}
+
+.mt {
+	margin-top; 20px;
+}
+
+.tr1 {
+	background-image: url(tr1.png);
+}
+
+.found-passage {
+	background-color: #fefefe;
+	border: 1px solid red;
+	padding: 5px;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+/*
+ *
+ * Responsive classes
+ *
+ *  */
+
+
+/* Defaults ... */
+
+/* width container */
+
+.wcon {
+	margin: auto;
+	position: relative;
+	/*background-color: #f0f0f0;*/
+}
+
+/* Small screen */
+@media screen and (min-width: 600px) {
+	.wcon { width: 80%; }
+}
+
+/* Regular PC */
+@media screen and (min-width: 940px) {
+	.wcon { width: 900px; }
+}
+
+/* Hi-rez */
+@media screen and (min-width: 1240px) {
+	.wcon { width: 1200px; }
+}
+

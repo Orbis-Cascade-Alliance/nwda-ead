@@ -70,7 +70,7 @@
 			<xsl:if test="(string(*[local-name()='accessrestrict'])) or (string(*[local-name()='userestrict'])) or (string(*[local-name()='altformavail']))">
 				<li>
 					<a href="#" class="toggle-button" id="toggle-use">
-						<span class="glyphicon glyphicon-plus"> </span>
+						<span class="glyphicon glyphicon-triangle-right"> </span>
 					</a>
 					<a href="#{$useinfo_id}" class="showuseinfo">
 						<xsl:value-of select="$useinfo_head"/>
@@ -114,7 +114,7 @@
 				string(*[local-name()='otherfindaid']) or string(*[local-name()='relatedmaterial']) or      string(*[local-name()='index'])">
 				<li>
 					<a href="#" class="toggle-button" id="toggle-admin">
-						<span class="glyphicon glyphicon-plus"> </span>
+						<span class="glyphicon glyphicon-triangle-right"> </span>
 					</a>
 					<a href="#administrative_info">
 						<xsl:text>Administrative Information</xsl:text>
@@ -204,7 +204,7 @@
 				<li>
 					<xsl:if test="//*[local-name()='c02']">
 						<a href="#" class="toggle-button" id="toggle-dsc">
-							<span class="glyphicon glyphicon-minus"> </span>
+							<span class="glyphicon glyphicon-triangle-bottom"> </span>
 						</a>
 					</xsl:if>
 					<a href="#{$dsc_id}" class="showdsc">

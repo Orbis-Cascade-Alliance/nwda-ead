@@ -1,170 +1,110 @@
-$(document).ready(function(){
-	$('.toggle-button span').click(function(){
-		var list = $(this) .parent('a').attr('id').split('-')[1] + '-content';
+$(document).ready(function () {
+	$('.toggle-button span').click(function () {
+		var list = $(this).parent('a').attr('id').split('-')[1] + '-content';
 		$('.' + list).toggle();
 		
 		//replace minus with plus and vice versa
-		if ($(this).attr('class').indexOf('minus') > 0) {
-			$(this).removeClass('glyphicon-minus');
-			$(this).addClass('glyphicon-plus');
+		//replace show/hide glyphicons
+		
+		if ($(this).hasClass('glyphicon-triangle-bottom')) {
+			$(this).removeClass('glyphicon-triangle-bottom');
+			$(this).addClass('glyphicon-triangle-right');
 			$('.' + list).hide();
 		} else {
-			$(this).removeClass('glyphicon-plus');
-			$(this).addClass('glyphicon-minus');
+			$(this).removeClass('glyphicon-triangle-right');
+			$(this).addClass('glyphicon-triangle-bottom');
 		}
 		return false;
 	});
+	
+	
+	/*
+	
+	This file is used by the Item Page
+	It is responsible for the "in-document" search and moving the Table of Contents
+	By jean.francois.lauze@gmail.com
+	Last revision: July 7 2015
+	
+	 */
+	
+	
+	var originalHtml;
+	
+	$(document).ready(function () {
+		
+		// decorate the TOP links
+		$('a[href="#top"] *').attr('style', '');
+		$('a[href="#top"]').addClass('backtotop pull-right');
+		
+		//var originalTopTop = $('.toc-fixed').css('top');
+		
+		// move the Table of Contents
+		$('.toc-fixed').prepend('<div><input type="text" class="form-control" id="innersearch" placeholder="Search this document" /></div><div id="searchinfo"></div>');
+		
+		// Bind the [search this document] textbox
+		$('#innersearch').change(function () {
+			innersearch($(this).val());
+		});
+		
+		// load the available digital objects
+		//digitalobjects();
+		
+		// remember this document without tags
+		originalHtml = $('#docBody').html();
+		
+		// this will make the Table of Contents stick to the left when we scroll down the page...
+		$('#headerlogotxt').unbind();
+		$('#headerlogotxt').appear();
+		$(document.body).on('disappear', '#headerlogotxt', function (e, $affected) {
+			$('.toc-fixed').addClass('toc-fixed-top');
+		});
+		$(document.body).on('appear', '#headerlogotxt', function (e, $affected) {
+			$('.toc-fixed').removeClass('toc-fixed-top');
+		});
+		
+		window.scrollTo(0, 0);
+	});
+	
+	
+	function innersearch(term) {
+		
+		// search in the document for words begining with "term"
+		var sterm2 = new RegExp(" " + term, 'gi');
+		// preceded by a space
+		var sterm1 = new RegExp("\>" + term, 'gi');
+		// preceded by a html tag
+		var sterm3 = new RegExp("	" + term, 'gi');
+		// preceded by a Tab
+		
+		// restore document without markup
+		$('#docBody').html(originalHtml);
+		
+		// query needs to be at least 2 characters
+		if (term.length > 1) {
+			// mark the search term in all valid elements
+			$('#docBody p, #docBody td div, #docBody dd, #docBody dt, #docBody a, #docBody h1, #docBody h2, #docBody h3, #docBody h4, #docBody li').each(function () {
+				$(this).html($(this).html().replace(sterm1, '<span class="innersearchterm">' + term + '</span>'));
+				$(this).html($(this).html().replace(sterm2, '<span class="innersearchterm">' + term + '</span>'));
+				$(this).html($(this).html().replace(sterm3, '<span class="innersearchterm">' + term + '</span>'));
+			});
+			
+			// mark the parent elements of the found items
+			$('.innersearchterm').each(function () {
+				$(this).parent().addClass('found-passage');
+			});
+			
+			// show info...
+			var cnt = $('.innersearchterm').length;
+			$('#searchinfo').html(cnt + ' results. <a href="javascript:clearsearch();">clear</a>');
+		} else {
+			$('#searchinfo').html('Please enter at least 2 characters!');
+			$('#innersearch').select();
+		}
+	}
+	
+	function clearsearch() {
+		$('#innersearch').val('');
+		$('#searchinfo').html('');
+		$('#docBody').html(originalHtml);
+	}
 });
-
-function getElement(elem) {
-    if (document.getElementById) { // DOM3 = IE5, NS6
-        return document.getElementById(elem)
-    }
-    else {
-        if (document.layers) { // Netscape 4
-            return document[elem];
-        }
-        else { // IE 4
-            return document.all[elem];
-        }
-    }
-}
-
-function setOpacity(obj,value) {
-	obj.style.opacity = value/10;
-	//obj.style.filter = 'alpha(opacity=' + value*10 + ')';
-}
-
-var changing = false;
-var heigths = new Array();
-
-function hide(tag)
-{
-	var tt = getElement(tag);
-
-	if (tt == null)
-		return;
-
-	tt.style.opacity = 0;
-	//tt.style.filter = 'alpha(opacity=0)';
-	heigths[tag] = tt.offsetHeight;
-	tt.style.height = "0px";
-	tt.style.overflow = "hidden";
-}
-
-function fade(tag)
-{
-    fadeBase(tag,2.5,20,true);
-}
-
-function fadeFast(tag)
-{
-    var tt = getElement(tag);
-    if (tt == null)
-        return;
-        
-    if(tt.style.display != "none" || tt.style.display == "")
-    {
-        tt.style.display = "none";
-     }
-    else
-    {
-        tt.style.display = "";
-    }
-}
-
-function fadeBase(tag,step,timeout,fade)
-{   
-    
-    var tt = getElement(tag);
-    if (tt == null)
-        return;
-        
-    if(tt.style.display == "none")
-		return;
-
-    if(changing)
-        return;
-        
-
-    changing = true;
-
-    tt.style.overflow = "hidden"
-    
-    if(typeof(heigths[tag]) == "undefined" || tt.clientHeight > 5)
-        heigths[tag] = tt.clientHeight;
-        
-    if(tt.style.height != "0px" || tt.style.height == "")
-        setTimeout(function () { fadeHlpr(tt,10,-step,timeout,fade);},timeout);
-    else
-        setTimeout(function () { fadeHlpr(tt,0,step,timeout,fade);},timeout);
-        
-}
-
-function fadeHlpr(tt,op,inc,timeout,fade)
-{
-    op+=inc;
-    
-    if(fade)
-        setOpacity(tt,op);
-        
-    tt.style.height = heigths[tt.id]*(op/10) + "px";
-
-    if(10>op && 0<op)
-        setTimeout(function () { fadeHlpr(tt,op,inc,timeout,fade);},timeout);
-    else
-    {
-	    if(op == 10 && tt.id == "results")
-	    {
-			tt.style.overflow = "auto"
-			if((heigths[tt.id]*(op/10)) > 3)
-				tt.style.border = "solid 1px #47371f"
-        }
-        if(op == 0 && tt.id == "results")
-	    {
-			tt.style.overflow = "hidden"
-			tt.style.border = "solid 0px #47371f"
-        }
-        changing = false;
-    }
-}
-
-function showall()
-{
-    show('h_overview');
-    show('h_top_odd');
-    show('h_top_bioghist');
-    show('h_top_scopecontent');
-    show('h_use');
-    show('h_ai');
-    show('h_dsc');
-    show('h_controlaccess');
-}
-
-function show(tag)
-{
-
-	var tt = getElement(tag);
-	if (tt == null)
-		return;
-	if(tt.style.display == "none")
-		tt.style.display = "";
-	else
-	{
-		setOpacity(tt,10);
-		tt.style.height = "";
-	}
-     
-	if(tt.id == "results")
-	{
-		tt.style.overflow = "auto"
-		tt.style.border = "solid 1px #47371f"
-	}
-}
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-3516166-1', 'auto');
-ga('send', 'pageview')

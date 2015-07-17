@@ -9,12 +9,12 @@ $(document).ready(function () {
 		
 		//replace minus with plus and vice versa
 		if ($(this).attr('class').indexOf('minus') > 0) {
-			$(this).removeClass('glyphicon-minus');
-			$(this).addClass('glyphicon-plus');
+			$(this).removeClass('glyphicon-triangle-bottom');
+			$(this).addClass('glyphicon-triangle-right');
 			$('.' + list).hide();
 		} else {
-			$(this).removeClass('glyphicon-plus');
-			$(this).addClass('glyphicon-minus');
+			$(this).removeClass('glyphicon-triangle-right');
+			$(this).addClass('glyphicon-triangle-bottom');
 		}
 		return false;
 	});

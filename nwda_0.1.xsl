@@ -7,8 +7,9 @@ version 0.0.1
 Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 -->
 
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:fo="http://www.w3.org/1999/XSL/Format"
-	xmlns:nwda="https://github.com/Orbis-Cascade-Alliance/nwda-editor#" xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:ead="urn:isbn:1-931666-22-9" exclude-result-prefixes="nwda xsd vcard xsl fo ead">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:nwda="https://github.com/Orbis-Cascade-Alliance/nwda-editor#" xmlns:arch="http://purl.org/archival/vocab/arch#"
+	xmlns:ead="urn:isbn:1-931666-22-9" exclude-result-prefixes="nwda xsd vcard xsl fo ead">
 	<xsl:output encoding="UTF-8" method="html" omit-xml-declaration="yes" doctype-public="html"/>
 
 	<xsl:param name="doc"/>
@@ -94,76 +95,116 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 				<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 				<!-- jquery -->
 				<meta name="viewport" content="width=device-width, initial-scale=1"/>
-				<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">//</script>
-				<!-- bootstrap -->
-				<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
-				<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">//</script>
+
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">//</script>
+				<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js">//</script>
+				
+				<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
 
 				<!-- local styling -->
 				<link href="{$pathToCss}{$styleFileName}" rel="stylesheet"/>
 				<link href="{$serverURL}/ark:/{$identifier}" rel="canonical"/>
 				<link href="{$serverURL}/ark:/{$identifier}/pdf" rel="alternate" type="application/pdf"/>
 				<script language="javascript" type="text/javascript" src="{$pathToJavascript}jqs.js">//</script>
-				<!--<script language="javascript" type="text/javascript" src="{$pathToJavascript}2doc_search.js">//</script>-->
 				
+				<!--<script language="javascript" type="text/javascript" src="{$pathToJavascript}2doc_search.js">//</script>-->
+				<xsl:choose>
+					<xsl:when test="$platform='linux'">
+						<script language="javascript" type="text/javascript" src="{$pathToJavascript}jquery.appear.js">//</script>						
+						<link rel="stylesheet" type="text/css" href="{$pathToCss}global.css"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<script language="javascript" type="text/javascript" src="/jquery.appear.js">//</script>
+						<script language="javascript" type="text/javascript" src="/global.js">//</script>
+						<link rel="stylesheet" type="text/css" href="/global.css"/>
+					</xsl:otherwise>
+				</xsl:choose>
+
+
 				<!-- google analytics -->
-				<script type="text/javascript">
-					if (typeof(_gat) == "object") {
-					var pageTracker = _gat._getTracker("UA-3516166-1");
-					pageTracker._setLocalRemoteServerMode();
-					pageTracker._trackPageview();
-					}
-				</script>
+				<meta name="google-site-verification" content="Jzd19gch6s4FFczJFYTH8hFo9AZ2otlHRX-6B5ij-c0"/>
+				<script type="text/javascript" src=""/>
 			</head>
 			<body>
-				<xsl:call-template name="html.header"/>
+				<div id="header">
+					<div id="headercontent" class="wcon">
+						<div id="headerlogo">
+							<a class="" href="/" id="headerlogotxt">Archives West</a>
+							<img src="/orbis-white.png" id="orbis-head-logo"/>
+						</div>
+						<div id="headerlinks">
+							<a href="/about.shtml" class="">about</a>
+							<a href="/contact" class="">contact</a>
+							<a href="/help.shtml" class="">help</a>
+						</div>
+						<div class="cf"/>
+					</div>
+				</div>
 				<div class="container-fluid" typeof="arch:Collection" about="{$serverURL}/ark:/{$identifier}">
-					<div class="row pull-right">
-						<div class="col-md-12">
-							<ul class="list-inline">
-								<li>
-									<strong>Share:</strong>
-								</li>
-								<li>
-									<!-- AddThis Button BEGIN -->
-									<div class="addthis_toolbox addthis_default_style">
-										<a class="addthis_button_preferred_1"/>
-										<a class="addthis_button_preferred_2"/>
-										<a class="addthis_button_preferred_3"/>
-										<a class="addthis_button_preferred_4"/>
-										<a class="addthis_button_compact"/>
-										<a class="addthis_counter addthis_bubble_style"/>
+					<form action="/search/results.aspx" method="get">
+						<div id="">
+							<div class="wcon">
+								<div id="homesearchzone" class="row">
+									<div class="col-sm-6" style="padding-top: 20px;">
+										<ul class="list-inline">
+											<li>
+												<strong>Share:</strong>
+											</li>
+											<li>
+												<!-- AddThis Button BEGIN -->
+												<div class="addthis_toolbox addthis_default_style">
+													<a class="addthis_button_preferred_1"/>
+													<a class="addthis_button_preferred_2"/>
+													<a class="addthis_button_preferred_3"/>
+													<a class="addthis_button_preferred_4"/>
+													<a class="addthis_button_compact"/>
+													<a class="addthis_counter addthis_bubble_style"/>
+												</div>
+												<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-525d63ef6a07cd89"/>
+											</li>
+											<li>
+												<strong>Download/Print:</strong>
+											</li>
+											<li>
+												<a href="{$serverURL}/ark:/{$identifier}/pdf">PDF</a>
+											</li>
+										</ul>
 									</div>
-									<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-525d63ef6a07cd89"/>
-								</li>
-								<li>
-									<strong>Download/Print:</strong>
-								</li>								
-								<li>
-									<a href="{$serverURL}/ark:/{$identifier}/pdf">PDF</a>
-								</li>
-							</ul>
+									<div id="searchoptions" class="col-sm-6">
+										<div class="tr1 p1">
+											<div class="row">
+												<span class="col-xs-4 labelsearch">Search</span>
+												<span class="col-xs-8 text-right">
+													<label>
+														<input type="checkbox" name="d" value="1" />
+														<span id="optionsearch"> digital objects only</span>
+													</label>
+												</span>
+											</div>
+											<div class="">
+												<input type="text" id="searchValue" name="q" class="form-control" placeholder="By Keywords" />
+											</div>
+											<input type="hidden" id="t" name="t" value="k" />
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12 text-center">
-							<h1>
-								<xsl:value-of select="normalize-space(/*[local-name()='ead']/*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unittitle'])"/>
-								<xsl:if test="/*[local-name()='ead']/*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unitdate']">
-									<xsl:text>, </xsl:text>
-									<xsl:value-of select="/*[local-name()='ead']/*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unitdate']"/>
-								</xsl:if>
-							</h1>
-						</div>
-					</div>
-					<div class="row">
+					</form>
+					<div class="color1b" style="margin: 20px 0; height: 4px;"></div>
+					<div class="">
 						<!-- March 2015: Moved TOC under the archdesc template to accommodate responsive framework.
 						On extra small (phones) and small devices, (< 992 px wide), the TOC will be moved under Collection Overview -->
 						
 						<!-- April 2015: flag mode has been added to facilitate cleaner linking in the XSL:FO -->
 						<xsl:apply-templates select="*[local-name()='archdesc']" mode="flag"/>						
 					</div>
-				</div>				
+				</div>
+				<div id="footer">
+					<a href="http://www.orbiscascade.org">
+						<img src="/orbislogo.png"/>
+					</a>
+				</div>
 			</body>
 		</html>
 	</xsl:template>

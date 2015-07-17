@@ -6,8 +6,8 @@
                 xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:ead="urn:isbn:1-931666-22-9"
                 exclude-result-prefixes="ead fo rdf"
-                version="1.0"><!-- ********************* <PREFERENCES.USAGE> *********************** --><!-- usage prefeerences to go here --><!--USER definided--><xsl:variable name="serverURL">http://nwda.orbiscascade.org</xsl:variable>
-   <!-- boolean variables dependent on the Harvester and Repository Metadata Editor being in production --><xsl:variable name="harvester-active">false</xsl:variable>
+                version="1.0"><!-- ********************* <PREFERENCES.USAGE> *********************** --><!-- usage prefeerences to go here --><!--USER definided--><xsl:variable name="serverURL">http://archiveswest.orbiscascade.org</xsl:variable>
+   <!-- boolean variables dependent on the Harvester and Repository Metadata Editor being in production --><xsl:variable name="harvester-active">true</xsl:variable>
    <xsl:variable name="editor-active">true</xsl:variable>
    <!-- set platform = 'linux' or 'windows' to use either msxsl or exsl to get node-set --><xsl:variable name="platform">linux</xsl:variable>
    <xsl:variable name="pathToCss">
@@ -46,7 +46,7 @@
    <xsl:variable name="operator">Stephen Yearl</xsl:variable>
    <xsl:variable name="logoName">nwda.logo.gif</xsl:variable>
    <xsl:variable name="logoAlt">NWDA logo</xsl:variable>
-   <xsl:variable name="homepage">http://www.nwda.orbiscascade.org</xsl:variable>
+   <xsl:variable name="homepage">http://archiveswest.orbiscascade.org</xsl:variable>
    <xsl:variable name="repository">Your Repositiory</xsl:variable>
    <xsl:variable name="repositoryParent">Your Repositiory Parent Body</xsl:variable>
    <xsl:variable name="styleFileName">nwda.style.css</xsl:variable>
@@ -74,7 +74,7 @@
    <!-- end carlsonm mod --><xsl:param name="scopecontent_head">Content Description</xsl:param>
    <xsl:param name="scopecontent_label">Content Description</xsl:param>
    <xsl:param name="scopecontent_id">scopecontentID</xsl:param>
-   <xsl:param name="controlaccess_head">Subjects</xsl:param>
+   <xsl:param name="controlaccess_head">Find Related Collections</xsl:param>
    <xsl:param name="controlaccess_id">caID</xsl:param>
    <xsl:param name="othercreators_head">Other Creators</xsl:param>
    <xsl:param name="othercreators_id">ocID</xsl:param>

@@ -1,15 +1,6 @@
 /* ******GLOBAL ****** */
-body{
-	color:#6b6b6b;
-	font-family:georgia, "times new roman", times, serif;
-	font-size:14px;
-}
-h1,
-h2,
-h3{
-	color:#676d38;
-}
 
+/*
 h4{
 	font-weight:bold;
 	margin:15px 0;
@@ -19,6 +10,7 @@ h5{
 	font-style:italic;
 	margin:10px 0;
 }
+*/
 
 #results
 {
@@ -48,7 +40,7 @@ h5{
 .findaidtitles{
 	font-weight:800;
 	font-size:140%;
-	color:#676d38;
+	color:#6c34a8;
 	text-align:center;
 }
 .footer{
@@ -56,6 +48,8 @@ h5{
 	padding-bottom:20px;
 	text-align:center;
 }
+
+/*
 a:link{
 	color:#47371f;
 }
@@ -65,6 +59,7 @@ a:visited{
 a:hover{
 	color:#ffac27;
 }
+*/
 table{
 	font-size:14px;
 }
@@ -80,6 +75,7 @@ table{
 	font-weight:bold;
 	margin-bottom:5px;
 }
+
 /*.nav-home {
 	background-color: #a47c41;
 }
@@ -157,7 +153,7 @@ table{
 }
 /* ****** END CONTROLS INDENTATION WITHIN C0X ******* */
 .containerLabel{
-	color:#676d38;
+	color:#6c34a8;
 	font-size:85%;
 	text-decoration:none;
 	text-transform:capitalize;
@@ -179,7 +175,7 @@ table{
 /* ****** HTML HEADINGS AND LABELS ****** */
 .dao_desc{
 	font-weight:600;
-	color:#676d38;
+	color:#6c34a8;
 	background-color:#edede8;
 }
 .collection_image{
@@ -195,23 +191,27 @@ table{
 	background-color:#f9f9f9;
 }
 /* ****** END HTML HEADINGS ****** */
+
+
 /* ****** HTML TOC ****** */
+
 /*.navBody{
 	position:fixed;
 }*/
 .navBody ul{
 	margin-left:2em;
-	font-weight:bold;
+	font-weight:400;
 }
 .navBody li{
 	margin-bottom:10px;
 }
 .toc-fixed{
-	width:23%;
+	width: 23%;
 	position:fixed;
 	overflow-y:auto;
-	height:500px;
+	
 }
+
 /* ************* CONTROL ACCESS LIST FORMATTING **************** */
 .ca_list{
 	list-style-type:none;

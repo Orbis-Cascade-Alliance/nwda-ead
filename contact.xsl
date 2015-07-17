@@ -91,7 +91,7 @@
 				<xsl:text> </xsl:text>
 				
 				<a href="#" class="toggle-button">
-					<span class="glyphicon glyphicon-plus"> </span>
+					<span class="glyphicon glyphicon-triangle-right"> </span>
 				</a>
 				<div style="display:none">
 					<dl class="dl-horizontal">

@@ -10,9 +10,10 @@ Mark Carlson
 2004-06, 2004-10, 2004-11, 2004-12
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-	xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:nwda="https://github.com/Orbis-Cascade-Alliance/nwda-editor#" xmlns:arch="http://purl.org/archival/vocab/arch#"
-	xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:ead="urn:isbn:1-931666-22-9" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-	xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="nwda xsd vcard xsl msxsl exsl ead rdf foaf dcterms">
+	xmlns:res="http://www.w3.org/2005/sparql-results#" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:nwda="https://github.com/Orbis-Cascade-Alliance/nwda-editor#"
+	xmlns:arch="http://purl.org/archival/vocab/arch#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:ead="urn:isbn:1-931666-22-9"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="nwda xsd vcard xsl msxsl exsl ead
+	rdf foaf dcterms">
 
 	<xsl:template match="*[local-name()='profiledesc'] | *[local-name()='revisiondesc'] | *[local-name()='filedesc'] | *[local-name()='eadheader'] | *[local-name()='frontmatter']"/>
 
@@ -40,6 +41,16 @@ Mark Carlson
 			</div>
 		</div>
 		<div class="col-md-9">
+			<div id="special1" style="margin: 20px 0;">
+				<!-- banner -->
+			</div>
+			<h1 class="color1">
+				<xsl:value-of select="normalize-space(/*[local-name()='ead']/*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unittitle'])"/>
+				<xsl:if test="/*[local-name()='ead']/*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unitdate']">
+					<xsl:text>, </xsl:text>
+					<xsl:value-of select="/*[local-name()='ead']/*[local-name()='archdesc']/*[local-name()='did']/*[local-name()='unitdate']"/>
+				</xsl:if>
+			</h1>
 			<div class="archdesc" id="docBody">
 				<xsl:call-template name="collection_overview"/>
 				<hr/>
@@ -47,14 +58,15 @@ Mark Carlson
 					<xsl:call-template name="toc"/>
 					<hr/>
 				</div>
-
+				<xsl:apply-templates select="*[local-name()='controlaccess']"/>
+				<hr/>
 				<xsl:apply-templates select="*[local-name()='bioghist'] | *[local-name()='scopecontent'] | *[local-name()='odd']"/>
 				<xsl:call-template name="useinfo"/>
 				<xsl:call-template name="administrative_info"/>
 				<hr/>
 
 				<xsl:apply-templates select="*[local-name()='dsc']"/>
-				<xsl:apply-templates select="*[local-name()='controlaccess']"/>
+
 			</div>
 			<div class="footer">
 				<xsl:apply-templates select="/*[local-name()='ead']/*[local-name()='eadheader']/*[local-name()='filedesc']/*[local-name()='publicationstmt']"/>
@@ -70,7 +82,7 @@ Mark Carlson
 			<xsl:value-of select="$overview_head"/>
 			<small>
 				<a href="#" class="toggle-button" id="toggle-overview">
-					<span class="glyphicon glyphicon-minus"> </span>
+					<span class="glyphicon glyphicon-triangle-bottom"> </span>
 				</a>
 			</small>
 		</h3>
@@ -316,7 +328,16 @@ Mark Carlson
 				<xsl:if test="$hasCHOs = 'true'">
 					<dt>Digital Objects</dt>
 					<dd>
-						<a href="{concat('http://harvester.orbiscascade.org/apis/get?ark=ark:/', //*[local-name()='eadid']/@identifier)}">yes</a>
+						<!-- call the Harvester API to display thumbnails.-->
+						<xsl:apply-templates select="document(concat('http://harvester.orbiscascade.org/apis/get?ark=ark:/', //*[local-name()='eadid']/@identifier,
+							'&amp;format=xml&amp;limit=5'))//res:result"/>
+
+						<!-- create link to display the full results, call Harvester Count API -->
+						<xsl:variable name="count">
+							<xsl:value-of select="document(concat('http://harvester.orbiscascade.org/apis/count?ark=ark:/', //*[local-name()='eadid']/@identifier))//response"/>
+						</xsl:variable>
+						<br/>
+						<a href="{$serverURL}/do.aspx?id={//*[local-name()='eadid']/@identifier}" target="_blank"><xsl:value-of select="$count"/> total - see all</a>
 					</dd>
 				</xsl:if>
 			</dl>
@@ -516,7 +537,7 @@ Mark Carlson
 					<xsl:value-of select="$bioghist_head"/>
 					<small>
 						<a href="#" class="toggle-button" id="toggle-{$class}">
-							<span class="glyphicon glyphicon-minus"> </span>
+							<span class="glyphicon glyphicon-triangle-bottom"> </span>
 						</a>
 					</small>
 					<small>
@@ -533,7 +554,7 @@ Mark Carlson
 					<xsl:value-of select="$bioghist_head"/>
 					<small>
 						<a href="#" class="toggle-button" id="toggle-{$class}">
-							<span class="glyphicon glyphicon-minus"> </span>
+							<span class="glyphicon glyphicon-triangle-bottom"> </span>
 						</a>
 					</small>
 					<small>
@@ -548,7 +569,7 @@ Mark Carlson
 						<xsl:value-of select="$historical_head"/>
 						<small>
 							<a href="#" class="toggle-button" id="toggle-{$class}">
-								<span class="glyphicon glyphicon-minus"> </span>
+								<span class="glyphicon glyphicon-triangle-bottom"> </span>
 							</a>
 						</small>
 						<small>
@@ -596,7 +617,7 @@ Mark Carlson
 				<xsl:value-of select="$scopecontent_head"/>
 				<small>
 					<a href="#" class="toggle-button" id="toggle-{$class}">
-						<span class="glyphicon glyphicon-minus"> </span>
+						<span class="glyphicon glyphicon-triangle-bottom"> </span>
 					</a>
 				</small>
 				<small>
@@ -646,7 +667,7 @@ Mark Carlson
 					<xsl:value-of select="$odd_head_histbck"/>
 					<small>
 						<a href="#" class="toggle-button" id="toggle-{$class}">
-							<span class="glyphicon glyphicon-minus"> </span>
+							<span class="glyphicon glyphicon-triangle-bottom"> </span>
 						</a>
 					</small>
 					<small>
@@ -660,7 +681,7 @@ Mark Carlson
 					<xsl:value-of select="$odd_head"/>
 					<small>
 						<a href="#" class="toggle-button" id="toggle-{$class}">
-							<span class="glyphicon glyphicon-minus"> </span>
+							<span class="glyphicon glyphicon-triangle-bottom"> </span>
 						</a>
 					</small>
 					<small>
@@ -701,7 +722,7 @@ Mark Carlson
 				<xsl:value-of select="$useinfo_head"/>
 				<small>
 					<a href="#" class="toggle-button" id="toggle-usediv">
-						<span class="glyphicon glyphicon-minus"> </span>
+						<span class="glyphicon glyphicon-triangle-bottom"> </span>
 					</a>
 				</small>
 				<small>
@@ -729,7 +750,7 @@ Mark Carlson
 			<xsl:text>Administrative Information</xsl:text>
 			<small>
 				<a href="#" class="toggle-button" id="toggle-ai">
-					<span class="glyphicon glyphicon-plus"> </span>
+					<span class="glyphicon glyphicon-triangle-right"> </span>
 				</a>
 			</small>
 			<small>
@@ -825,7 +846,7 @@ Mark Carlson
 					<tbody>
 						<xsl:apply-templates select="*[local-name()='indexentry']" mode="index"/>
 					</tbody>
-				</table>				
+				</table>
 			</xsl:if>
 		</div>
 		<xsl:call-template name="sect_separator"/>
@@ -953,4 +974,26 @@ Mark Carlson
 			<br/>
 		</xsl:if>
 	</xsl:template>
+
+	<!-- July 2015: render the first 5 images from the Harvester API (SPARQL) -->
+	<xsl:template match="res:result">
+		<!-- get the image URL in the order of thumbnail, depiction, or default to generic document icon -->
+		<xsl:variable name="image">
+			<xsl:choose>
+				<xsl:when test="res:binding[@name='thumbnail']">
+					<xsl:value-of select="res:binding[@name='thumbnail']/res:uri"/>
+				</xsl:when>
+				<xsl:when test="res:binding[@name='depiction']">
+					<xsl:value-of select="res:binding[@name='depiction']/res:uri"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="concat($serverURL, '/fileicon.png')"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<div class="thumbnail-minimal" style="background-image: url({$image});" title="{res:binding[@name='title']/res:literal}"/>
+	</xsl:template>
+
+
 </xsl:stylesheet>

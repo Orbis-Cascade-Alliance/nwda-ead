@@ -11,6 +11,7 @@ Mark Carlson
 --><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:vcard="http://www.w3.org/2006/vcard/ns#"
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+                xmlns:res="http://www.w3.org/2005/sparql-results#"
                 xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:nwda="https://github.com/Orbis-Cascade-Alliance/nwda-editor#"
                 xmlns:arch="http://purl.org/archival/vocab/arch#"
@@ -21,7 +22,7 @@ Mark Carlson
                 xmlns:msxsl="urn:schemas-microsoft-com:xslt"
                 xmlns:exsl="http://exslt.org/common"
                 version="1.0"
-                exclude-result-prefixes="nwda xsd vcard xsl msxsl exsl ead rdf foaf dcterms">
+                exclude-result-prefixes="nwda xsd vcard xsl msxsl exsl ead  rdf foaf dcterms">
    <xsl:template match="*[local-name()='profiledesc'] | *[local-name()='revisiondesc'] | *[local-name()='filedesc'] | *[local-name()='eadheader'] | *[local-name()='frontmatter']"/>
    <!-- ********************* <FOOTER> *********************** --><xsl:template match="*[local-name()='publicationstmt']">
       <fo:block font-size="14px" color="#666666" margin-bottom="10px" margin-top="10px"
@@ -357,8 +358,14 @@ Mark Carlson
                      </fo:table-cell>
                      <fo:table-cell>
                         <fo:block>
+                           <xsl:apply-templates select="document(concat('http://harvester.orbiscascade.org/apis/get?ark=ark:/', //*[local-name()='eadid']/@identifier,        '&amp;format=xml&amp;limit=5'))//res:result"/>
+                           <xsl:variable name="count">
+                              <xsl:value-of select="document(concat('http://harvester.orbiscascade.org/apis/count?ark=ark:/', //*[local-name()='eadid']/@identifier))//response"/>
+                           </xsl:variable>
+                           <fo:block/>
                            <fo:basic-link text-decoration="underline" color="#337ab7"
-                                          external-destination="{concat('http://harvester.orbiscascade.org/apis/get?ark=ark:/', //*[local-name()='eadid']/@identifier)}">yes</fo:basic-link>
+                                          external-destination="{$serverURL}/do.aspx?id={//*[local-name()='eadid']/@identifier}">
+                              <xsl:value-of select="$count"/> total - see all</fo:basic-link>
                         </fo:block>
                      </fo:table-cell>
                   </fo:table-row>
@@ -841,5 +848,20 @@ Mark Carlson
          </fo:basic-link>
          <fo:block/>
       </xsl:if>
+   </xsl:template>
+   <!-- July 2015: render the first 5 images from the Harvester API (SPARQL) --><xsl:template match="res:result"><!-- get the image URL in the order of thumbnail, depiction, or default to generic document icon --><xsl:variable name="image">
+         <xsl:choose>
+            <xsl:when test="res:binding[@name='thumbnail']">
+               <xsl:value-of select="res:binding[@name='thumbnail']/res:uri"/>
+            </xsl:when>
+            <xsl:when test="res:binding[@name='depiction']">
+               <xsl:value-of select="res:binding[@name='depiction']/res:uri"/>
+            </xsl:when>
+            <xsl:otherwise>
+               <xsl:value-of select="concat($serverURL, '/fileicon.png')"/>
+            </xsl:otherwise>
+         </xsl:choose>
+      </xsl:variable>
+      <fo:block/>
    </xsl:template>
 </xsl:stylesheet>
