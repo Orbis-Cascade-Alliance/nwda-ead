@@ -368,7 +368,9 @@ Changes:
 		and download time for the user - Ethan Gruber 7/29/07 -->
 
 		<xsl:variable name="first_container">
-			<xsl:call-template name="container_type1"/>
+			<xsl:call-template name="container_type">
+				<xsl:with-param name="container_number" select="1"/>
+			</xsl:call-template>
 		</xsl:variable>
 		<xsl:variable name="second_container">
 			<xsl:call-template name="container_type">
@@ -376,7 +378,7 @@ Changes:
 			</xsl:call-template>
 		</xsl:variable>
 
-		<!-- if none of the container variables contains any data, the row will not be created -->
+		<!-- if none of the container variables contains any data, the row will not be created -->		
 
 		<xsl:if test="string($first_container) or string($second_container)">
 			<tr>
@@ -451,30 +453,7 @@ Changes:
 	</xsl:template>
 
 	<!-- ******************** DISPLAYS TYPE OF CONTAINER ****************** -->
-
-	<xsl:template name="container_type1">
-
-		<xsl:variable name="current_val">
-			<xsl:value-of select="*[local-name()='did']/*[local-name()='container']/@type"/>
-		</xsl:variable>
-
-		<xsl:variable name="last_val">
-			<xsl:if test="$current_val">
-				<xsl:value-of select="preceding-sibling::node()/*[local-name()='did']/*[local-name()='container']/@type"/>
-			</xsl:if>
-		</xsl:variable>
-
-		<!-- if the last value is not equal to the first value, then the regularize_container template is called.  -->
-
-		<xsl:if test="$last_val != $current_val">
-			<xsl:call-template name="regularize_container">
-				<xsl:with-param name="current_val">
-					<xsl:value-of select="$current_val"/>
-				</xsl:with-param>
-			</xsl:call-template>
-		</xsl:if>
-	</xsl:template>
-
+	
 	<xsl:template name="container_type">
 		<xsl:param name="container_number"/>
 
@@ -483,18 +462,14 @@ Changes:
 		</xsl:variable>
 
 		<xsl:variable name="last_val">
-			<xsl:if test="$current_val">
-				<xsl:value-of select="preceding-sibling::node()/*[local-name()='did']/*[local-name()='container'][$container_number]/@type"/>
-			</xsl:if>
+			<xsl:value-of select="preceding-sibling::*[1]/*[local-name()='did']/*[local-name()='container'][$container_number]/@type"/>
 		</xsl:variable>
 
 		<!-- if the last value is not equal to the first value, then the regularize_container template is called.  -->
 
 		<xsl:if test="$last_val != $current_val">
 			<xsl:call-template name="regularize_container">
-				<xsl:with-param name="current_val">
-					<xsl:value-of select="$current_val"/>
-				</xsl:with-param>
+				<xsl:with-param name="current_val" select="$current_val"/>
 			</xsl:call-template>
 		</xsl:if>
 	</xsl:template>

@@ -469,7 +469,9 @@ Changes:
 		this logic basically only creates the row and its table cells if there is firstor second container
 		data returned from the template call.  this logic cuts back on processing time for the server
 		and download time for the user - Ethan Gruber 7/29/07 --><xsl:variable name="first_container">
-         <xsl:call-template name="container_type1"/>
+         <xsl:call-template name="container_type">
+            <xsl:with-param name="container_number" select="1"/>
+         </xsl:call-template>
       </xsl:variable>
       <xsl:variable name="second_container">
          <xsl:call-template name="container_type">
@@ -583,38 +585,17 @@ Changes:
          </fo:table-row>
       </xsl:if>
    </xsl:template>
-   <!-- ******************** DISPLAYS TYPE OF CONTAINER ****************** --><xsl:template name="container_type1">
-      <xsl:variable name="current_val">
-         <xsl:value-of select="*[local-name()='did']/*[local-name()='container']/@type"/>
-      </xsl:variable>
-      <xsl:variable name="last_val">
-         <xsl:if test="$current_val">
-            <xsl:value-of select="preceding-sibling::node()/*[local-name()='did']/*[local-name()='container']/@type"/>
-         </xsl:if>
-      </xsl:variable>
-      <!-- if the last value is not equal to the first value, then the regularize_container template is called.  --><xsl:if test="$last_val != $current_val">
-         <xsl:call-template name="regularize_container">
-            <xsl:with-param name="current_val">
-               <xsl:value-of select="$current_val"/>
-            </xsl:with-param>
-         </xsl:call-template>
-      </xsl:if>
-   </xsl:template>
-   <xsl:template name="container_type">
+   <!-- ******************** DISPLAYS TYPE OF CONTAINER ****************** --><xsl:template name="container_type">
       <xsl:param name="container_number"/>
       <xsl:variable name="current_val">
          <xsl:value-of select="*[local-name()='did']/*[local-name()='container'][$container_number]/@type"/>
       </xsl:variable>
       <xsl:variable name="last_val">
-         <xsl:if test="$current_val">
-            <xsl:value-of select="preceding-sibling::node()/*[local-name()='did']/*[local-name()='container'][$container_number]/@type"/>
-         </xsl:if>
+         <xsl:value-of select="preceding-sibling::*[1]/*[local-name()='did']/*[local-name()='container'][$container_number]/@type"/>
       </xsl:variable>
       <!-- if the last value is not equal to the first value, then the regularize_container template is called.  --><xsl:if test="$last_val != $current_val">
          <xsl:call-template name="regularize_container">
-            <xsl:with-param name="current_val">
-               <xsl:value-of select="$current_val"/>
-            </xsl:with-param>
+            <xsl:with-param name="current_val" select="$current_val"/>
          </xsl:call-template>
       </xsl:if>
    </xsl:template>
