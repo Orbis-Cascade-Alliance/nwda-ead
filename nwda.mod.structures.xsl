@@ -143,20 +143,6 @@ Mark Carlson
 						</xsl:for-each>
 					</dd>
 				</xsl:if>
-				<!--collection physloc-->
-				<xsl:if test="*[local-name()='did']/*[local-name()='physloc']">
-					<dt>
-						<xsl:value-of select="$physloc_label"/>
-					</dt>
-					<dd>
-						<xsl:for-each select="*[local-name()='did']/*[local-name()='physloc']">
-							<xsl:apply-templates/>
-							<xsl:if test="not(position()=last())">
-								<br/>
-							</xsl:if>
-						</xsl:for-each>
-					</dd>
-				</xsl:if>
 				<!--collection #-->
 				<xsl:if test="*[local-name()='did']/*[local-name()='unitid']">
 					<dt>
@@ -375,106 +361,106 @@ Mark Carlson
 				</xsl:if>
 				<xsl:choose>
 					<!--pull in correct label, depending on what is actually matched-->
-					<xsl:when test="name()='altformavail'">
+					<xsl:when test="local-name()='altformavail'">
 						<a id="{$altformavail_id}"/>
 						<xsl:value-of select="$altformavail_label"/>
 					</xsl:when>
-					<xsl:when test="name()='arrangement'">
+					<xsl:when test="local-name()='arrangement'">
 						<a id="{$arrangement_label}"/>
 						<xsl:value-of select="$arrangement_label"/>
 					</xsl:when>
-					<xsl:when test="name()='bibliography'">
+					<xsl:when test="local-name()='bibliography'">
 						<a id="{$bibliography_id}"/>
 						<xsl:value-of select="$bibliography_label"/>
 					</xsl:when>
-					<xsl:when test="name()='accessrestrict'">
+					<xsl:when test="local-name()='accessrestrict'">
 						<a id="{$accessrestrict_id}"/>
 						<xsl:value-of select="$accessrestrict_label"/>
 					</xsl:when>
-					<xsl:when test="name()='userestrict'">
+					<xsl:when test="local-name()='userestrict'">
 						<a id="{$userestrict_id}"/>
 						<xsl:value-of select="$userestrict_label"/>
 					</xsl:when>
-					<xsl:when test="name()='prefercite'">
+					<xsl:when test="local-name()='prefercite'">
 						<a id="{$prefercite_id}"/>
 						<xsl:value-of select="$prefercite_label"/>
 					</xsl:when>
-					<xsl:when test="name()='accruals'">
+					<xsl:when test="local-name()='accruals'">
 						<a id="{$accruals_id}"/>
 						<xsl:value-of select="$accruals_label"/>
 					</xsl:when>
-					<xsl:when test="name()='acqinfo'">
+					<xsl:when test="local-name()='acqinfo'">
 						<a id="{$acqinfo_id}"/>
 						<xsl:value-of select="$acqinfo_label"/>
 					</xsl:when>
-					<xsl:when test="name()='appraisal'">
+					<xsl:when test="local-name()='appraisal'">
 						<a id="{$appraisal_id}"/>
 						<xsl:value-of select="$appraisal_label"/>
 					</xsl:when>
 					<!-- original SY code
-						<xsl:when test="name()='bibliography' and ./head">
+						<xsl:when test="local-name()='bibliography' and ./head">
 
 							<a name="{$bibliography_id}"></a>
 							<xsl:value-of select="./head/text()"/>
 						</xsl:when>
 						-->
-					<xsl:when test="name()='custodhist'">
+					<xsl:when test="local-name()='custodhist'">
 						<a id="{$custodhist_id}"/>
 						<xsl:value-of select="$custodhist_label"/>
 					</xsl:when>
-					<xsl:when test="name()='scopecontent'">
+					<xsl:when test="local-name()='scopecontent'">
 						<a id="{$scopecontent_label}"/>
 						<xsl:value-of select="$scopecontent_label"/>
 					</xsl:when>
-					<xsl:when test="name()='separatedmaterial'">
+					<xsl:when test="local-name()='separatedmaterial'">
 						<a id="{$separatedmaterial_id}"/>
 						<xsl:value-of select="$separatedmaterial_label"/>
 					</xsl:when>
-					<xsl:when test="name()='relatedmaterial'">
+					<xsl:when test="local-name()='relatedmaterial'">
 						<a id="{$relatedmaterial_id}"/>
 						<xsl:value-of select="$relatedmaterial_label"/>
 					</xsl:when>
-					<xsl:when test="name()='originalsloc'">
+					<xsl:when test="local-name()='originalsloc'">
 						<a id="{$originalsloc_id}"/>
 						<xsl:value-of select="$originalsloc_label"/>
 					</xsl:when>
-					<xsl:when test="name()='origination'">
+					<xsl:when test="local-name()='origination'">
 						<a id="{$origination_id}"/>
 						<xsl:value-of select="$origination_label"/>
 					</xsl:when>
-					<xsl:when test="name()='otherfindaid'">
+					<xsl:when test="local-name()='otherfindaid'">
 						<a id="{$otherfindaid_id}"/>
 						<xsl:value-of select="$otherfindaid_label"/>
 					</xsl:when>
-					<xsl:when test="name()='processinfo'">
+					<xsl:when test="local-name()='processinfo'">
 						<a id="{$processinfo_id}"/>
 						<xsl:value-of select="$processinfo_label"/>
 					</xsl:when>
-					<xsl:when test="name()='odd'">
+					<xsl:when test="local-name()='odd'">
 						<a id="{$odd_id}"/>
 						<xsl:value-of select="$odd_label"/>
 					</xsl:when>
-					<xsl:when test="name()='physdesc'">
+					<xsl:when test="local-name()='physdesc'">
 						<a id="{$physdesc_id}"/>
 						<xsl:value-of select="$physdesc_label"/>
 					</xsl:when>
-					<xsl:when test="name()='physloc'">
+					<xsl:when test="local-name()='physloc'">
 						<a id="{$physloc_id}"/>
 						<xsl:value-of select="$physloc_label"/>
 					</xsl:when>
-					<xsl:when test="name()='phystech'">
+					<xsl:when test="local-name()='phystech'">
 						<a id="{$phystech_id}"/>
 						<xsl:value-of select="$phystech_label"/>
 					</xsl:when>
-					<xsl:when test="name()='fileplan'">
+					<xsl:when test="local-name()='fileplan'">
 						<a id="{$fileplan_id}"/>
 						<xsl:value-of select="$fileplan_label"/>
 					</xsl:when>
-					<xsl:when test="name()='index'">
+					<xsl:when test="local-name()='index'">
 						<a id="{$index_id}"/>
 						<xsl:value-of select="$index_label"/>
 					</xsl:when>
-					<xsl:when test="name()='sponsor'">
+					<xsl:when test="local-name()='sponsor'">
 						<xsl:value-of select="$sponsor_label"/>
 					</xsl:when>
 					<xsl:otherwise/>
@@ -783,7 +769,7 @@ Mark Carlson
 	<!-- ********************* <ADMININFO> *********************** -->
 	<xsl:template name="admininfo">
 		<xsl:if test="*[local-name()='acqinfo'] | *[local-name()='accruals'] | *[local-name()='custodhist'] | *[local-name()='processinfo'] | *[local-name()='separatedmaterial'] |
-			*[local-name()='bibliography'] | *[local-name()='relatedmaterial'] | *[local-name()='originalsloc'] | *[local-name()='appraisal'] |
+			*[local-name()='bibliography'] | *[local-name()='relatedmaterial'] | *[local-name()='did']/*[local-name()='physloc'] | *[local-name()='originalsloc'] | *[local-name()='appraisal'] |
 			//*[local-name()='sponsor']">
 			<xsl:if test="not(ancestor::*[local-name()='dsc'])">
 				<xsl:choose>
@@ -798,7 +784,7 @@ Mark Carlson
 			</xsl:if>
 			<div class="admininfo">
 				<xsl:for-each select="*[local-name()='custodhist'] | *[local-name()='acqinfo'] | *[local-name()='accruals'] | *[local-name()='processinfo'] | *[local-name()='separatedmaterial'] |
-					*[local-name()='bibliography'] | *[local-name()='relatedmaterial'] | *[local-name()='appraisal'] | *[local-name()='originalsloc'] |
+					*[local-name()='bibliography'] | *[local-name()='relatedmaterial'] | *[local-name()='appraisal'] | *[local-name()='did']/*[local-name()='physloc'] | *[local-name()='originalsloc'] |
 					//*[local-name()='sponsor']">
 					<xsl:call-template name="archdesc_minor_children">
 						<xsl:with-param name="withLabel">true</xsl:with-param>

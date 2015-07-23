@@ -157,7 +157,7 @@
                </fo:list-item-body>
             </fo:list-item>
          </xsl:if>
-         <!-- ADMINISTRATIVE INFO --><xsl:if test="string(*[local-name()='arrangement']) or string(*[local-name()='custodhist']) or string(*[local-name()='acqinfo'])       or string(*[local-name()='processinfo']) or     string(*[local-name()='accruals']) or      string(*[local-name()='separatedmaterial']) or string(*[local-name()='originalsloc'])     or string(*[local-name()='bibliography']) or     string(*[local-name()='otherfindaid']) or string(*[local-name()='relatedmaterial']) or      string(*[local-name()='index'])">
+         <!-- ADMINISTRATIVE INFO --><xsl:if test="string(*[local-name()='arrangement']) or string(*[local-name()='custodhist']) or string(*[local-name()='acqinfo'])       or string(*[local-name()='processinfo']) or     string(*[local-name()='accruals']) or      string(*[local-name()='separatedmaterial']) or string(*[local-name()='originalsloc'])     or string(*[local-name()='bibliography']) or     string(*[local-name()='otherfindaid']) or string(*[local-name()='relatedmaterial']) or      string(*[local-name()='index']) or string(*[local-name()='did']/*[local-name()='physloc'])">
             <fo:list-item>
                <fo:list-item-label end-indent="label-end()">
                   <fo:block/>
@@ -315,6 +315,21 @@
                                     <fo:basic-link text-decoration="underline" color="#337ab7"
                                                    external-destination="#{$appraisal_id}">
                                        <xsl:value-of select="$appraisal_label"/>
+                                    </fo:basic-link>
+                                 </fo:block>
+                              </fo:list-item-body>
+                           </fo:list-item>
+                        </xsl:if>
+                        <xsl:if test="string(*[local-name()='did']/*[local-name()='physloc'])">
+                           <fo:list-item>
+                              <fo:list-item-label end-indent="label-end()">
+                                 <fo:block/>
+                              </fo:list-item-label>
+                              <fo:list-item-body start-indent="body-start()">
+                                 <fo:block>
+                                    <fo:basic-link text-decoration="underline" color="#337ab7"
+                                                   external-destination="#{$physloc_id}">
+                                       <xsl:value-of select="$physloc_label"/>
                                     </fo:basic-link>
                                  </fo:block>
                               </fo:list-item-body>
