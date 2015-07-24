@@ -313,7 +313,7 @@ Mark Carlson
 							<xsl:value-of select="document(concat('http://harvester.orbiscascade.org/apis/count?ark=ark:/', //*[local-name()='eadid']/@identifier))//response"/>
 						</xsl:variable>
 						<br/>
-						<a href="{$serverURL}/do.aspx?id={//*[local-name()='eadid']/@identifier}" target="_blank"><xsl:value-of select="$count"/> total - see all</a>
+                        <a href="{$serverURL}/do.aspx?ark=ark:/{//*[local-name()='eadid']/@identifier}" target="_blank"><xsl:value-of select="$count"/> total - see all</a>
 					</dd>
 				</xsl:if>
 			</dl>

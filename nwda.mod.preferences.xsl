@@ -2,8 +2,7 @@
 <!--
 
 -->
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:ead="urn:isbn:1-931666-22-9"
-	exclude-result-prefixes="ead fo rdf" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ead="urn:isbn:1-931666-22-9" exclude-result-prefixes="ead fo rdf" version="1.0">
 	<!-- ********************* <PREFERENCES.USAGE> *********************** -->
 	<!-- usage prefeerences to go here -->
 	<!--USER definided-->
@@ -41,7 +40,7 @@
 	</xsl:variable>
 	<xsl:variable name="hasCHOs">
 		<xsl:if test="$harvester-active = 'true'">
-			<xsl:if test="string(//*[local-name()='eadid']/@identifier) and descendant::*[local-name()='dao'][@role='harvest-all' and string(@href)]">
+            <xsl:if test="string(//*[local-name()='eadid']/@identifier) and descendant::*[local-name()='dao'][@*[local-name()='role']='harvest-all' and string(@*[local-name()='href'])]">
 				<!-- if there is an ARK in eadid/@identifier and at least one dao with a 'harvest-all' @role, then assume CHOs is true: ASP.NET seems not use allow URIs in xsl document() function -->
 				<xsl:text>true</xsl:text>
 			</xsl:if>

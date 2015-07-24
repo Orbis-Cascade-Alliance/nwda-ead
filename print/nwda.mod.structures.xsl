@@ -335,7 +335,7 @@ Mark Carlson
                            </xsl:variable>
                            <fo:block/>
                            <fo:basic-link text-decoration="underline" color="#337ab7"
-                                          external-destination="{$serverURL}/do.aspx?id={//*[local-name()='eadid']/@identifier}">
+                                          external-destination="{$serverURL}/do.aspx?ark=ark:/{//*[local-name()='eadid']/@identifier}"> 
                               <xsl:value-of select="$count"/> total - see all</fo:basic-link>
                         </fo:block>
                      </fo:table-cell>
