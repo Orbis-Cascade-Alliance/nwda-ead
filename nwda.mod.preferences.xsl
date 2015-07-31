@@ -40,8 +40,8 @@
 	</xsl:variable>
 	<xsl:variable name="hasCHOs">
 		<xsl:if test="$harvester-active = 'true'">
-            <xsl:if test="string(//*[local-name()='eadid']/@identifier) and descendant::*[local-name()='dao'][@*[local-name()='role']='harvest-all' and string(@*[local-name()='href'])]">
-				<!-- if there is an ARK in eadid/@identifier and at least one dao with a 'harvest-all' @role, then assume CHOs is true: ASP.NET seems not use allow URIs in xsl document() function -->
+				<!-- If there is an ARK in eadid/@identifier, at least one dao with a 'harvest-all' @role, and CHOs have been harvested, then CHOs is true -->
+            <xsl:if test="string(//*[local-name()='eadid']/@identifier) and descendant::*[local-name()='dao'][@*[local-name()='role']='harvest-all' and string(@*[local-name()='href'])] and document(concat('http://harvester.orbiscascade.org/apis/ask?ark=ark:/', //*[local-name()='eadid']/@identifier))//response='true'">
 				<xsl:text>true</xsl:text>
 			</xsl:if>
 		</xsl:if>
