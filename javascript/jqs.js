@@ -24,11 +24,12 @@ $(document).ready(function () {
 	It is responsible for the "in-document" search and moving the Table of Contents
 	By jean.francois.lauze@gmail.com
 	Last revision: July 7 2015
+
+    08/05/15    KEF     Commented out content related to the intra-document search.
 	
 	 */
 	
-	
-	var originalHtml;
+//	var originalHtml;
 	
 	$(document).ready(function () {
 		
@@ -39,18 +40,20 @@ $(document).ready(function () {
 		//var originalTopTop = $('.toc-fixed').css('top');
 		
 		// move the Table of Contents
-		$('.toc-fixed').prepend('<div><input type="text" class="form-control" id="innersearch" placeholder="Search this document" /></div><div id="searchinfo"></div>');
+//		$('.toc-fixed').prepend('<div><input type="text" class="form-control" id="innersearch" placeholder="Search this document" /></div><div id="searchinfo"></div>');
 		
 		// Bind the [search this document] textbox
+/*
 		$('#innersearch').change(function () {
 			innersearch($(this).val());
 		});
+*/
 		
 		// load the available digital objects
 		//digitalobjects();
 		
 		// remember this document without tags
-		originalHtml = $('#docBody').html();
+//		originalHtml = $('#docBody').html();
 		
 		// this will make the Table of Contents stick to the left when we scroll down the page...
 		$('#headerlogotxt').unbind();
@@ -65,7 +68,7 @@ $(document).ready(function () {
 		window.scrollTo(0, 0);
 	});
 	
-	
+/*
 	function innersearch(term) {
 		
 		// search in the document for words begining with "term"
@@ -107,4 +110,5 @@ $(document).ready(function () {
 		$('#searchinfo').html('');
 		$('#docBody').html(originalHtml);
 	}
+*/
 });
