@@ -121,9 +121,9 @@ Overhaul to HTML5/Bootstrap 3 by Ethan Gruber in March 2015.
 				</xsl:choose>
 
 
-				<!-- google analytics -->
+				<!-- google site verification and analytics -->
 				<meta name="google-site-verification" content="Jzd19gch6s4FFczJFYTH8hFo9AZ2otlHRX-6B5ij-c0"/>
-				<script type="text/javascript" src=""/>
+                <script type="text/javascript" src="/analytics.js"/>
 			</head>
 			<body>
 				<div id="header">
