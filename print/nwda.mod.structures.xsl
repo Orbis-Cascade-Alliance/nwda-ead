@@ -335,7 +335,7 @@ Mark Carlson
                            </xsl:variable>
                            <fo:block/>
                            <fo:basic-link text-decoration="underline" color="#337ab7"
-                                          external-destination="{$serverURL}/do.aspx?ark=ark:/{//*[local-name()='eadid']/@identifier}"> 
+                                          external-destination="{$serverURL}/do.aspx?ark=ark:/{//*[local-name()='eadid']/@identifier}">
                               <xsl:value-of select="$count"/> total - see all</fo:basic-link>
                         </fo:block>
                      </fo:table-cell>
@@ -742,7 +742,7 @@ Mark Carlson
          <xsl:apply-templates/>
       </fo:block>
    </xsl:template>
-   <!-- ********************* </physloc> ********************* --><xsl:template match="*[local-name()='c01']//*[local-name()='accessrestrict'] | *[local-name()='c01']//*[local-name()='userestrict'] | *[local-name()='c01']//*[local-name()='note']">
+   <!-- ********************* </physloc> ********************* --><xsl:template match="*[local-name()='c01']//*[local-name()='accessrestrict'] | *[local-name()='c01']//*[local-name()='userestrict'] | *[local-name()='c01']//*[local-name()='note'] | *[local-name()='c01']//*[local-name()='altformavail']">
       <xsl:variable name="class">
          <xsl:choose>
             <xsl:when test="local-name()='accessrestrict'">
@@ -753,6 +753,9 @@ Mark Carlson
             </xsl:when>
             <xsl:when test="local-name()='note'">
                <xsl:text>note</xsl:text>
+            </xsl:when>
+            <xsl:when test="local-name()='altformavail'">
+               <xsl:text>altformavail</xsl:text>
             </xsl:when>
          </xsl:choose>
       </xsl:variable>

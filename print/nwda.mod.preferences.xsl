@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
--->
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+--><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                 xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:xlink="http://www.w3.org/1999/xlink"
                 xmlns:ead="urn:isbn:1-931666-22-9"
                 exclude-result-prefixes="ead fo rdf"
-                version="1.0">
-<!-- ********************* <PREFERENCES.USAGE> *********************** -->
-<!-- usage prefeerences to go here -->
-<!--USER definided-->
- <xsl:variable name="serverURL">http://archiveswest.orbiscascade.org</xsl:variable>
+                version="1.0"><!-- ********************* <PREFERENCES.USAGE> *********************** --><!-- usage prefeerences to go here --><!--USER definided--><xsl:variable name="serverURL">http://archiveswest.orbiscascade.org</xsl:variable>
    <!-- boolean variables dependent on the Harvester and Repository Metadata Editor being in production --><xsl:variable name="harvester-active">true</xsl:variable>
    <xsl:variable name="editor-active">true</xsl:variable>
    <!-- set platform = 'linux' or 'windows' to use either msxsl or exsl to get node-set --><xsl:variable name="platform">linux</xsl:variable>
@@ -39,14 +34,12 @@
          <xsl:copy-of select="document(concat($pathToRdf, //*[local-name()='eadid']/@mainagencycode, '.xml'))/rdf:RDF"/>
       </xsl:if>
    </xsl:variable>
-	<xsl:variable name="hasCHOs">
-		<xsl:if test="$harvester-active = 'true'">
-				<!-- If there is an ARK in eadid/@identifier, at least one dao with a 'harvest-all' @role, and CHOs have been harvested, then CHOs is true -->
-            <xsl:if test="string(//*[local-name()='eadid']/@identifier) and descendant::*[local-name()='dao'][@*[local-name()='role']='harvest-all' and string(@*[local-name()='href'])] and document(concat('http://harvester.orbiscascade.org/apis/ask?ark=ark:/', //*[local-name()='eadid']/@identifier))//response='true'">
-				<xsl:text>true</xsl:text>
-			</xsl:if>
-		</xsl:if>
-	</xsl:variable>
+   <xsl:variable name="hasCHOs">
+      <xsl:if test="$harvester-active = 'true'"><!-- If there is an ARK in eadid/@identifier, at least one dao with a 'harvest-all' @role, and CHOs have been harvested, then CHOs is true --><xsl:if test="string(//*[local-name()='eadid']/@identifier) and descendant::*[local-name()='dao'][@*[local-name()='role']='harvest-all' and string(@*[local-name()='href'])] and document(concat('http://harvester.orbiscascade.org/apis/ask?ark=ark:/', //*[local-name()='eadid']/@identifier))//response='true'">
+            <xsl:text>true</xsl:text>
+         </xsl:if>
+      </xsl:if>
+   </xsl:variable>
    <!-- if 'true', will expand abbr/expan elements and attributes: Autograph Letter Signed (ALS)--><xsl:variable name="expandAbbr">true</xsl:variable>
    <!-- if 'true', will display profiledesc/creation with $creation_label--><xsl:variable name="showCreation">false</xsl:variable>
    <!-- if 'true', will display revisiondesc/creation with $revision_label--><xsl:variable name="showRevision">false</xsl:variable>

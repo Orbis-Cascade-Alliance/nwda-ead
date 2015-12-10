@@ -813,12 +813,14 @@ Changes:
 		<xsl:if test="string(*[local-name()='acqinfo'] | *[local-name()='accruals'] | *[local-name()='custodhist'] | *[local-name()='processinfo'] | *[local-name()='separatedmaterial'] |
 			*[local-name()='physdesc'] | *[local-name()='physloc'] | *[local-name()='origination'] | *[local-name()='note'] | following-sibling::*[local-name()='odd'] |
 			following-sibling::*[local-name()='scopecontent'] |    following-sibling::*[local-name()='arrangement'] | following-sibling::*[local-name()='bioghist']  |
-			following-sibling::*[local-name()='accessrestrict']  | following-sibling::*[local-name()='userestrict']  | following-sibling::*[local-name()='note']) and parent::*[local-name()='c01']">
+            following-sibling::*[local-name()='accessrestrict']  | following-sibling::*[local-name()='userestrict']  | following-sibling::*[local-name()='note'] |
+            following-sibling::*[local-name()='altformavail']) and parent::*[local-name()='c01']">
 
 			<xsl:for-each select="*[local-name()='acqinfo'] | *[local-name()='accruals'] | *[local-name()='custodhist'] | *[local-name()='processinfo'] | *[local-name()='separatedmaterial'] |
 				*[local-name()='physdesc'] | *[local-name()='physloc'] | *[local-name()='origination'] | *[local-name()='note'] | following-sibling::*[local-name()='odd'] |
 				following-sibling::*[local-name()='scopecontent']     | following-sibling::*[local-name()='arrangement'] | following-sibling::*[local-name()='bioghist']  |
-				following-sibling::*[local-name()='accessrestrict']  | following-sibling::*[local-name()='userestrict']  | following-sibling::*[local-name()='note']">
+                following-sibling::*[local-name()='accessrestrict']  | following-sibling::*[local-name()='userestrict']  | following-sibling::*[local-name()='note'] | 
+                following-sibling::*[local-name()='altformavail']">
 				<xsl:call-template name="archdesc_minor_children">
 					<xsl:with-param name="withLabel">false</xsl:with-param>
 				</xsl:call-template>
