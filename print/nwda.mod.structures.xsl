@@ -742,7 +742,7 @@ Mark Carlson
          <xsl:apply-templates/>
       </fo:block>
    </xsl:template>
-   <!-- ********************* </physloc> ********************* --><xsl:template match="*[local-name()='c01']//*[local-name()='accessrestrict'] | *[local-name()='c01']//*[local-name()='userestrict'] | *[local-name()='c01']//*[local-name()='note'] | *[local-name()='c01']//*[local-name()='altformavail']">
+   <!-- ********************* </physloc> ********************* --><xsl:template match="*[local-name()='c01']//*[local-name()='accessrestrict'] | *[local-name()='c01']//*[local-name()='userestrict'] | *[local-name()='c01']//*[local-name()='note'] | *[local-name()='c01']//*[local-name()='altformavail'] | *[local-name()='c01']//*[local-name()='custodhist'] | *[local-name()='c01']//*[local-name()='processinfo'] | *[local-name()='c01']//*[local-name()='separatedmaterial'] | *[local-name()='c01']//*[local-name()='acqinfo']">
       <xsl:variable name="class">
          <xsl:choose>
             <xsl:when test="local-name()='accessrestrict'">
@@ -756,6 +756,18 @@ Mark Carlson
             </xsl:when>
             <xsl:when test="local-name()='altformavail'">
                <xsl:text>altformavail</xsl:text>
+            </xsl:when>
+            <xsl:when test="local-name()='custodhist'">
+               <xsl:text>custodhist</xsl:text>
+            </xsl:when>
+            <xsl:when test="local-name()='processinfo'">
+               <xsl:text>processinfo</xsl:text>
+            </xsl:when>
+            <xsl:when test="local-name()='separatedmaterial'">
+               <xsl:text>separatedmaterial</xsl:text>
+            </xsl:when>
+            <xsl:when test="local-name()='acqinfo'">
+               <xsl:text>acqinfo</xsl:text>
             </xsl:when>
          </xsl:choose>
       </xsl:variable>
